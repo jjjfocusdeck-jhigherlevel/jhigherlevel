@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Focus Audit — Find Your Focus Score | J Higher Level</title>
+<meta name="description" content="10 questions. 2 minutes. Find out exactly which of the 4 pillars is costing you the most hours — and what to fix first. Free from Jason Johnson.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,700&display=swap');
+
+:root{
+  --black:#080808;--dark:#111;--card:#141414;
+  --lime:#C8FF00;--lime-dim:rgba(200,255,0,0.08);
+  --white:#ffffff;--muted:rgba(255,255,255,0.5);
+  --border:rgba(255,255,255,0.07);
+  --clarity:#C8FF00;--cadence:#00E5C8;
+  --containment:#FF6B35;--compound:#A78BFA;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;background:rgba(8,8,8,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-brand{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;color:var(--lime);text-decoration:none}
+.nav-cta{background:var(--lime);color:var(--black);font-family:'Oswald',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:8px 18px;text-decoration:none}
+
+/* HERO */
+.hero{padding:110px 24px 60px;text-align:center;position:relative;overflow:hidden}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(200,255,0,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(200,255,0,0.025) 1px,transparent 1px);background-size:40px 40px;z-index:0}
+.hero-glow{position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:400px;background:radial-gradient(circle,rgba(200,255,0,0.06) 0%,transparent 70%);pointer-events:none;z-index:0}
+.hero-inner{position:relative;z-index:2;max-width:640px;margin:0 auto}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:var(--lime-dim);border:0.5px solid rgba(200,255,0,0.2);padding:6px 16px;margin-bottom:24px}
+.hero-tag span{font-family:'Oswald',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--lime)}
+.hero-dot{width:6px;height:6px;background:var(--lime);border-radius:50%;animation:pulse 2s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(56px,11vw,96px);line-height:0.88;letter-spacing:1px;margin-bottom:8px;color:var(--white)}
+.hero-title em{color:var(--lime);font-style:normal;display:block}
+.hero-sub{font-family:'Oswald',sans-serif;font-size:16px;font-weight:300;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin:18px auto 20px;max-width:480px}
+.hero-body{font-size:15px;color:rgba(255,255,255,0.6);line-height:1.75;max-width:480px;margin:0 auto 32px}
+.hero-body strong{color:var(--white);font-weight:500}
+.hero-meta{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:40px}
+.meta-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);letter-spacing:1px}
+.meta-icon{color:var(--lime)}
+
+/* AUDIT CONTAINER */
+.audit-wrap{max-width:560px;margin:0 auto;padding:0 24px 80px}
+
+/* PROGRESS */
+.progress-wrap{margin-bottom:32px}
+.progress-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.progress-label{font-family:'Oswald',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted)}
+.progress-count{font-family:'Oswald',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--lime)}
+.progress-bar{width:100%;height:3px;background:rgba(255,255,255,0.08);border-radius:2px}
+.progress-fill{height:3px;background:var(--lime);border-radius:2px;transition:width 0.4s ease;width:0%}
+
+/* SCREENS */
+.screen{display:none}
+.screen.active{display:block}
+
+/* INTRO SCREEN */
+.intro-card{background:var(--card);border:0.5px solid var(--border);padding:32px 28px;text-align:center}
+.intro-icon{font-size:48px;margin-bottom:16px;display:block}
+.intro-title{font-family:'Bebas Neue',sans-serif;font-size:42px;color:var(--white);letter-spacing:1px;margin-bottom:8px}
+.intro-title span{color:var(--lime)}
+.intro-desc{font-size:15px;color:rgba(255,255,255,0.65);line-height:1.75;margin-bottom:28px;max-width:380px;margin-left:auto;margin-right:auto}
+.pillars-preview{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:28px;text-align:left}
+.pp-item{background:rgba(255,255,255,0.03);border:0.5px solid var(--border);padding:10px 12px;display:flex;align-items:center;gap:8px}
+.pp-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.pp-text{font-family:'Oswald',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.start-btn{width:100%;background:var(--lime);color:var(--black);border:none;font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:16px;cursor:pointer;transition:background 0.2s}
+.start-btn:hover{background:#d4ff33}
+
+/* QUESTION SCREEN */
+.q-pillar{font-family:'Oswald',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:10px}
+.q-text{font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,6vw,40px);color:var(--white);line-height:1.05;margin-bottom:8px}
+.q-hint{font-size:13px;color:var(--muted);font-style:italic;line-height:1.6;margin-bottom:24px}
+.options{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+.opt{background:rgba(255,255,255,0.03);border:0.5px solid var(--border);padding:14px 16px;cursor:pointer;display:flex;align-items:flex-start;gap:12px;transition:all 0.2s;text-align:left}
+.opt:hover{border-color:rgba(200,255,0,0.3);background:rgba(200,255,0,0.04)}
+.opt.selected{border-color:var(--lime);background:rgba(200,255,0,0.08)}
+.opt-letter{font-family:'Oswald',sans-serif;font-size:12px;font-weight:700;color:rgba(255,255,255,0.25);min-width:20px;flex-shrink:0;margin-top:1px;transition:color 0.2s}
+.opt.selected .opt-letter{color:var(--lime)}
+.opt-text{font-size:14px;color:rgba(255,255,255,0.7);line-height:1.55;transition:color 0.2s}
+.opt.selected .opt-text{color:var(--white)}
+.next-btn{width:100%;background:var(--lime);color:var(--black);border:none;font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:16px;cursor:pointer;opacity:0.25;pointer-events:none;transition:all 0.2s}
+.next-btn.ready{opacity:1;pointer-events:all}
+.next-btn.ready:hover{background:#d4ff33}
+
+/* RESULT SCREEN */
+.result-header{text-align:center;margin-bottom:32px}
+.score-ring{width:140px;height:140px;margin:0 auto 20px;position:relative}
+.score-ring svg{transform:rotate(-90deg)}
+.score-num{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Bebas Neue',sans-serif;font-size:44px;color:var(--white);line-height:1}
+.score-sub{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);font-size:9px;color:rgba(255,255,255,0.35);letter-spacing:2px;text-transform:uppercase;white-space:nowrap}
+.result-grade{font-family:'Bebas Neue',sans-serif;font-size:52px;letter-spacing:1px;line-height:1;margin-bottom:8px}
+.result-desc{font-size:15px;color:rgba(255,255,255,0.65);line-height:1.7;max-width:420px;margin:0 auto 32px}
+
+.pillar-breakdown{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px}
+.pb-item{background:var(--card);border:0.5px solid var(--border);padding:14px 16px}
+.pb-name{font-family:'Oswald',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.pb-bar-wrap{width:100%;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin-bottom:6px;overflow:hidden}
+.pb-bar{height:4px;border-radius:2px;transition:width 1s ease}
+.pb-score{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--white);line-height:1}
+
+.leak-box{background:rgba(200,255,0,0.06);border:1px solid rgba(200,255,0,0.2);padding:18px 20px;margin-bottom:24px}
+.leak-label{font-family:'Oswald',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--lime);margin-bottom:8px}
+.leak-text{font-size:14px;color:rgba(255,255,255,0.75);line-height:1.7}
+
+.result-cta{background:var(--lime);padding:20px 20px;margin-bottom:16px}
+.result-cta-label{font-family:'Oswald',sans-serif;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(0,0,0,0.45);margin-bottom:4px}
+.result-cta-title{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--black);line-height:1;margin-bottom:12px;letter-spacing:0.5px}
+.result-cta-body{font-size:13px;color:rgba(0,0,0,0.6);line-height:1.6;margin-bottom:14px}
+.buy-btn{display:block;width:100%;background:var(--black);color:var(--lime);font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:15px;text-align:center;text-decoration:none;transition:background 0.2s}
+.buy-btn:hover{background:#1a1a1a}
+
+.retake{text-align:center;margin-top:16px}
+.retake-btn{background:none;border:none;color:rgba(255,255,255,0.25);font-size:12px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-family:'DM Sans',sans-serif}
+.retake-btn:hover{color:rgba(255,255,255,0.5)}
+
+/* EMAIL CAPTURE */
+.email-screen{background:var(--card);border:0.5px solid var(--border);padding:28px;text-align:center}
+.email-title{font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--white);line-height:1;margin-bottom:8px}
+.email-title span{color:var(--lime)}
+.email-sub{font-size:14px;color:rgba(255,255,255,0.6);line-height:1.6;margin-bottom:24px}
+.email-form{display:flex;flex-direction:column;gap:10px}
+.email-input{background:rgba(255,255,255,0.04);border:0.5px solid var(--border);padding:14px 16px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:15px;outline:none;transition:border-color 0.2s;-webkit-appearance:none}
+.email-input:focus{border-color:rgba(200,255,0,0.4)}
+.email-input::placeholder{color:rgba(255,255,255,0.2)}
+.email-btn{background:var(--lime);color:var(--black);border:none;font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:15px;cursor:pointer;transition:background 0.2s}
+.email-btn:hover{background:#d4ff33}
+.email-skip{background:none;border:none;color:rgba(255,255,255,0.25);font-size:12px;letter-spacing:1px;cursor:pointer;margin-top:8px;text-decoration:underline;text-underline-offset:3px;font-family:'DM Sans',sans-serif}
+.email-skip:hover{color:rgba(255,255,255,0.5)}
+.email-privacy{font-size:11px;color:rgba(255,255,255,0.2);margin-top:8px;letter-spacing:0.5px}
+
+/* FOOTER */
+footer{background:var(--dark);border-top:1px solid var(--border);padding:28px 24px;text-align:center}
+.footer-brand{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--lime);letter-spacing:2px;text-decoration:none;display:block;margin-bottom:6px}
+.footer-copy{font-size:11px;color:rgba(255,255,255,0.2);letter-spacing:1px}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">J HIGHER LEVEL</a>
+  <a href="focusdeck.html" class="nav-cta">Get FocusDeck — $17</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-tag">
+      <div class="hero-dot"></div>
+      <span>Free · 2 Minutes · Instant Score</span>
+    </div>
+    <h1 class="hero-title">FIND YOUR<em>FOCUS SCORE.</em></h1>
+    <p class="hero-sub">The Free Focus Audit · By Jason Johnson</p>
+    <p class="hero-body">10 questions. Find out <strong>exactly which of the 4 pillars is costing you the most hours</strong> — and what to fix first. No email required to start.</p>
+    <div class="hero-meta">
+      <span class="meta-item"><span class="meta-icon">⏱</span> 2 minutes</span>
+      <span class="meta-item"><span class="meta-icon">📊</span> Personalized score</span>
+      <span class="meta-item"><span class="meta-icon">🎯</span> Pinpoints your biggest leak</span>
+      <span class="meta-item"><span class="meta-icon">✓</span> 100% free</span>
+    </div>
+  </div>
+</div>
+
+<div class="audit-wrap">
+
+  <!-- PROGRESS -->
+  <div class="progress-wrap" id="progress-wrap" style="display:none">
+    <div class="progress-header">
+      <span class="progress-label">Your Progress</span>
+      <span class="progress-count" id="q-counter">1 / 10</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
+  </div>
+
+  <!-- INTRO -->
+  <div class="screen active" id="screen-intro">
+    <div class="intro-card">
+      <span class="intro-icon">🎯</span>
+      <div class="intro-title">THE FOCUS <span>AUDIT</span></div>
+      <p class="intro-desc">Answer honestly. No right or wrong. This audit finds the one pillar that's costing you the most time — so you know exactly where to start.</p>
+      <div class="pillars-preview">
+        <div class="pp-item"><div class="pp-dot" style="background:var(--clarity)"></div><span class="pp-text" style="color:var(--clarity)">Clarity</span></div>
+        <div class="pp-item"><div class="pp-dot" style="background:var(--cadence)"></div><span class="pp-text" style="color:var(--cadence)">Cadence</span></div>
+        <div class="pp-item"><div class="pp-dot" style="background:var(--containment)"></div><span class="pp-text" style="color:var(--containment)">Containment</span></div>
+        <div class="pp-item"><div class="pp-dot" style="background:var(--compound)"></div><span class="pp-text" style="color:var(--compound)">Compound</span></div>
+      </div>
+      <button class="start-btn" onclick="startAudit()">Start the Audit →</button>
+    </div>
+  </div>
+
+  <!-- QUESTION -->
+  <div class="screen" id="screen-q">
+    <div class="q-pillar" id="q-pillar"></div>
+    <div class="q-text" id="q-text"></div>
+    <div class="q-hint" id="q-hint"></div>
+    <div class="options" id="opts"></div>
+    <button class="next-btn" id="next-btn" onclick="nextQ()">Next →</button>
+  </div>
+
+  <!-- EMAIL CAPTURE (between score and result) -->
+  <div class="screen" id="screen-email">
+    <div class="email-screen">
+      <div class="email-title">YOUR SCORE IS <span>READY.</span></div>
+      <p class="email-sub">Drop your email and I'll send you your full breakdown plus the exact fix for your weakest pillar. No spam. One email.</p>
+      <div class="email-form">
+        <input type="text" class="email-input" id="email-name" placeholder="Your first name">
+        <input type="email" class="email-input" id="email-addr" placeholder="Your best email address">
+        <button class="email-btn" onclick="submitEmail()">Send Me My Score →</button>
+      </div>
+      <button class="email-skip" onclick="showResult()">Skip — just show me the score</button>
+      <p class="email-privacy">No spam. Unsubscribe anytime. Your info stays private.</p>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="screen" id="screen-result">
+    <div class="result-header">
+      <div class="score-ring">
+        <svg width="140" height="140" viewBox="0 0 140 140">
+          <circle cx="70" cy="70" r="58" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8"/>
+          <circle id="score-arc" cx="70" cy="70" r="58" fill="none" stroke="#C8FF00" stroke-width="8" stroke-linecap="round" stroke-dasharray="364" stroke-dashoffset="364"/>
+        </svg>
+        <div class="score-num" id="score-num">0</div>
+        <div class="score-sub">FOCUS SCORE</div>
+      </div>
+      <div class="result-grade" id="result-grade"></div>
+      <p class="result-desc" id="result-desc"></p>
+    </div>
+
+    <div class="pillar-breakdown" id="pillar-breakdown"></div>
+
+    <div class="leak-box">
+      <div class="leak-label">⚡ Your Biggest Leak</div>
+      <p class="leak-text" id="leak-text"></p>
+    </div>
+
+    <div class="result-cta">
+      <div class="result-cta-label">The fix is inside</div>
+      <div class="result-cta-title">GET THE FOCUSDECK — $17</div>
+      <p class="result-cta-body">The complete 4-pillar system. Templates, tracker, 90-day calendar, and the Day One protocol that gets you winning in the first 24 hours.</p>
+      <a href="https://buy.stripe.com/4gM7sN9QhcqpeH1dZc6Zy00" class="buy-btn">Get Instant Access — $17 →</a>
+    </div>
+
+    <div class="retake">
+      <button class="retake-btn" onclick="restartAudit()">Retake the audit</button>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <a href="index.html" class="footer-brand">J HIGHER LEVEL</a>
+  <p class="footer-copy">© 2026 Jason Johnson · jhigherlevel.com</p>
+</footer>
+
+<script>
+const questions = [
+  {pillar:'Clarity',color:'#C8FF00',q:'How do you start your morning?',hint:'Be honest — what actually happens before 10am.',opts:['I check my phone before I even sit up','I open email or Slack within 30 minutes','I have rough priorities but no real structure','I write my one outcome and two tasks before anything else']},
+  {pillar:'Clarity',color:'#C8FF00',q:'How often do you end the day feeling like you moved forward?',hint:'Not busy. Actually moved the needle.',opts:['Almost never — I end most days frustrated','Maybe 1–2 days a week','About half the time','Most days I can point to real progress']},
+  {pillar:'Cadence',color:'#00E5C8',q:'When do you do your hardest, most important work?',hint:'The work that actually builds your future.',opts:['Whenever I get a gap — usually late and rushed','In the afternoon when things slow down','I try to protect mornings but it rarely holds','I have 2 protected deep work blocks and I defend them']},
+  {pillar:'Cadence',color:'#00E5C8',q:'How do you recover between work sessions?',hint:'What actually happens when you take a break?',opts:['I scroll my phone — that counts right?','I push through without real breaks','I step away but still think about work','Screen-free recovery — walk, water, stretch']},
+  {pillar:'Containment',color:'#FF6B35',q:'Where is your phone when you work?',hint:'Right now. Honestly.',opts:['On my desk, face up, notifications on','On my desk face down — but I still check it','In my pocket or nearby','In another room or locked away during deep work']},
+  {pillar:'Containment',color:'#FF6B35',q:'How often do interruptions derail your focus?',hint:'People, notifications, random thoughts...',opts:['Constantly — I rarely get 20 uninterrupted minutes','A few times an hour','Once or twice a session','Rarely — I batch interruptions into one window']},
+  {pillar:'Compound',color:'#A78BFA',q:'Do you have a consistent morning startup ritual?',hint:'Something you do every single day before the work starts.',opts:['No — I just react to whatever hits first','I have one but skip it when things get busy','I do it most days','Every single day — non-negotiable']},
+  {pillar:'Compound',color:'#A78BFA',q:'Do you do a weekly review of wins, losses, and priorities?',hint:'Not a vague "think about it" — an actual structured review.',opts:['Never thought about it','Occasionally — maybe once a month','Most Fridays','Every week — same time, same format']},
+  {pillar:'Clarity',color:'#C8FF00',q:'How clear are you on your ONE most important goal right now?',hint:'Not a list. The one thing that filters every yes and no.',opts:['I have 6-10 things that all feel equally important','I have a goal but it feels vague and far away','I know it but rarely let it guide my daily decisions','Crystal clear — it filters every decision I make']},
+  {pillar:'Compound',color:'#A78BFA',q:'How long have you been trying to fix your focus?',hint:'Real talk.',opts:['Years — I keep trying new things but nothing sticks','A few months — found some things but still struggling','I recently started building structure and it\'s helping','I have a system and I refine it consistently']}
+];
+
+const pillarNames = ['Clarity','Cadence','Containment','Compound'];
+const pillarColors = {Clarity:'#C8FF00',Cadence:'#00E5C8',Containment:'#FF6B35',Compound:'#A78BFA'};
+let current = 0;
+let answers = [];
+
+function startAudit(){
+  document.getElementById('screen-intro').classList.remove('active');
+  document.getElementById('progress-wrap').style.display='block';
+  document.getElementById('screen-q').classList.add('active');
+  showQuestion(0);
+}
+
+function showQuestion(i){
+  const q = questions[i];
+  document.getElementById('q-pillar').textContent = 'Pillar: ' + q.pillar;
+  document.getElementById('q-pillar').style.color = q.color;
+  document.getElementById('q-text').textContent = q.q;
+  document.getElementById('q-hint').textContent = q.hint;
+  document.getElementById('q-counter').textContent = (i+1) + ' / ' + questions.length;
+  document.getElementById('prog-fill').style.width = ((i+1)/questions.length*100) + '%';
+  const nb = document.getElementById('next-btn');
+  nb.textContent = i === questions.length-1 ? 'See My Score →' : 'Next →';
+  nb.classList.remove('ready');
+  const opts = document.getElementById('opts');
+  opts.innerHTML = q.opts.map((o,j)=>`
+    <div class="opt" onclick="selectOpt(this,${j})">
+      <span class="opt-letter">${String.fromCharCode(65+j)}</span>
+      <span class="opt-text">${o}</span>
+    </div>`).join('');
+  if(answers[i] !== undefined){
+    opts.querySelectorAll('.opt')[answers[i]].classList.add('selected');
+    nb.classList.add('ready');
+  }
+}
+
+function selectOpt(el,val){
+  document.querySelectorAll('.opt').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  answers[current] = val;
+  document.getElementById('next-btn').classList.add('ready');
+}
+
+function nextQ(){
+  if(answers[current]===undefined) return;
+  current++;
+  if(current >= questions.length){
+    document.getElementById('screen-q').classList.remove('active');
+    document.getElementById('screen-email').classList.add('active');
+    document.getElementById('prog-fill').style.width='100%';
+    document.getElementById('q-counter').textContent='Complete!';
+    return;
+  }
+  showQuestion(current);
+}
+
+function submitEmail(){
+  const name = document.getElementById('email-name').value.trim();
+  const email = document.getElementById('email-addr').value.trim();
+  if(!email || !email.includes('@')){
+    document.getElementById('email-addr').style.borderColor='rgba(255,100,100,0.5)';
+    return;
+  }
+  // Email captured — in production connect to your email platform here
+  showResult();
+}
+
+function showResult(){
+  document.getElementById('screen-email').classList.remove('active');
+  document.getElementById('screen-result').classList.add('active');
+
+  const pillarScores = {};
+  pillarNames.forEach(p=>pillarScores[p]={total:0,count:0});
+  questions.forEach((q,i)=>{
+    const score = (answers[i]||0) * 33.33;
+    pillarScores[q.pillar].total += score;
+    pillarScores[q.pillar].count++;
+  });
+  const pillarAvg = {};
+  pillarNames.forEach(p=>{pillarAvg[p]=Math.round(pillarScores[p].total/pillarScores[p].count)});
+  const overall = Math.round(Object.values(pillarAvg).reduce((a,b)=>a+b,0)/4);
+
+  // Animate score
+  let count = 0;
+  const timer = setInterval(()=>{
+    count += 2;
+    if(count >= overall){count=overall;clearInterval(timer);}
+    document.getElementById('score-num').textContent = count;
+    const offset = 364 - (364*(count/100));
+    document.getElementById('score-arc').setAttribute('stroke-dashoffset', offset);
+    const col = count<35?'#ff4444':count<60?'#EF9F27':'#C8FF00';
+    document.getElementById('score-arc').setAttribute('stroke', col);
+  }, 18);
+
+  let grade, desc;
+  if(overall<35){grade='CRITICAL';desc='Your focus system is running on empty. The good news — a few structural changes will feel like a superpower almost immediately.';}
+  else if(overall<55){grade='LEAKING';desc='You have instincts but no system behind them. You\'re leaving serious hours — and income — on the table every single week.';}
+  else if(overall<75){grade='BUILDING';desc='You\'re closer than you think. A few targeted fixes across your weakest pillars will unlock a completely different level of output.';}
+  else{grade='LOCKED IN';desc='Strong foundation. Now it\'s about compounding — the small daily reps that make the gap between you and everyone else grow every week.';}
+
+  const gradeEl = document.getElementById('result-grade');
+  gradeEl.textContent = grade;
+  gradeEl.style.color = overall<35?'#ff4444':overall<55?'#EF9F27':'#C8FF00';
+  document.getElementById('result-desc').textContent = desc;
+
+  // Pillar breakdown
+  document.getElementById('pillar-breakdown').innerHTML = pillarNames.map(p=>`
+    <div class="pb-item">
+      <div class="pb-name" style="color:${pillarColors[p]}">${p}</div>
+      <div class="pb-bar-wrap"><div class="pb-bar" style="width:${pillarAvg[p]}%;background:${pillarColors[p]}"></div></div>
+      <div class="pb-score">${pillarAvg[p]}</div>
+    </div>`).join('');
+
+  // Biggest leak
+  const weakest = pillarNames.reduce((a,b)=>pillarAvg[a]<pillarAvg[b]?a:b);
+  const leaks = {
+    Clarity:'Your biggest leak is Clarity — you\'re starting each day without a filter. Every distraction looks as important as your real work. Fix this first and everything else gets easier instantly.',
+    Cadence:'Your biggest leak is Cadence — you\'re fighting your own biology. You\'re doing your hardest work in your lowest-energy windows and wasting your peak hours on shallow tasks.',
+    Containment:'Your biggest leak is Containment — your environment is working against you. Every device nearby is draining working memory even when you\'re not touching it. Distance is the fix.',
+    Compound:'Your biggest leak is Compound — you have no review loop. Without a weekly reset you\'re grinding without ever seeing your own progress or patterns. 45 minutes a week changes everything.'
+  };
+  document.getElementById('leak-text').textContent = leaks[weakest];
+}
+
+function restartAudit(){
+  current=0; answers=[];
+  document.getElementById('screen-result').classList.remove('active');
+  document.getElementById('screen-email').classList.remove('active');
+  document.getElementById('screen-q').classList.remove('active');
+  document.getElementById('screen-intro').classList.add('active');
+  document.getElementById('progress-wrap').style.display='none';
+  document.getElementById('prog-fill').style.width='0%';
+}
+</script>
+</body>
+</html>
