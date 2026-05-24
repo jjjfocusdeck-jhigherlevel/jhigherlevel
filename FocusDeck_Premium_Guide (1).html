@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FocusDeck — The Focus Stack System</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap');
+
+:root {
+  --black: #0a0a0a;
+  --dark: #111111;
+  --card: #161616;
+  --border: rgba(255,255,255,0.08);
+  --border-accent: rgba(200,255,0,0.25);
+  --lime: #C8FF00;
+  --lime-dim: rgba(200,255,0,0.12);
+  --white: #ffffff;
+  --muted: rgba(255,255,255,0.5);
+  --subtle: rgba(255,255,255,0.25);
+  --clarity: #C8FF00;
+  --cadence: #00E5C8;
+  --containment: #FF6B35;
+  --compound: #A78BFA;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── LAYOUT ─── */
+.page { max-width: 780px; margin: 0 auto; padding: 0 24px; }
+
+/* ─── HATCH TEXTURE ─── */
+.hatch-bg {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255,255,255,0.012) 0px,
+    rgba(255,255,255,0.012) 1px,
+    transparent 1px,
+    transparent 9px
+  );
+}
+
+/* ─── COVER ─── */
+.cover {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 48px 0 40px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+.cover::before {
+  content: '';
+  position: absolute;
+  top: -100px; right: -80px;
+  width: 400px; height: 900px;
+  background: var(--lime);
+  transform: rotate(14deg);
+  opacity: 0.035;
+  pointer-events: none;
+}
+
+.cover-top { display: flex; justify-content: space-between; align-items: flex-start; }
+
+.brand-tag {
+  font-family: 'Oswald', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--lime);
+  border: 1px solid var(--border-accent);
+  padding: 6px 14px;
+  display: inline-block;
+}
+
+.edition {
+  font-family: 'Oswald', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: var(--subtle);
+  text-transform: uppercase;
+}
+
+.cover-hero { padding: 60px 0 40px; }
+
+.cover-eyebrow {
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 4px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.cover-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(72px, 14vw, 120px);
+  line-height: 0.88;
+  color: var(--white);
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.cover-title .accent { color: var(--lime); display: block; }
+
+.cover-subtitle {
+  font-family: 'Oswald', sans-serif;
+  font-size: 18px;
+  font-weight: 300;
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-top: 16px;
+  border-left: 3px solid var(--lime);
+  padding-left: 16px;
+}
+
+.cover-divider {
+  width: 60px;
+  height: 3px;
+  background: var(--lime);
+  margin: 32px 0;
+}
+
+.cover-intro {
+  max-width: 560px;
+  font-size: 17px;
+  color: rgba(255,255,255,0.72);
+  line-height: 1.75;
+}
+
+.cover-intro strong { color: var(--white); font-weight: 500; }
+
+.cover-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-top: 40px;
+  border-top: 1px solid var(--border);
+}
+
+.author-block {}
+.author-name {
+  font-family: 'Oswald', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--white);
+  text-transform: uppercase;
+}
+.author-title {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+
+.pillar-pills { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.pill {
+  font-family: 'Oswald', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border: 0.5px solid;
+}
+.pill-clarity { color: var(--clarity); border-color: rgba(200,255,0,0.3); }
+.pill-cadence { color: var(--cadence); border-color: rgba(0,229,200,0.3); }
+.pill-containment { color: var(--containment); border-color: rgba(255,107,53,0.3); }
+.pill-compound { color: var(--compound); border-color: rgba(167,139,250,0.3); }
+
+/* ─── SECTIONS ─── */
+section { padding: 80px 0; border-bottom: 1px solid var(--border); }
+section:last-child { border-bottom: none; }
+
+.section-label {
+  font-family: 'Oswald', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--subtle);
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 0.5px;
+  background: var(--border);
+}
+
+/* ─── CALLOUT ─── */
+.callout {
+  background: var(--lime-dim);
+  border-left: 3px solid var(--lime);
+  padding: 20px 24px;
+  margin: 32px 0;
+}
+.callout p {
+  font-size: 15px;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.7;
+  font-style: italic;
+}
+.callout-attr {
+  font-family: 'Oswald', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--lime);
+  margin-top: 10px;
+}
+
+/* ─── STORY ─── */
+.story-grid {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 0 32px;
+}
+.story-timeline { display: flex; flex-direction: column; align-items: center; padding-top: 6px; }
+.story-dot {
+  width: 12px; height: 12px;
+  background: var(--lime);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.story-line { flex: 1; width: 1px; background: var(--border); margin-top: 8px; }
+.story-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  color: rgba(255,255,255,0.06);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.story-body h3 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--lime);
+  margin-bottom: 12px;
+}
+.story-body p {
+  font-size: 15px;
+  color: rgba(255,255,255,0.72);
+  line-height: 1.75;
+  margin-bottom: 24px;
+}
+.story-body p strong { color: var(--white); font-weight: 500; }
+
+/* ─── FRAMEWORK OVERVIEW ─── */
+.framework-intro {
+  font-size: 17px;
+  color: rgba(255,255,255,0.72);
+  line-height: 1.75;
+  margin-bottom: 48px;
+  max-width: 620px;
+}
+.framework-intro strong { color: var(--white); }
+
+.pillars-overview { display: grid; gap: 12px; }
+.pillar-card {
+  background: var(--card);
+  border: 0.5px solid var(--border);
+  padding: 24px 28px;
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 24px;
+  align-items: start;
+  transition: border-color 0.2s;
+}
+.pillar-card:hover { border-color: rgba(255,255,255,0.15); }
+
+.pillar-num-big {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 52px;
+  line-height: 1;
+}
+.pillar-card-name {
+  font-family: 'Oswald', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.pillar-card-tagline {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  opacity: 0.6;
+}
+.pillar-card-desc {
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.65;
+}
+.pillar-card-desc strong { color: rgba(255,255,255,0.85); font-weight: 500; }
+
+.p-clarity .pillar-num-big, .p-clarity .pillar-card-name { color: var(--clarity); }
+.p-clarity .pillar-card-tagline { color: var(--clarity); }
+.p-cadence .pillar-num-big, .p-cadence .pillar-card-name { color: var(--cadence); }
+.p-cadence .pillar-card-tagline { color: var(--cadence); }
+.p-containment .pillar-num-big, .p-containment .pillar-card-name { color: var(--containment); }
+.p-containment .pillar-card-tagline { color: var(--containment); }
+.p-compound .pillar-num-big, .p-compound .pillar-card-name { color: var(--compound); }
+.p-compound .pillar-card-tagline { color: var(--compound); }
+
+/* ─── DAY ONE QUICK START ─── */
+.quickstart-banner {
+  background: var(--lime);
+  padding: 20px 24px;
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.qs-icon {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 42px;
+  color: var(--black);
+  line-height: 1;
+  flex-shrink: 0;
+}
+.qs-text {}
+.qs-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: rgba(0,0,0,0.5);
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+.qs-body {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 26px;
+  color: var(--black);
+  line-height: 1;
+}
+
+.steps-list { counter-reset: steps; display: grid; gap: 16px; }
+.step-item {
+  background: var(--card);
+  border: 0.5px solid var(--border);
+  padding: 20px 24px;
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 16px;
+  align-items: start;
+  counter-increment: steps;
+}
+.step-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  color: var(--lime);
+  line-height: 1;
+}
+.step-content {}
+.step-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+.step-desc {
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.6;
+}
+.step-desc strong { color: rgba(255,255,255,0.85); font-weight: 500; }
+.step-action {
+  margin-top: 10px;
+  background: rgba(200,255,0,0.08);
+  border-left: 2px solid var(--lime);
+  padding: 8px 12px;
+  font-size: 13px;
+  color: rgba(200,255,0,0.85);
+  font-style: italic;
+}
+
+/* ─── PILLAR DEEP DIVES ─── */
+.pillar-header {
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+.pillar-header-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 96px;
+  line-height: 0.85;
+  opacity: 0.15;
+}
+.pillar-header-text {}
+.pillar-header-label {
+  font-family: 'Oswald', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  opacity: 0.6;
+}
+.pillar-header-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 56px;
+  line-height: 1;
+  letter-spacing: 1px;
+}
+.pillar-header-tagline {
+  font-size: 14px;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 1px;
+  margin-top: 4px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.pillar-body {
+  font-size: 16px;
+  color: rgba(255,255,255,0.72);
+  line-height: 1.8;
+  margin-bottom: 32px;
+}
+.pillar-body p { margin-bottom: 20px; }
+.pillar-body p:last-child { margin-bottom: 0; }
+.pillar-body strong { color: var(--white); font-weight: 500; }
+
+/* ─── SCIENCE BOX ─── */
+.science-box {
+  background: var(--card);
+  border: 0.5px solid var(--border);
+  padding: 20px 24px;
+  margin: 28px 0;
+}
+.science-label {
+  font-family: 'Oswald', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--subtle);
+  margin-bottom: 10px;
+}
+.science-text {
+  font-size: 14px;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.65;
+}
+.science-text strong { color: rgba(255,255,255,0.85); font-weight: 500; }
+
+/* ─── TEMPLATE / WORKSHEET ─── */
+.worksheet {
+  background: var(--card);
+  border: 0.5px solid var(--border);
+  margin-top: 40px;
+  overflow: hidden;
+}
+.worksheet-header {
+  padding: 16px 24px;
+  border-bottom: 0.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.worksheet-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+.worksheet-badge {
+  font-family: 'Oswald', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border: 0.5px solid;
+}
+.worksheet-body { padding: 28px 24px; }
+
+.ws-question {
+  margin-bottom: 28px;
+}
+.ws-q-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 13px;
+  color: var(--subtle);
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+.ws-q-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--white);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+.ws-q-hint {
+  font-size: 12px;
+  color: var(--muted);
+  font-style: italic;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+.ws-input {
+  width: 100%;
+  background: rgba(255,255,255,0.03);
+  border: 0.5px solid var(--border);
+  border-radius: 0;
+  padding: 12px 14px;
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  resize: vertical;
+  min-height: 52px;
+  line-height: 1.6;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.ws-input:focus { border-color: rgba(255,255,255,0.25); }
+.ws-input::placeholder { color: rgba(255,255,255,0.2); font-style: italic; }
+
+.ws-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 520px) { .ws-row { grid-template-columns: 1fr; } }
+
+.ws-list { display: grid; gap: 8px; }
+.ws-list-item {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 10px;
+  align-items: center;
+}
+.ws-list-num {
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--subtle);
+  letter-spacing: 1px;
+}
+
+/* ─── FIELD GUIDE ─── */
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 520px) { .field-grid { grid-template-columns: 1fr; } }
+
+.field-card {
+  background: var(--card);
+  border: 0.5px solid var(--border);
+  padding: 18px 20px;
+}
+.field-card-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  color: var(--lime);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.field-card-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.field-card-body {
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.6;
+}
+.field-card-body strong { color: rgba(255,255,255,0.85); font-weight: 500; }
+
+/* ─── 90-DAY COMPOUND TRACKER ─── */
+.tracker-grid {
+  display: grid;
+  grid-template-columns: repeat(13, 1fr);
+  gap: 4px;
+  margin: 24px 0;
+}
+.tracker-week {
+  aspect-ratio: 1;
+  background: var(--card);
+  border: 0.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Oswald', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--subtle);
+  cursor: pointer;
+  transition: all 0.15s;
+  user-select: none;
+}
+.tracker-week:hover { border-color: rgba(200,255,0,0.4); }
+.tracker-week.done { background: var(--lime-dim); border-color: var(--border-accent); color: var(--lime); }
+.tracker-label {
+  font-family: 'Oswald', sans-serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--subtle);
+  text-transform: uppercase;
+  margin-top: 8px;
+  text-align: right;
+}
+
+/* ─── STATS ─── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 0.5px solid var(--border);
+  margin: 32px 0;
+}
+.stat-item {
+  background: var(--black);
+  padding: 20px 16px;
+  text-align: center;
+}
+.stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 40px;
+  color: var(--lime);
+  line-height: 1;
+  display: block;
+}
+.stat-lbl {
+  font-family: 'Oswald', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-top: 4px;
+  display: block;
+}
+
+/* ─── BIG QUOTE ─── */
+.big-quote {
+  padding: 48px 0;
+  text-align: center;
+  border-top: 0.5px solid var(--border);
+  border-bottom: 0.5px solid var(--border);
+  margin: 40px 0;
+}
+.big-quote-text {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(20px, 4vw, 28px);
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.5;
+  max-width: 580px;
+  margin: 0 auto 16px;
+}
+.big-quote-attr {
+  font-family: 'Oswald', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ─── CLOSE ─── */
+.close-section {
+  text-align: center;
+  padding: 80px 0;
+}
+.close-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(48px, 10vw, 80px);
+  line-height: 0.9;
+  margin-bottom: 24px;
+}
+.close-title .a { color: var(--white); display: block; }
+.close-title .b { color: var(--lime); display: block; }
+.close-body {
+  font-size: 16px;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.75;
+  max-width: 500px;
+  margin: 0 auto 40px;
+}
+.close-body strong { color: var(--white); }
+
+.signature {
+  display: inline-block;
+  text-align: left;
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+  margin-top: 8px;
+}
+.sig-name {
+  font-family: 'Oswald', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--white);
+}
+.sig-title {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  margin-top: 3px;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--dark);
+  border-top: 1px solid var(--border);
+  padding: 32px 0;
+  text-align: center;
+}
+.footer-brand {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  color: var(--lime);
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+}
+.footer-sub {
+  font-size: 12px;
+  color: var(--subtle);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ─── PRINT ─── */
+@media print {
+  .ws-input { border-bottom: 1px solid rgba(255,255,255,0.2) !important; background: transparent !important; min-height: 36px !important; }
+  .tracker-week { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 600px) {
+  .cover-bottom { flex-direction: column; gap: 20px; align-items: flex-start; }
+  .pillar-pills { justify-content: flex-start; }
+  .stats-row { grid-template-columns: 1fr; }
+  .story-grid { grid-template-columns: 1fr; }
+  .story-timeline { display: none; }
+  .tracker-grid { grid-template-columns: repeat(6, 1fr); }
+}
+</style>
+</head>
+<body class="hatch-bg">
+
+<!-- ══════════════════════════════════════
+     COVER
+══════════════════════════════════════ -->
+<div class="page">
+  <div class="cover">
+    <div class="cover-top">
+      <div class="brand-tag">FocusDeck</div>
+      <div class="edition">Edition 01 · The Focus Stack</div>
+    </div>
+
+    <div class="cover-hero">
+      <div class="cover-eyebrow">A Neuroscience-Backed System For</div>
+      <div class="cover-title">
+        DEEP
+        <span class="accent">WORK.</span>
+      </div>
+      <div class="cover-subtitle">For the Overwhelmed Achiever</div>
+      <div class="cover-divider"></div>
+      <p class="cover-intro">
+        You are not lazy. You are not broken. You are running a
+        <strong>200,000-year-old attention system</strong> inside a 21st-century
+        distraction economy engineered to steal exactly the resource you need most.
+        <br><br>
+        This is how you take it back — through structure, repetition, and the
+        <strong>four pillars that actually work</strong>.
+      </p>
+    </div>
+
+    <div class="cover-bottom">
+      <div class="author-block">
+        <div class="author-name">Jason Johnson</div>
+        <div class="author-title">Affiliate Marketing Mentor · AI Educator · jhigherlevel.com</div>
+      </div>
+      <div class="pillar-pills">
+        <div class="pill pill-clarity">Clarity</div>
+        <div class="pill pill-cadence">Cadence</div>
+        <div class="pill pill-containment">Containment</div>
+        <div class="pill pill-compound">Compound</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     THE STORY
+══════════════════════════════════════ -->
+<div class="page">
+  <section>
+    <div class="section-label">Why This Exists</div>
+
+    <div class="story-grid">
+      <div class="story-timeline">
+        <div class="story-dot"></div>
+        <div class="story-line"></div>
+      </div>
+      <div class="story-body">
+        <div class="story-num">01</div>
+        <h3>The Grind That Went Nowhere</h3>
+        <p>Four years ago I was grinding harder than I ever had — long days, late nights —
+        and <strong>nothing in my life was moving forward</strong>. Idea after idea slipped away,
+        buried under the constant noise around me. I told myself I had discipline.
+        I told myself I had a vision. The truth was, I was drowning in distractions.</p>
+
+        <div class="story-num">02</div>
+        <h3>The Year I Disappeared</h3>
+        <p>So I went all in. I studied neuroscience, meditation, productivity frameworks,
+        and the psychology behind attention and habit. <strong>I disappeared for almost a year.</strong>
+        Obsessed with finding a way to stay focused, stay clear, and stay in control.
+        Not to write about it. To fix my own life first.</p>
+
+        <div class="story-num">03</div>
+        <h3>What Came Out The Other Side</h3>
+        <p>The FocusDeck was born — and I didn't just create it, <strong>I lived it</strong>.
+        Used it every day as a foundation, not a tool. My decisions got faster.
+        My execution sharpened. Goals that felt impossible started feeling inevitable.
+        This is the system I wish I'd had four years ago. Now it's yours.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p>"Focus is not a feeling. It is a built environment. You will not stumble into deep work.
+      You will design for it — the hour, the room, the silence, the single intention."</p>
+      <div class="callout-attr">— Jason Johnson · FocusDeck</div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════════════════════════════════
+     DAY ONE QUICK START
+══════════════════════════════════════ -->
+<div class="page">
+  <section>
+    <div class="section-label">Start Here</div>
+
+    <div class="quickstart-banner">
+      <div class="qs-icon">D1</div>
+      <div class="qs-text">
+        <div class="qs-title">Your Day One Protocol</div>
+        <div class="qs-body">Do These 5 Things Before Anything Else</div>
+      </div>
+    </div>
+
+    <p style="font-size:15px; color:rgba(255,255,255,0.6); line-height:1.75; margin-bottom:32px;">
+      Most people open a new system and read the whole thing before doing anything.
+      Don't. The FocusDeck is built to be used, not studied. Here's your first 24 hours — no excuses, no overthinking.
+    </p>
+
+    <div class="steps-list">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Write Your One Outcome for Today</div>
+          <div class="step-desc">Before you open email. Before you check your phone. Finish this sentence on paper:
+          <strong>"If only this one thing happens today, the day counts."</strong> One outcome. Not three. Not five. One.</div>
+          <div class="step-action">→ Use the Clarity Template. Section 4: The One Needle-Mover.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Map Your Energy Peak</div>
+          <div class="step-desc">When in the next 24 hours do you feel sharpest? That window is sacred.
+          <strong>Block it in your calendar right now</strong> — 60 to 90 minutes, no meetings, phone in another room.</div>
+          <div class="step-action">→ Use the Cadence Template. Section 2: My Energy Peaks.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Name Your Biggest Distraction</div>
+          <div class="step-desc">Not "my phone" — be surgical. <strong>"Instagram between 9 and 11am."</strong>
+          "My colleague who drops by unannounced." "The news tab I open when I'm avoiding hard work."
+          You cannot contain what you haven't named.</div>
+          <div class="step-action">→ Use the Containment Template. Section 1: Biggest Time Drains.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Set Your 90-Day Compounding Action</div>
+          <div class="step-desc">One small action done daily that builds toward your most important goal.
+          <strong>It must be small enough to do even on your worst day.</strong>
+          300 words. One outreach message. 20 minutes of learning. Pick it. Write it. Start it today.</div>
+          <div class="step-action">→ Use the Compound Template. Section 1: My 90-Day Compounding Habit.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">Schedule Your Friday Review — Right Now</div>
+          <div class="step-desc">Open your calendar. Block 30 minutes this Friday.
+          Title it: <strong>Focus Review — Non-Negotiable.</strong> Without the weekly review loop,
+          you're grinding without ever measuring your own progress. This 30 minutes
+          determines the value of the other 40 hours.</div>
+          <div class="step-action">→ Use the Productivity Calendar. Friday Review section.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-item">
+        <span class="stat-num">5</span>
+        <span class="stat-lbl">min morning prime</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">90</span>
+        <span class="stat-lbl">min deep work cycle</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">37x</span>
+        <span class="stat-lbl">1% gain compounded daily / 1yr</span>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════════════════════════════════
+     FRAMEWORK OVERVIEW
+══════════════════════════════════════ -->
+<div class="page">
+  <section>
+    <div class="section-label">The Framework</div>
+
+    <p class="framework-intro">
+      The Four Pillars are not a menu. They are a <strong>stack</strong>.
+      Each one supports the next, and the order matters.
+      Skip Clarity and Cadence has nothing to protect.
+      Skip Containment and Compound never gets a chance to begin.
+    </p>
+
+    <div class="pillars-overview">
+      <div class="pillar-card p-clarity">
+        <div class="pillar-num-big">01</div>
+        <div>
+          <div class="pillar-card-name">Clarity</div>
+          <div class="pillar-card-tagline">Decide what matters. Eliminate the rest.</div>
+          <div class="pillar-card-desc">Most people are not overworked. They are <strong>over-committed to the wrong work.</strong>
+          Clarity is the daily refusal to confuse motion for progress. One outcome.
+          Two tasks. One ruthless no — before the phone speaks to you.</div>
+        </div>
+      </div>
+      <div class="pillar-card p-cadence">
+        <div class="pillar-num-big">02</div>
+        <div>
+          <div class="pillar-card-name">Cadence</div>
+          <div class="pillar-card-tagline">Match work to your energy, not the clock.</div>
+          <div class="pillar-card-desc">Your brain is not a battery you drain evenly. It is a tide.
+          <strong>Every 90 minutes your prefrontal cortex completes an ultradian cycle.</strong>
+          Stop scheduling 8 hours of equal effort. Schedule two peak windows and defend them.</div>
+        </div>
+      </div>
+      <div class="pillar-card p-containment">
+        <div class="pillar-num-big">03</div>
+        <div>
+          <div class="pillar-card-name">Containment</div>
+          <div class="pillar-card-tagline">Build walls around attention. Defend them.</div>
+          <div class="pillar-card-desc">Willpower is finite. Environment is not.
+          <strong>The mere presence of your phone on the desk reduces working memory</strong> —
+          even face-down, even silent. Distance is the fix. Design the room so the
+          right choice is the easy one.</div>
+        </div>
+      </div>
+      <div class="pillar-card p-compound">
+        <div class="pillar-num-big">04</div>
+        <div>
+          <div class="pillar-card-name">Compound</div>
+          <div class="pillar-card-tagline">Small daily reps. Reviewed weekly. Reset monthly.</div>
+          <div class="pillar-card-desc">A 1% improvement, repeated daily, becomes 37x in a year.
+          <strong>The math does not care if you believe in it.</strong> It only cares if you show up.
+          45 minutes of meta-work per week determines the value of the other 40 hours.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════════════════════════════════
+     PILLAR 01 — CLARITY
+══════════════════════════════════════ -->
+<div class="page">
+  <section>
+    <div class="section-label">Pillar 01</div>
+
+    <div class="pillar-header">
+      <div class="pillar-header-num" style="color:var(--clarity)">01</div>
+      <div class="pillar-header-text">
+        <div class="pillar-header-label" style="color:var(--clarity)">Pillar One</div>
+        <div class="pillar-header-name" style="color:var(--clarity)">CLARITY</div>
+        <div class="pillar-header-tagline">The brutal edit.</div>
+      </div>
+    </div>
+
+    <div class="pillar-body">
+      <p>Most people are not overworked. They are <strong>over-committed to the wrong work.</strong>
+      Clarity is the daily refusal to confuse motion for progress.</p>
+
+      <p>Each morning, before email, before Slack, before the phone speaks to you,
+      write three things by hand: what one outcome would make today a win,
+      what two tasks must move that outcome forward,
+      what one thing you will say no to. That is the practice.
+      <strong>Not aspirational. Surgical.</strong></p>
+
+      <p>Clarity is a subtractive act, not an additive one. Every yes is a quiet no to
+      something else — and unless you make those trade-offs visible on paper,
+      your calendar will make them for you. Usually in favour of whoever shouted loudest.</p>
+
+      <p>Expect resistance. Choosing one outcome means letting go of four others,
+      and the brain treats that as a small loss. Sit with it for thirty seconds, then move.
+      <strong>Over a week, the discomfort fades.</strong> Over a month, you stop recognising
+      the version of yourself that used to confuse a full inbox with a meaningful day.</p>
+    </div>
+
+    <div class="science-box">
+      <div class="science-label">The Science</div>
+      <div class="science-text">The prefrontal cortex — responsible for goal-directed behaviour — operates on
+      <strong>limited glucose and oxygen</strong>. Decision fatigue is physiologically real.
+      Every micro-decision you make before your most important work costs cognitive fuel.
+      The morning Clarity ritual eliminates that tax before it starts.</div>
+    </div>
+
+    <div class="big-quote">
+      <div class="big-quote-text">"The ability to perform deep work is becoming increasingly rare at exactly the same time it is becoming increasingly valuable in our economy."</div>
+      <div class="big-quote-attr">Cal Newport, PhD — Computer Scientist, Author of Deep Work</div>
+    </div>
+
+    <!-- CLARITY WORKSHEET -->
+    <div class="worksheet">
+      <div class="worksheet-header">
+        <div class="worksheet-title" style="color:var(--clarity)">Clarity Template</div>
+        <div class="worksheet-badge" style="color:var(--clarity);border-color:rgba(200,255,0,0.3)">Daily Use</div>
+      </div>
+      <div class="worksheet-body">
+
+        <div class="ws-question">
+          <div class="ws-q-num">01</div>
+          <div class="ws-q-title">Your #1 Goal This Quarter</div>
+          <div class="ws-q-hint">One goal. If you achieve nothing else this quarter, what would make it a success?
+          Write it as a completed outcome — past tense, specific, measurable.</div>
+          <textarea class="ws-input" rows="2" placeholder="e.g. I launched the FocusDeck, made my first 10 sales, and proved the funnel works."></textarea>
+        </div>
+
+        <div class="ws-question">
+          <div class="ws-q-num">02</div>
+          <div class="ws-q-title">What Does Success Look Like in 90 Days?</div>
+          <div class="ws-q-hint">What will you see, feel, or have? Make it visceral — not vague.
+          "More sales" is not an answer. "Woke up to 3 Gumroad notifications" is.</div>
+          <textarea class="ws-input" rows="2" placeholder="e.g. $1,500/mo in passive income. My first affiliate deal closed. I quit the part-time job."></textarea>
+        </div>
+
+        <div class="ws-question">
+          <div class="ws-q-num">03</div>
+          <div class="ws-q-title">Top 3 Priorities This Week</div>
+          <div class="ws-q-hint">These three things get done before anything else. If Friday comes and they're done, the week was a win.
+          Rank them — if the day got cut in half, which would you do first?</div>
+          <div class="ws-list">
+            <div class="ws-list-item"><div class="ws-list-num">1</div><input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder="Most important priority this week..."></div>
+            <div class="ws-list-item"><div class="ws-list-num">2</div><input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder="Second priority..."></div>
+            <div class="ws-list-item"><div class="ws-list-num">3</div><input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder="Third priority..."></div>
+          </div>
+        </div>
+
+        <div class="ws-question">
+          <div class="ws-q-num">04</div>
+          <div class="ws-q-title">Distractions Pulling You Away</div>
+          <div class="ws-q-hint">Name them specifically. "My phone" is too vague. "YouTube after lunch" is a target.
+          You cannot contain what you haven't named.</div>
+          <div class="ws-list">
+            <div class="ws-list-item"><div class="ws-list-num">1</div><input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder="Be specific — when, where, how long..."></div>
+            <div class="ws-list-item"><div class="ws-list-num">2</div><input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder=""></div>
+            <div class="ws-list-item"><div class="ws-list-num">3</div><input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder=""></div>
+          </div>
+        </div>
+
+        <div class="ws-question">
+          <div class="ws-q-num">05</div>
+          <div class="ws-q-title">The One Needle-Mover</div>
+          <div class="ws-q-hint">What single action, done consistently this quarter, would have the biggest impact on your goal?
+          Be ruthlessly specific. "Post content" is not it. "Film one 60-second Reel every weekday before 9am" is.</div>
+          <div class="ws-row">
+            <div>
+              <textarea class="ws-input" rows="2" placeholder="The one consistent action is..."></textarea>
+            </div>
+            <div>
+              <input type="text" class="ws-input" style="min-height:auto;padding:10px 14px;margin-bottom:8px" placeholder="How often? (e.g. every weekday)">
+              <input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder="What time of day?">
+            </div>
+          </div>
+        </div>
+
+        <div class="ws-question" style="margin-bottom:0">
+          <div class="ws-q-num">06</div>
+          <div class="ws-q-title">What I'm Saying No To This Quarter</div>
+          <div class="ws-q-hint">Clarity isn't just what you choose — it's what you refuse.
+          Every "yes" on this list is a silent "no" to your goal. Write them down. Make it real.</div>
+          <div class="ws-list">
+            <div class="ws-list-item"><div class="ws-list-num">1</div><input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder="I'm saying no to..."></div>
+            <div class="ws-list-item"><div class="ws-list-num">2</div><input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder="I'm saying no to..."></div>
+            <div class="ws-list-item"><div class="ws-list-num">3</div><input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder="I'm saying no to..."></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════════════════════════════════
+     PILLAR 02 — CADENCE
+══════════════════════════════════════ -->
+<div class="page">
+  <section>
+    <div class="section-label">Pillar 02</div>
+
+    <div class="pillar-header">
+      <div class="pillar-header-num" style="color:var(--cadence)">02</div>
+      <div class="pillar-header-text">
+        <div class="pillar-header-label" style="color:var(--cadence)">Pillar Two</div>
+        <div class="pillar-header-name" style="color:var(--cadence)">CADENCE</div>
+        <div class="pillar-header-tagline">Work with your biology.</div>
+      </div>
+    </div>
+
+    <div class="pillar-body">
+      <p>Your brain is not a battery you drain evenly. <strong>It is a tide.</strong>
+      Roughly every 90 minutes, your prefrontal cortex completes an ultradian cycle —
+      a rise and fall in cognitive readiness first mapped by sleep researcher Nathaniel Kleitman.</p>
+
+      <p>Stop scheduling 8 hours of equal effort. <strong>Schedule two or three peak windows
+      of 60 to 90 minutes</strong> for your hardest work, separated by genuine recovery —
+      a walk, water, no screen. Recovery is not a reward you earn after the work.
+      It is part of the work.</p>
+
+      <p>Cadence also means honouring your chronotype. Some people peak at 7am,
+      some at 10pm. <strong>Fighting that biology is a tax you pay every day for the rest
+      of your career.</strong> Track your energy for one week on the calendar,
+      then redesign your schedule around your peaks — not someone else's.</p>
+    </div>
+
+    <div class="science-box">
+      <div class="science-label">The Science</div>
+      <div class="science-text">Neuroscientist Andrew Huberman identifies these recovery gaps as
+      <strong>non-sleep deep rest (NSDR)</strong>. The data is unambiguous: short, screen-free pauses
+      restore dopamine and focal attention faster than caffeine. Skip recovery and the
+      next deep work block costs you double in output quality.</div>
+    </div>
+
+    <div class="big-quote">
+      <div class="big-quote-text">"Where attention goes, neural firing flows, and neural connection grows."</div>
+      <div class="big-quote-attr">Daniel J. Siegel, MD — Clinical Professor of Psychiatry, UCLA</div>
+    </div>
+
+    <div class="worksheet">
+      <div class="worksheet-header">
+        <div class="worksheet-title" style="color:var(--cadence)">Cadence Template</div>
+        <div class="worksheet-badge" style="color:var(--cadence);border-color:rgba(0,229,200,0.3)">Weekly Setup</div>
+      </div>
+      <div class="worksheet-body">
+
+        <div class="ws-question">
+          <div class="ws-q-num">01</div>
+          <div class="ws-q-title">My Ideal Daily Schedule</div>
+          <div class="ws-q-hint">Design your perfect day. Be honest about what's realistic —
+          this is architecture, not aspiration. Deep work goes in your peak windows.</div>
+          <div class="ws-list" style="gap:6px">
+            <div class="ws-list-item"><div class="ws-list-num" style="font-size:10px;white-space:nowrap">5–7am</div><input type="text" class="ws-input" style="min-height:auto;padding:8px 14px" placeholder="e.g. Wake, hydrate, 5-min morning prime"></div>
+            <div class="ws-list-item"><div class="ws-list-num" style="font-size:10px;white-space:nowrap">7–9am</div><input type="text" class="ws-input" style="min-height:auto;padding:8px 14px" placeholder="e.g. Deep work block 1 — most important task"></div>
+            <div class="ws-list-item"><div class="ws-list-num" style="font-size:10px;white-space:nowrap">9–10am</div><input type="text" class="ws-input" style="min-height:auto;padding:8px 14px" placeholder="e.g. Recovery — walk, water, no screen"></div>
+            <div class="ws-list-item"><div class="ws-list-num" style="font-size:10px;white-space:nowrap">10–12pm</div><input type="text" class="ws-input" style="min-height:auto;padding:8px 14px" placeholder="e.g. Deep work block 2 or meetings"></div>
+            <div class="ws-list-item"><div class="ws-list-num" style="font-size:10px;white-space:nowrap">12–3pm</div><input type="text" class="ws-input" style="min-height:auto;padding:8px 14px" placeholder="e.g. Admin, email batch, shallow work"></div>
+            <div class="ws-list-item"><div class="ws-list-num" style="font-size:10px;white-space:nowrap">3–6pm</div><input type="text" class="ws-input" style="min-height:auto;padding:8px 14px" placeholder="e.g. Creative work, strategy, learning"></div>
+            <div class="ws-list-item"><div class="ws-list-num" style="font-size:10px;white-space:nowrap">6–9pm</div><input type="text" class="ws-input" style="min-height:auto;padding:8px 14px" placeholder="e.g. Shutdown ritual, family, recovery"></div>
+          </div>
+        </div>
+
+        <div class="ws-question">
+          <div class="ws-q-num">02</div>
+          <div class="ws-q-title">My Two Peak Windows</div>
+          <div class="ws-q-hint">When does deep thinking feel cheapest? Not when you wish it did —
+          when it actually does. If unsure, track your energy for 3 days first.</div>
+          <div class="ws-row">
+            <div>
+              <div style="font-size:12px;color:var(--muted);letter-spacing:1px;margin-bottom:6px;text-transform:uppercase">Peak Window 1</div>
+              <input type="text" class="ws-input" style="min-height:auto;padding:10px 14px;margin-bottom:8px" placeholder="e.g. 7:00 – 8:30am">
+              <input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder="What work goes here?">
+            </div>
+            <div>
+              <div style="font-size:12px;color:var(--muted);letter-spacing:1px;margin-bottom:6px;text-transform:uppercase">Peak Window 2</div>
+              <input type="text" class="ws-input" style="min-height:auto;padding:10px 14px;margin-bottom:8px" placeholder="e.g. 10:00 – 11:30am">
+              <input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder="What work goes here?">
+            </div>
+          </div>
+        </div>
+
+        <div class="ws-question">
+          <div class="ws-q-num">03</div>
+          <div class="ws-q-title">How I Protect Those Windows</div>
+          <div class="ws-q-hint">Name the specific barrier between your peak hours and the world.
+          "No meetings before 10am. Status set to DND. Phone in drawer. Door closed."
+          Vague protection is no protection.</div>
+          <textarea class="ws-input" rows="2" placeholder="The rules that protect my peak hours..."></textarea>
+        </div>
+
+        <div class="ws-question" style="margin-bottom:0">
+          <div class="ws-q-num">04</div>
+          <div class="ws-q-title">My Recovery Rituals</div>
+          <div class="ws-q-hint">Between deep work blocks. Screen-free. 10–20 minutes.
+          These are not optional — they are the reason the second block works.</div>
+          <div class="ws-list">
+            <div class="ws-list-item"><div class="ws-list-num">1</div><input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder="e.g. 15-min walk outside, no headphones"></div>
+            <div class="ws-list-item"><div class="ws-list-num">2</div><input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder="e.g. Stretch + water"></div>
+            <div class="ws-list-item"><div class="ws-list-num">3</div><input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder="e.g. NSDR / 10-min eyes closed"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════════════════════════════════
+     FIELD GUIDE
+══════════════════════════════════════ -->
+<div class="page">
+  <section>
+    <div class="section-label">Field Guide</div>
+    <p style="font-size:15px;color:var(--muted);margin-bottom:32px;line-height:1.7">Seven proven principles to stack on top of the four pillars. These are not theories — they are battle-tested tools used by the highest-performing people in every field.</p>
+    <div class="field-grid">
+      <div class="field-card">
+        <div class="field-card-num">01</div>
+        <div class="field-card-title">The 80/20 Rule</div>
+        <div class="field-card-body"><strong>20% of your tasks produce 80% of your results.</strong> Each Sunday, identify the 20%. Circle it. Protect it Monday through Friday. Everything else is negotiable.</div>
+      </div>
+      <div class="field-card">
+        <div class="field-card-num">02</div>
+        <div class="field-card-title">The Two-Minute Rule</div>
+        <div class="field-card-body">If a task takes under two minutes, <strong>do it now.</strong> If not, schedule it. Never let it loiter in your head — that's where your best thinking lives.</div>
+      </div>
+      <div class="field-card">
+        <div class="field-card-num">03</div>
+        <div class="field-card-title">Time Blocking</div>
+        <div class="field-card-body"><strong>Give every hour a job before the day begins.</strong> Unassigned hours get hijacked by other people's priorities. Every time.</div>
+      </div>
+      <div class="field-card">
+        <div class="field-card-num">04</div>
+        <div class="field-card-title">Single-Tasking</div>
+        <div class="field-card-body">Multitasking is a <strong>40% productivity tax</strong> (APA research). One window. One tab. One thing. The fastest way to finish is to fully begin.</div>
+      </div>
+      <div class="field-card">
+        <div class="field-card-num">05</div>
+        <div class="field-card-title">Deep Work Blocks</div>
+        <div class="field-card-body"><strong>Two protected 90-minute blocks beat eight scattered hours.</strong> Phone in another room. Door closed. No exceptions during the window.</div>
+      </div>
+      <div class="field-card">
+        <div class="field-card-num">06</div>
+        <div class="field-card-title">The Eisenhower Matrix</div>
+        <div class="field-card-body">Sort tasks by urgent vs. important. <strong>Live in the important-but-not-urgent quadrant.</strong> That is where careers — and businesses — are built.</div>
+      </div>
+      <div class="field-card" style="grid-column:1/-1">
+        <div class="field-card-num">07</div>
+        <div class="field-card-title">The Weekly Reset</div>
+        <div class="field-card-body">Friday afternoon: review wins, archive the dead, choose next week's one big thing.
+        <strong>Without review, there is no progress — only motion.</strong>
+        The reset is what turns grinding into compounding.</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════════════════════════════════
+     PILLAR 03 — CONTAINMENT
+══════════════════════════════════════ -->
+<div class="page">
+  <section>
+    <div class="section-label">Pillar 03</div>
+
+    <div class="pillar-header">
+      <div class="pillar-header-num" style="color:var(--containment)">03</div>
+      <div class="pillar-header-text">
+        <div class="pillar-header-label" style="color:var(--containment)">Pillar Three</div>
+        <div class="pillar-header-name" style="color:var(--containment)">CONTAINMENT</div>
+        <div class="pillar-header-tagline">Defend the room.</div>
+      </div>
+    </div>
+
+    <div class="pillar-body">
+      <p>Willpower is a finite, depletable resource. <strong>Environment is not.</strong>
+      Every time you rely on willpower to resist your phone, you spend a small coin
+      you could have spent on the actual work.</p>
+
+      <p>Containment is the discipline of designing a space where the wrong choice
+      is harder than the right one. Phone in a drawer. Notifications off by default,
+      on by exception. <strong>One browser profile for work, one for life.</strong>
+      Boring rules. Quiet results.</p>
+
+      <p>The research is humbling: a University of Texas study found that
+      <strong>the mere presence of a silent, face-down phone reduces working memory and fluid intelligence.</strong>
+      Your brain spends energy actively not looking at it.
+      Distance — not discipline — is the fix.</p>
+    </div>
+
+    <div class="science-box">
+      <div class="science-label">The Science</div>
+      <div class="science-text">The University of Texas study (2017) tested three conditions: phone in another room,
+      phone face-down on desk, phone in pocket. <strong>The "phone in another room" group
+      outperformed both others on every cognitive measure.</strong> The brain cannot fully
+      suppress awareness of a potential notification source — it just uses energy trying.</div>
+    </div>
+
+    <div class="big-quote">
+      <div class="big-quote-text">"You do not rise to the level of your goals. You fall to the level of your systems."</div>
+      <div class="big-quote-attr">James Clear — Author of Atomic Habits</div>
+    </div>
+
+    <div class="worksheet">
+      <div class="worksheet-header">
+        <div class="worksheet-title" style="color:var(--containment)">Containment Template</div>
+        <div class="worksheet-badge" style="color:var(--containment);border-color:rgba(255,107,53,0.3)">Environment Design</div>
+      </div>
+      <div class="worksheet-body">
+
+        <div class="ws-question">
+          <div class="ws-q-num">01</div>
+          <div class="ws-q-title">Biggest Time Drains Right Now</div>
+          <div class="ws-q-hint">Where does your time disappear? Be honest and specific.
+          "Social media" is not an answer. "TikTok from 8–10pm that bleeds into midnight" is.</div>
+          <div class="ws-list">
+            <div class="ws-list-item"><div class="ws-list-num">1</div><input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder="Be specific about when and how long..."></div>
+            <div class="ws-list-item"><div class="ws-list-num">2</div><input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder=""></div>
+            <div class="ws-list-item"><div class="ws-list-num">3</div><input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder=""></div>
+            <div class="ws-list-item"><div class="ws-list-num">4</div><input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder=""></div>
+          </div>
+        </div>
+
+        <div class="ws-question">
+          <div class="ws-q-num">02</div>
+          <div class="ws-q-title">The Physical Change I'll Make This Week</div>
+          <div class="ws-q-hint">One environmental change that makes the wrong choice harder.
+          Phone in a drawer. App blocker on by 8am. Second monitor off. Do it today — don't wait for Monday.</div>
+          <textarea class="ws-input" rows="2" placeholder="The one physical change is... and I'll do it by [today/tomorrow]..."></textarea>
+        </div>
+
+        <div class="ws-question">
+          <div class="ws-q-num">03</div>
+          <div class="ws-q-title">What I Can Delegate</div>
+          <div class="ws-q-hint">Tasks that need doing but don't need you.
+          Delegation is not weakness — it's precision. Your highest-value hours cost too much to spend on $15/hour work.</div>
+          <div class="ws-list" style="gap:6px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;color:var(--subtle);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;padding:0 0 0 34px">
+              <span>Task</span><span>To Whom / How</span>
+            </div>
+            <div class="ws-list-item"><div class="ws-list-num">1</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%"><input type="text" class="ws-input" style="min-height:auto;padding:8px 14px" placeholder="Task..."><input type="text" class="ws-input" style="min-height:auto;padding:8px 14px" placeholder="Delegate to..."></div></div>
+            <div class="ws-list-item"><div class="ws-list-num">2</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%"><input type="text" class="ws-input" style="min-height:auto;padding:8px 14px" placeholder="Task..."><input type="text" class="ws-input" style="min-height:auto;padding:8px 14px" placeholder="Delegate to..."></div></div>
+          </div>
+        </div>
+
+        <div class="ws-question" style="margin-bottom:0">
+          <div class="ws-q-num">04</div>
+          <div class="ws-q-title">My Not-To-Do List</div>
+          <div class="ws-q-hint">Things you've decided — permanently or for this quarter — to stop doing.
+          Write them down. A Not-To-Do list is often more powerful than a To-Do list.</div>
+          <div class="ws-list">
+            <div class="ws-list-item"><div class="ws-list-num">1</div><input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder="I no longer do..."></div>
+            <div class="ws-list-item"><div class="ws-list-num">2</div><input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder="I no longer do..."></div>
+            <div class="ws-list-item"><div class="ws-list-num">3</div><input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder="I no longer do..."></div>
+            <div class="ws-list-item"><div class="ws-list-num">4</div><input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder="I no longer do..."></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════════════════════════════════
+     PILLAR 04 — COMPOUND
+══════════════════════════════════════ -->
+<div class="page">
+  <section>
+    <div class="section-label">Pillar 04</div>
+
+    <div class="pillar-header">
+      <div class="pillar-header-num" style="color:var(--compound)">04</div>
+      <div class="pillar-header-text">
+        <div class="pillar-header-label" style="color:var(--compound)">Pillar Four</div>
+        <div class="pillar-header-name" style="color:var(--compound)">COMPOUND</div>
+        <div class="pillar-header-tagline">The slow, certain math.</div>
+      </div>
+    </div>
+
+    <div class="pillar-body">
+      <p>A 1% improvement, repeated daily, becomes 37x in a year.
+      <strong>The math does not care if you believe in it. It only cares if you show up.</strong></p>
+
+      <p>The compound pillar is built from three reps: a 5-minute morning prime,
+      a 5-minute end-of-day shutdown, and a 30-minute Friday review.
+      That is 45 minutes a week of meta-work that <strong>determines the value of the other 40 hours.</strong></p>
+
+      <p>Compounding feels invisible for the first four to six weeks.
+      This is the trap most people quit inside. The curve is flat, the wins are small,
+      and the brain — wired for immediate feedback — declares the system broken.
+      <strong>It is not broken. It is loading.</strong></p>
+
+      <p>What compounds is not just output. It is identity.
+      After ninety days of showing up to the same three reps,
+      you stop being someone who is <em>trying</em> to focus —
+      and start being someone who <em>focuses</em>.
+      That shift, quiet as it is, is the entire point.</p>
+    </div>
+
+    <div class="science-box">
+      <div class="science-label">The Math</div>
+      <div class="science-text">
+        1.00 × 365 = 1.00 &nbsp;|&nbsp; <strong>1.01³⁶⁵ = 37.78</strong><br><br>
+        The person who improves 1% daily for a year is 37 times more capable than
+        the person who stays the same. The person who degrades 1% daily ends the
+        year at 0.03 of their starting capacity. <strong>The gap between those two people
+        compounds silently — until suddenly it doesn't look silent at all.</strong>
+      </div>
+    </div>
+
+    <div class="big-quote">
+      <div class="big-quote-text">"We are what we repeatedly do. Excellence, then, is not an act, but a habit."</div>
+      <div class="big-quote-attr">Will Durant, paraphrasing Aristotle</div>
+    </div>
+
+    <div class="worksheet">
+      <div class="worksheet-header">
+        <div class="worksheet-title" style="color:var(--compound)">Compound Template</div>
+        <div class="worksheet-badge" style="color:var(--compound);border-color:rgba(167,139,250,0.3)">90-Day Tracker</div>
+      </div>
+      <div class="worksheet-body">
+
+        <div class="ws-question">
+          <div class="ws-q-num">01</div>
+          <div class="ws-q-title">My 90-Day Compounding Action</div>
+          <div class="ws-q-hint">One small action done daily that builds directly toward your #1 goal.
+          The rule: <strong>it must be small enough to do even on your worst day.</strong>
+          If you can only do it when you feel motivated, it won't compound.</div>
+          <div class="ws-row">
+            <div>
+              <textarea class="ws-input" rows="2" placeholder="The daily action is... (e.g. Write 300 words before 8am)"></textarea>
+            </div>
+            <div>
+              <input type="text" class="ws-input" style="min-height:auto;padding:10px 14px;margin-bottom:8px" placeholder="Start date">
+              <input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder="90-day target date">
+            </div>
+          </div>
+          <textarea class="ws-input" rows="2" style="margin-top:8px" placeholder="Why this compounds — how does daily consistency create leverage? (e.g. 300 words/day = 27,000 words = complete first draft in 90 days)"></textarea>
+        </div>
+
+        <div class="ws-question">
+          <div class="ws-q-num">02</div>
+          <div class="ws-q-title">12-Week Tracker — Don't Break the Chain</div>
+          <div class="ws-q-hint">Click each week you showed up. The visual streak is the system.
+          Missing one week is a stumble. Missing two is a choice.</div>
+          <div class="tracker-grid" id="tracker"></div>
+          <div class="tracker-label" id="tracker-label">0 / 12 weeks completed</div>
+        </div>
+
+        <div class="ws-question">
+          <div class="ws-q-num">03</div>
+          <div class="ws-q-title">My Three Daily Reps</div>
+          <div class="ws-q-hint">Pair each one with an existing habit so it never gets skipped.
+          "After coffee" or "when I sit down" — environmental triggers make the ritual automatic.</div>
+          <div class="ws-list" style="gap:12px">
+            <div>
+              <div style="font-size:11px;color:var(--compound);letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:6px;font-family:'Oswald',sans-serif">5-Min Morning Prime</div>
+              <input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder="When and where? Paired with which existing habit?">
+            </div>
+            <div>
+              <div style="font-size:11px;color:var(--compound);letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:6px;font-family:'Oswald',sans-serif">5-Min End-of-Day Shutdown</div>
+              <input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder="When? What does it look like? (Close loops, write tomorrow's one outcome)">
+            </div>
+            <div>
+              <div style="font-size:11px;color:var(--compound);letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:6px;font-family:'Oswald',sans-serif">30-Min Friday Review</div>
+              <input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder="What time every Friday? Calendar it now — seriously, do it now.">
+            </div>
+          </div>
+        </div>
+
+        <div class="ws-question" style="margin-bottom:0">
+          <div class="ws-q-num">04</div>
+          <div class="ws-q-title">Compound Wins Log</div>
+          <div class="ws-q-hint">Small wins are evidence the system is working. Log them here.
+          When motivation dips — and it will — <strong>read this list.</strong>
+          Evidence beats inspiration every time.</div>
+          <div class="ws-list">
+            <div class="ws-list-item"><div class="ws-list-num">1</div><input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder="Win #1 — what progress did you make?"></div>
+            <div class="ws-list-item"><div class="ws-list-num">2</div><input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder="Win #2"></div>
+            <div class="ws-list-item"><div class="ws-list-num">3</div><input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder="Win #3"></div>
+            <div class="ws-list-item"><div class="ws-list-num">4</div><input type="text" class="ws-input" style="min-height:auto;padding:10px 14px" placeholder="Win #4"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════════════════════════════════
+     CLOSING
+══════════════════════════════════════ -->
+<div class="page">
+  <section class="close-section">
+    <div class="close-title">
+      <span class="a">FOCUS IS NOT</span>
+      <span class="b">A FEELING.</span>
+    </div>
+    <p class="close-body">
+      It is a <strong>built environment</strong>. You will not stumble into deep work.
+      You will design for it — the hour, the room, the silence, the single intention.
+      <br><br>
+      The FocusDeck is the architecture.
+      The templates are the floor plan.
+      <strong>Your only job, starting today, is to show up to the room you built.</strong>
+    </p>
+
+    <div class="signature">
+      <div class="sig-name">Jason Johnson</div>
+      <div class="sig-title">Affiliate Marketing Mentor · AI Educator · jhigherlevel.com</div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════════════════════════════════
+     FOOTER
+══════════════════════════════════════ -->
+<footer>
+  <div class="page">
+    <div class="footer-brand">FocusDeck</div>
+    <div class="footer-sub">The Focus Stack · Edition 01 · jhigherlevel.com</div>
+  </div>
+</footer>
+
+<script>
+// 12-week tracker
+const tracker = document.getElementById('tracker');
+const label = document.getElementById('tracker-label');
+const state = new Array(12).fill(false);
+
+for (let i = 0; i < 12; i++) {
+  const w = document.createElement('div');
+  w.className = 'tracker-week';
+  w.textContent = 'W' + (i + 1);
+  w.onclick = () => {
+    state[i] = !state[i];
+    w.classList.toggle('done', state[i]);
+    const done = state.filter(Boolean).length;
+    label.textContent = done + ' / 12 weeks completed';
+  };
+  tracker.appendChild(w);
+}
+</script>
+</body>
+</html>
