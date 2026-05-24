@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FocusDeck — The Focus Stack System | Jason Johnson</title>
+<meta name="description" content="A neuroscience-backed 4-pillar system for deep work, energy management, and reclaiming your best hours. $17. Instant access.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap');
+
+:root{
+  --black:#080808;--dark:#111;--card:#141414;
+  --lime:#C8FF00;--lime-dim:rgba(200,255,0,0.08);
+  --white:#ffffff;--muted:rgba(255,255,255,0.5);
+  --border:rgba(255,255,255,0.07);
+  --clarity:#C8FF00;--cadence:#00E5C8;
+  --containment:#FF6B35;--compound:#A78BFA;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;background:rgba(8,8,8,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-brand{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;color:var(--lime);text-decoration:none}
+.nav-cta{background:var(--lime);color:var(--black);font-family:'Oswald',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:8px 18px;text-decoration:none;transition:background 0.2s}
+.nav-cta:hover{background:#d4ff33}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:100px 24px 60px}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(200,255,0,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(200,255,0,0.025) 1px,transparent 1px);background-size:40px 40px}
+.hero-glow{position:absolute;top:-100px;right:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(200,255,0,0.07) 0%,transparent 70%);pointer-events:none}
+.hero-inner{max-width:820px;margin:0 auto;position:relative;z-index:2}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:var(--lime-dim);border:0.5px solid rgba(200,255,0,0.2);padding:6px 14px;margin-bottom:24px}
+.hero-tag span{font-family:'Oswald',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--lime)}
+.hero-dot{width:6px;height:6px;background:var(--lime);border-radius:50%;animation:pulse 2s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(72px,13vw,116px);line-height:0.87;letter-spacing:1px;margin-bottom:4px}
+.hero-title .w1{color:var(--white)}
+.hero-title .w2{color:var(--lime);display:block}
+.hero-sub{font-family:'Oswald',sans-serif;font-size:17px;font-weight:300;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin:18px 0 28px;border-left:3px solid var(--lime);padding-left:16px}
+.hero-hook{font-size:18px;color:rgba(255,255,255,0.8);line-height:1.75;max-width:580px;margin-bottom:16px}
+.hero-hook strong{color:var(--white);font-weight:600}
+.hero-sub-hook{font-size:15px;color:rgba(255,255,255,0.5);line-height:1.7;max-width:520px;margin-bottom:36px}
+.btn-buy{display:inline-flex;flex-direction:column;align-items:center;background:var(--lime);color:var(--black);text-decoration:none;padding:18px 40px;transition:background 0.2s;margin-bottom:16px}
+.btn-buy:hover{background:#d4ff33}
+.btn-buy-main{font-family:'Oswald',sans-serif;font-size:16px;font-weight:700;letter-spacing:2px;text-transform:uppercase}
+.btn-buy-sub{font-size:11px;color:rgba(0,0,0,0.5);letter-spacing:1px;margin-top:2px}
+.hero-trust{display:flex;gap:20px;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);letter-spacing:1px}
+.trust-icon{color:var(--lime);font-size:14px}
+
+/* DIVIDER */
+.divider{width:100%;height:1px;background:var(--border)}
+
+/* PAIN SECTION */
+.section{padding:72px 24px}
+.section-inner{max-width:820px;margin:0 auto}
+.section-label{font-family:'Oswald',sans-serif;font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:rgba(200,255,0,0.6);margin-bottom:16px;display:block}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,6vw,60px);line-height:0.92;margin-bottom:20px}
+.section-title em{color:var(--lime);font-style:normal}
+.section-body{font-size:16px;color:rgba(255,255,255,0.65);line-height:1.8;max-width:580px;margin-bottom:32px}
+.section-body strong{color:var(--white);font-weight:500}
+
+.pain-grid{display:grid;gap:10px}
+.pain-item{background:var(--card);border:0.5px solid var(--border);padding:18px 20px;display:grid;grid-template-columns:40px 1fr;gap:14px;align-items:start}
+.pain-icon{font-size:20px;margin-top:2px}
+.pain-title{font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--white);margin-bottom:4px}
+.pain-desc{font-size:13px;color:rgba(255,255,255,0.55);line-height:1.6}
+
+/* STORY */
+.story-section{background:var(--dark);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.story-inner{max-width:680px;margin:0 auto;text-align:center;padding:72px 24px}
+.story-inner p{font-size:16px;color:rgba(255,255,255,0.7);line-height:1.85;margin-bottom:20px}
+.story-inner p:last-of-type{margin-bottom:0}
+.story-inner strong{color:var(--white);font-weight:500}
+.story-quote{border:0.5px solid rgba(200,255,0,0.2);background:var(--lime-dim);padding:20px 24px;margin:32px 0;text-align:left}
+.story-quote p{font-size:15px;font-style:italic;color:rgba(255,255,255,0.85);line-height:1.7}
+.story-quote cite{font-size:11px;color:var(--lime);letter-spacing:2px;text-transform:uppercase;font-style:normal;display:block;margin-top:10px;font-family:'Oswald',sans-serif;font-weight:700}
+
+/* PILLARS */
+.pillars-grid{display:grid;gap:12px;margin-top:40px}
+.pillar-card{background:var(--card);border:0.5px solid var(--border);padding:24px 28px;display:grid;grid-template-columns:64px 1fr;gap:20px;align-items:start;transition:border-color 0.2s}
+.pillar-card:hover{border-color:rgba(255,255,255,0.15)}
+.pillar-num{font-family:'Bebas Neue',sans-serif;font-size:52px;line-height:1}
+.pillar-name{font-family:'Oswald',sans-serif;font-size:19px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px}
+.pillar-tag{font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;opacity:0.6;font-family:'Oswald',sans-serif}
+.pillar-desc{font-size:14px;color:rgba(255,255,255,0.6);line-height:1.65}
+.pillar-desc strong{color:rgba(255,255,255,0.85);font-weight:500}
+.p1 .pillar-num,.p1 .pillar-name{color:var(--clarity)}
+.p1 .pillar-tag{color:var(--clarity)}
+.p2 .pillar-num,.p2 .pillar-name{color:var(--cadence)}
+.p2 .pillar-tag{color:var(--cadence)}
+.p3 .pillar-num,.p3 .pillar-name{color:var(--containment)}
+.p3 .pillar-tag{color:var(--containment)}
+.p4 .pillar-num,.p4 .pillar-name{color:var(--compound)}
+.p4 .pillar-tag{color:var(--compound)}
+
+/* WHATS INSIDE */
+.inside-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:32px}
+@media(max-width:560px){.inside-grid{grid-template-columns:1fr}}
+.inside-item{background:var(--card);border:0.5px solid var(--border);padding:16px 18px;display:flex;gap:12px;align-items:flex-start}
+.inside-check{color:var(--lime);font-size:16px;flex-shrink:0;font-weight:700;margin-top:1px}
+.inside-text{}
+.inside-title{font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--white);margin-bottom:3px}
+.inside-desc{font-size:12px;color:rgba(255,255,255,0.5);line-height:1.5}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:0.5px solid var(--border);margin:40px 0 0}
+.stat-item{background:var(--black);padding:20px 16px;text-align:center}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:42px;color:var(--lime);line-height:1;display:block}
+.stat-lbl{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:4px;display:block}
+
+/* SCIENCE */
+.science-section{background:var(--dark);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.science-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:32px}
+@media(max-width:580px){.science-grid{grid-template-columns:1fr}}
+.science-card{background:var(--card);border:0.5px solid var(--border);padding:20px}
+.science-icon{font-size:22px;margin-bottom:10px;display:block}
+.science-title{font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--lime);margin-bottom:8px}
+.science-text{font-size:13px;color:rgba(255,255,255,0.6);line-height:1.65}
+.science-text strong{color:rgba(255,255,255,0.85);font-weight:500}
+
+/* CHECKOUT */
+.checkout-section{padding:80px 24px;background:var(--black)}
+.checkout-box{max-width:640px;margin:0 auto;border:0.5px solid rgba(200,255,0,0.2);background:var(--card);overflow:hidden}
+.checkout-header{background:var(--lime);padding:20px 28px;display:flex;justify-content:space-between;align-items:center}
+.checkout-title{font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--black);letter-spacing:1px}
+.checkout-price{font-family:'Bebas Neue',sans-serif;font-size:42px;color:var(--black);line-height:1}
+.checkout-price span{font-size:16px;font-family:'Oswald',sans-serif;font-weight:400;opacity:0.5}
+.checkout-body{padding:28px}
+.checkout-includes{display:grid;gap:8px;margin-bottom:28px}
+.ci-item{display:flex;gap:10px;align-items:center;font-size:14px;color:rgba(255,255,255,0.75);padding:10px 12px;background:rgba(255,255,255,0.03);border:0.5px solid var(--border)}
+.ci-check{color:var(--lime);font-weight:700;flex-shrink:0}
+.checkout-btn{display:block;width:100%;background:var(--lime);color:var(--black);font-family:'Oswald',sans-serif;font-size:16px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:18px;text-align:center;text-decoration:none;transition:background 0.2s;margin-bottom:12px}
+.checkout-btn:hover{background:#d4ff33}
+.checkout-guarantee{display:flex;gap:10px;align-items:flex-start;padding:14px;background:rgba(255,255,255,0.02);border:0.5px solid var(--border)}
+.guarantee-icon{font-size:20px;flex-shrink:0}
+.guarantee-text{font-size:12px;color:rgba(255,255,255,0.5);line-height:1.6}
+.guarantee-text strong{color:rgba(255,255,255,0.8);font-weight:600;display:block;margin-bottom:2px}
+.checkout-trust{display:flex;justify-content:center;gap:24px;margin-top:16px;flex-wrap:wrap}
+.checkout-trust span{font-size:11px;color:rgba(255,255,255,0.3);letter-spacing:1px;display:flex;align-items:center;gap:5px}
+
+/* AUTHOR */
+.author-section{background:var(--dark);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:72px 24px}
+.author-inner{max-width:680px;margin:0 auto}
+.author-card{display:grid;grid-template-columns:100px 1fr;gap:28px;align-items:start;margin-top:32px}
+@media(max-width:500px){.author-card{grid-template-columns:1fr}}
+.author-avatar{width:100px;height:100px;background:var(--lime-dim);border:1px solid rgba(200,255,0,0.2);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--lime);flex-shrink:0}
+.author-name{font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--white);letter-spacing:1px;line-height:1;margin-bottom:4px}
+.author-title{font-family:'Oswald',sans-serif;font-size:12px;font-weight:400;letter-spacing:2px;color:var(--lime);text-transform:uppercase;margin-bottom:14px}
+.author-bio{font-size:14px;color:rgba(255,255,255,0.65);line-height:1.75}
+.author-bio strong{color:var(--white);font-weight:500}
+.author-bio p{margin-bottom:12px}
+.author-bio p:last-child{margin-bottom:0}
+
+/* FAQ */
+.faq-list{display:grid;gap:8px;margin-top:32px}
+.faq-item{background:var(--card);border:0.5px solid var(--border);overflow:hidden}
+.faq-q{padding:16px 20px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--white);cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none}
+.faq-q:hover{color:var(--lime)}
+.faq-icon{color:var(--lime);font-size:18px;transition:transform 0.2s;flex-shrink:0}
+.faq-a{display:none;padding:0 20px 16px;font-size:14px;color:rgba(255,255,255,0.6);line-height:1.7;border-top:0.5px solid var(--border)}
+.faq-a.open{display:block}
+.faq-icon.open{transform:rotate(45deg)}
+
+/* FINAL CTA */
+.final-cta{background:var(--lime);padding:72px 24px;text-align:center}
+.final-inner{max-width:580px;margin:0 auto}
+.final-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,9vw,80px);color:var(--black);line-height:0.9;margin-bottom:16px;letter-spacing:1px}
+.final-sub{font-size:16px;color:rgba(0,0,0,0.6);line-height:1.65;margin-bottom:32px}
+.final-sub strong{color:var(--black)}
+.btn-dark{display:inline-block;background:var(--black);color:var(--lime);font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:18px 40px;text-decoration:none;transition:background 0.2s}
+.btn-dark:hover{background:#1a1a1a}
+.final-note{font-size:12px;color:rgba(0,0,0,0.4);margin-top:14px;letter-spacing:1px}
+
+/* FOOTER */
+footer{background:var(--dark);border-top:1px solid var(--border);padding:32px 24px}
+.footer-inner{max-width:820px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.footer-brand{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--lime);letter-spacing:2px;text-decoration:none}
+.footer-links{display:flex;gap:20px;flex-wrap:wrap}
+.footer-links a{font-size:12px;color:var(--muted);text-decoration:none;letter-spacing:1px;text-transform:uppercase}
+.footer-links a:hover{color:var(--white)}
+.footer-copy{font-size:11px;color:rgba(255,255,255,0.2);letter-spacing:1px}
+@media(max-width:600px){.footer-inner{flex-direction:column;text-align:center}}
+
+/* FADE */
+.fade-up{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-brand">J HIGHER LEVEL</a>
+  <a href="https://buy.stripe.com/4gM7sN9QhcqpeH1dZc6Zy00" class="nav-cta">Get FocusDeck — $17</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-tag">
+      <div class="hero-dot"></div>
+      <span>Neuroscience-Backed · Built From Obsession · Tested First</span>
+    </div>
+    <h1 class="hero-title">
+      <span class="w1">FOCUS</span>
+      <span class="w2">DECK.</span>
+    </h1>
+    <p class="hero-sub">The Four-Pillar System For Deep Work & Daily Execution</p>
+    <p class="hero-hook">You are not lazy. You are not broken. You are running a <strong>200,000-year-old attention system</strong> inside a world engineered to steal it.</p>
+    <p class="hero-sub-hook">This is the system I built to take it back — after a year of studying neuroscience, productivity frameworks, and the psychology of attention. I lived it before I sold it.</p>
+    <a href="https://buy.stripe.com/4gM7sN9QhcqpeH1dZc6Zy00" class="btn-buy">
+      <span class="btn-buy-main">Get Instant Access — $17</span>
+      <span class="btn-buy-sub">One-time payment · Download immediately</span>
+    </a>
+    <div class="hero-trust">
+      <span class="trust-item"><span class="trust-icon">✓</span> No subscription</span>
+      <span class="trust-item"><span class="trust-icon">✓</span> Instant download</span>
+      <span class="trust-item"><span class="trust-icon">✓</span> Built by someone who lived it</span>
+      <span class="trust-item"><span class="trust-icon">🔒</span> Secured by Stripe</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PAIN -->
+<section class="section">
+  <div class="section-inner">
+    <span class="section-label fade-up">Sound Familiar?</span>
+    <h2 class="section-title fade-up">THIS IS WHAT <em>BROKEN</em> LOOKS LIKE.</h2>
+    <div class="pain-grid fade-up">
+      <div class="pain-item">
+        <span class="pain-icon">🔄</span>
+        <div><div class="pain-title">System Hopping</div><div class="pain-desc">"I've tried Notion, Pomodoro, bullet journals, 10 apps. Nothing sticks." You spend more time setting up systems than using them.</div></div>
+      </div>
+      <div class="pain-item">
+        <span class="pain-icon">📅</span>
+        <div><div class="pain-title">Great Mondays, Dead Wednesdays</div><div class="pain-desc">You plan hard, start strong, and lose the thread by midweek. Every week. The problem isn't motivation — it's architecture.</div></div>
+      </div>
+      <div class="pain-item">
+        <span class="pain-icon">🧠</span>
+        <div><div class="pain-title">AI Confusion</div><div class="pain-desc">"Everyone says use AI but nobody shows me how." The tools exist. The workflow doesn't. You need a system before the software.</div></div>
+      </div>
+      <div class="pain-item">
+        <span class="pain-icon">⏰</span>
+        <div><div class="pain-title">The Guilt Cycle</div><div class="pain-desc">"I feel busy all day but accomplish nothing meaningful." Activity is not progress. You're managing tasks, not outcomes.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- STORY -->
+<div class="story-section">
+  <div class="story-inner fade-up">
+    <span style="font-family:'Oswald',sans-serif;font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:rgba(200,255,0,0.6)">Why I Built This</span>
+    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,6vw,56px);line-height:0.92;margin:14px 0 24px;color:var(--white)">I LIVED THIS <span style="color:var(--lime)">BEFORE I SOLD IT.</span></h2>
+    <p>Four years ago I was grinding harder than I ever had — long days, late nights — and <strong>nothing in my life was moving forward.</strong> Idea after idea buried under the noise. I told myself I had discipline. I had chaos with a schedule on top.</p>
+    <p>So I went all in. I disappeared for almost a year. Studied neuroscience, meditation, productivity psychology, the science of attention. <strong>Not to write about it — to fix my own life first.</strong></p>
+    <div class="story-quote">
+      <p>"I didn't create the FocusDeck for you first. I created it for me. I used it every day until my decisions got faster, my execution got sharper, and the goals I'd been putting off started happening. Now it's yours."</p>
+      <cite>— Jason Johnson · jhigherlevel.com</cite>
+    </div>
+    <p>The FocusDeck is built on <strong>four pillars</strong> — not hacks, not apps, not motivation. The structural changes that actually rewire how you work.</p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- PILLARS -->
+<section class="section">
+  <div class="section-inner">
+    <span class="section-label fade-up">The System</span>
+    <h2 class="section-title fade-up">FOUR PILLARS. <em>ONE STACK.</em></h2>
+    <p class="section-body fade-up">Not a menu — a stack. Each pillar supports the next. Skip one and the whole thing leaks.</p>
+    <div class="pillars-grid">
+      <div class="pillar-card p1 fade-up">
+        <div class="pillar-num">01</div>
+        <div>
+          <div class="pillar-name">Clarity</div>
+          <div class="pillar-tag">Decide what matters. Eliminate the rest.</div>
+          <p class="pillar-desc">Most people are not overworked — they're <strong>over-committed to the wrong work.</strong> One outcome. Two tasks. One ruthless no — before the phone speaks to you. Every morning.</p>
+        </div>
+      </div>
+      <div class="pillar-card p2 fade-up">
+        <div class="pillar-num">02</div>
+        <div>
+          <div class="pillar-name">Cadence</div>
+          <div class="pillar-tag">Work with your biology, not against it.</div>
+          <p class="pillar-desc">Every 90 minutes your brain completes an ultradian cycle. <strong>Stop scheduling 8 hours of equal effort.</strong> Protect two peak windows. Defend them like your income depends on it — because it does.</p>
+        </div>
+      </div>
+      <div class="pillar-card p3 fade-up">
+        <div class="pillar-num">03</div>
+        <div>
+          <div class="pillar-name">Containment</div>
+          <div class="pillar-tag">Build walls around your attention.</div>
+          <p class="pillar-desc">Willpower is finite. Environment is not. <strong>The mere presence of your phone on the desk reduces working memory</strong> — even silent, even face-down. Distance is the fix. Design the room.</p>
+        </div>
+      </div>
+      <div class="pillar-card p4 fade-up">
+        <div class="pillar-num">04</div>
+        <div>
+          <div class="pillar-name">Compound</div>
+          <div class="pillar-tag">Small daily reps. Reviewed weekly.</div>
+          <p class="pillar-desc">A 1% improvement daily becomes 37x in a year. <strong>The math doesn't care if you believe it.</strong> 45 minutes of meta-work per week determines the value of the other 40 hours. Show up or don't.</p>
+        </div>
+      </div>
+    </div>
+    <div class="stats-row fade-up">
+      <div class="stat-item"><span class="stat-num">37x</span><span class="stat-lbl">1% daily gain / 1 year</span></div>
+      <div class="stat-item"><span class="stat-num">90m</span><span class="stat-lbl">Ultradian deep work cycle</span></div>
+      <div class="stat-item"><span class="stat-num">45m</span><span class="stat-lbl">Weekly meta-work reset</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WHATS INSIDE -->
+<section class="section" style="background:var(--dark)">
+  <div class="section-inner">
+    <span class="section-label fade-up">What's Inside</span>
+    <h2 class="section-title fade-up">EVERYTHING YOU <em>NEED.</em></h2>
+    <p class="section-body fade-up">One download. Everything connected. No separate PDFs to hunt through.</p>
+    <div class="inside-grid fade-up">
+      <div class="inside-item">
+        <span class="inside-check">✓</span>
+        <div><div class="inside-title">Complete FocusDeck Guide</div><div class="inside-desc">Full neuroscience-backed framework with your story, the science, and the system explained</div></div>
+      </div>
+      <div class="inside-item">
+        <span class="inside-check">✓</span>
+        <div><div class="inside-title">Clarity Template</div><div class="inside-desc">Daily outcome filter, priority stack, and the "not-to-do" list that clears your mental runway</div></div>
+      </div>
+      <div class="inside-item">
+        <span class="inside-check">✓</span>
+        <div><div class="inside-title">Cadence Template</div><div class="inside-desc">Energy peak mapping, deep work scheduling, and recovery rituals that restore — not drain</div></div>
+      </div>
+      <div class="inside-item">
+        <span class="inside-check">✓</span>
+        <div><div class="inside-title">Containment Template</div><div class="inside-desc">Environment design, distraction audit, delegation map, and your personal not-to-do list</div></div>
+      </div>
+      <div class="inside-item">
+        <span class="inside-check">✓</span>
+        <div><div class="inside-title">Compound Template + Tracker</div><div class="inside-desc">90-day compounding action, 12-week visual chain tracker, and wins log</div></div>
+      </div>
+      <div class="inside-item">
+        <span class="inside-check">✓</span>
+        <div><div class="inside-title">Day One Quick-Start Protocol</div><div class="inside-desc">5 actions to do before anything else — so you win in the first 24 hours</div></div>
+      </div>
+      <div class="inside-item">
+        <span class="inside-check">✓</span>
+        <div><div class="inside-title">90-Day Productivity Calendar</div><div class="inside-desc">Weekly structure, monthly resets, and the Friday review system that compounds everything</div></div>
+      </div>
+      <div class="inside-item">
+        <span class="inside-check">✓</span>
+        <div><div class="inside-title">The Field Guide</div><div class="inside-desc">7 proven principles — 80/20, time blocking, Eisenhower Matrix — wired into the system</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SCIENCE -->
+<div class="science-section">
+  <div class="section section-inner">
+    <span class="section-label fade-up">The Science</span>
+    <h2 class="section-title fade-up">NOT MOTIVATION. <em>NEUROSCIENCE.</em></h2>
+    <p class="section-body fade-up">Every pillar is backed by research — not hustle culture, not productivity Twitter. Real science applied to real work.</p>
+    <div class="science-grid fade-up">
+      <div class="science-card">
+        <span class="science-icon">🧬</span>
+        <div class="science-title">Ultradian Cycles</div>
+        <p class="science-text">Nathaniel Kleitman's research shows the brain cycles through <strong>90-minute peaks of cognitive readiness</strong>. The Cadence pillar is built entirely around this.</p>
+      </div>
+      <div class="science-card">
+        <span class="science-icon">📱</span>
+        <div class="science-title">Phone Proximity Effect</div>
+        <p class="science-text">University of Texas study: <strong>phone on your desk reduces working memory</strong> even face-down, even silent. Containment is the structural fix.</p>
+      </div>
+      <div class="science-card">
+        <span class="science-icon">🔋</span>
+        <div class="science-title">Decision Fatigue</div>
+        <p class="science-text">The prefrontal cortex runs on limited glucose. Every micro-decision before deep work <strong>costs real cognitive fuel.</strong> Clarity eliminates that tax.</p>
+      </div>
+      <div class="science-card">
+        <span class="science-icon">📈</span>
+        <div class="science-title">Compound Effect</div>
+        <p class="science-text">1.01 to the power of 365 = 37.78. <strong>1% better daily for one year</strong> makes you 37 times more capable. The Compound pillar is the math made operational.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- CHECKOUT BOX -->
+<div class="checkout-section" id="get">
+  <div class="checkout-box fade-up">
+    <div class="checkout-header">
+      <div class="checkout-title">FOCUSDECK — THE FOCUS STACK</div>
+      <div class="checkout-price">$17<span> USD</span></div>
+    </div>
+    <div class="checkout-body">
+      <div class="checkout-includes">
+        <div class="ci-item"><span class="ci-check">✓</span> Complete FocusDeck Premium Guide</div>
+        <div class="ci-item"><span class="ci-check">✓</span> All 4 Pillar Templates with coaching prompts</div>
+        <div class="ci-item"><span class="ci-check">✓</span> 90-Day Productivity Calendar</div>
+        <div class="ci-item"><span class="ci-check">✓</span> Day One Quick-Start Protocol</div>
+        <div class="ci-item"><span class="ci-check">✓</span> 12-Week Compound Tracker</div>
+        <div class="ci-item"><span class="ci-check">✓</span> The Field Guide — 7 Proven Principles</div>
+        <div class="ci-item"><span class="ci-check">✓</span> Instant download — access in 60 seconds</div>
+      </div>
+      <a href="https://buy.stripe.com/4gM7sN9QhcqpeH1dZc6Zy00" class="checkout-btn">Get Instant Access Now →</a>
+      <div class="checkout-guarantee">
+        <span class="guarantee-icon">🛡️</span>
+        <div class="guarantee-text">
+          <strong>Built by someone who lived it first.</strong>
+          This isn't a recycled template pack. It's a system I built for myself, tested on my own life, and refined over four years. If you do the work, it works.
+        </div>
+      </div>
+      <div class="checkout-trust">
+        <span>🔒 Secured by Stripe</span>
+        <span>⚡ Instant delivery</span>
+        <span>💳 All major cards accepted</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- AUTHOR -->
+<div class="author-section">
+  <div class="author-inner">
+    <span class="section-label fade-up">Who Built This</span>
+    <h2 class="section-title fade-up">JASON <em>JOHNSON.</em></h2>
+    <div class="author-card fade-up">
+      <div class="author-avatar">JJ</div>
+      <div>
+        <div class="author-name">JASON JOHNSON</div>
+        <div class="author-title">Affiliate Marketing Mentor · AI Educator · jhigherlevel.com</div>
+        <div class="author-bio">
+          <p>I'm a high-energy affiliate marketing mentor and AI educator. My mission is to help <strong>everyday people master AI, build income online, and fire their boss.</strong></p>
+          <p>I teach vision first, tactics second — making complex tools simple, profitable, and practical. I value truth over comfort, action over talk, and clarity over hype.</p>
+          <p>The FocusDeck is the foundation everything else is built on. <strong>You cannot build an online business in the gaps between distractions.</strong> This is the system that clears the runway.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- FAQ -->
+<section class="section">
+  <div class="section-inner">
+    <span class="section-label fade-up">Questions</span>
+    <h2 class="section-title fade-up">STRAIGHT <em>ANSWERS.</em></h2>
+    <div class="faq-list fade-up">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What exactly do I get? <span class="faq-icon">+</span></div>
+        <div class="faq-a">A complete digital system — the FocusDeck Premium Guide, all 4 pillar templates with interactive coaching prompts, a 90-day productivity calendar, the Day One Quick-Start protocol, and a 12-week compound tracker. Everything in one download. No hunting through separate files.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Is this a PDF or something I can actually use? <span class="faq-icon">+</span></div>
+        <div class="faq-a">It's an interactive HTML file — meaning you open it in any browser and fill it in directly. You can also print it. It's designed to be used, not just read. Every worksheet has coaching prompts that push you toward a real answer, not a lazy one.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">I've tried productivity systems before. Why is this different? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Most productivity systems are built around tasks. The FocusDeck is built around energy, attention, and outcomes — the three things that actually determine whether your day moves the needle. It's also backed by neuroscience research, not hustle culture opinions.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">How fast can I get started? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Immediately. You pay through Stripe, get access in 60 seconds, and there's a Day One Quick-Start protocol on page one that tells you exactly what to do in the first 24 hours. No "read the whole thing first" required.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Why only $17? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Because the mission is access, not extraction. I want this in the hands of people who actually need it — not just people who can afford a $197 course. The system works at $17 the same way it works at $197. The price isn't the point. The results are.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<div class="final-cta">
+  <div class="final-inner">
+    <div class="final-title">STOP LOSING YOUR BEST HOURS.</div>
+    <p class="final-sub">The FocusDeck is the system I wish I had four years ago. <strong>$17. One-time. Instant access.</strong> No subscription. No fluff. Just the four pillars that actually work.</p>
+    <a href="https://buy.stripe.com/4gM7sN9QhcqpeH1dZc6Zy00" class="btn-dark">Get FocusDeck Now — $17 →</a>
+    <p class="final-note">Secured by Stripe · Instant download · Built from obsession</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <a href="index.html" class="footer-brand">J HIGHER LEVEL</a>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="audit.html">Free Audit</a>
+      <a href="thankyou.html">After Purchase</a>
+    </div>
+    <div class="footer-copy">© 2026 Jason Johnson · jhigherlevel.com</div>
+  </div>
+</footer>
+
+<script>
+function toggleFaq(el){
+  const ans = el.nextElementSibling;
+  const icon = el.querySelector('.faq-icon');
+  ans.classList.toggle('open');
+  icon.classList.toggle('open');
+}
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:0.1});
+document.querySelectorAll('.fade-up').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
