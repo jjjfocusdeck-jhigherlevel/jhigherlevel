@@ -168,7 +168,6 @@ footer{background:var(--dark);border-top:1px solid var(--border);padding:28px 24
 
 <div class="audit-wrap">
 
-  <!-- PROGRESS -->
   <div class="progress-wrap" id="progress-wrap" style="display:none">
     <div class="progress-header">
       <span class="progress-label">Your Progress</span>
@@ -177,7 +176,6 @@ footer{background:var(--dark);border-top:1px solid var(--border);padding:28px 24
     <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
   </div>
 
-  <!-- INTRO -->
   <div class="screen active" id="screen-intro">
     <div class="intro-card">
       <span class="intro-icon">🎯</span>
@@ -193,7 +191,6 @@ footer{background:var(--dark);border-top:1px solid var(--border);padding:28px 24
     </div>
   </div>
 
-  <!-- QUESTION -->
   <div class="screen" id="screen-q">
     <div class="q-pillar" id="q-pillar"></div>
     <div class="q-text" id="q-text"></div>
@@ -202,7 +199,6 @@ footer{background:var(--dark);border-top:1px solid var(--border);padding:28px 24
     <button class="next-btn" id="next-btn" onclick="nextQ()">Next →</button>
   </div>
 
-  <!-- EMAIL CAPTURE (between score and result) -->
   <div class="screen" id="screen-email">
     <div class="email-screen">
       <div class="email-title">YOUR SCORE IS <span>READY.</span></div>
@@ -217,7 +213,6 @@ footer{background:var(--dark);border-top:1px solid var(--border);padding:28px 24
     </div>
   </div>
 
-  <!-- RESULT -->
   <div class="screen" id="screen-result">
     <div class="result-header">
       <div class="score-ring">
@@ -243,7 +238,7 @@ footer{background:var(--dark);border-top:1px solid var(--border);padding:28px 24
       <div class="result-cta-label">The fix is inside</div>
       <div class="result-cta-title">GET THE FOCUSDECK — $17</div>
       <p class="result-cta-body">The complete 4-pillar system. Templates, tracker, 90-day calendar, and the Day One protocol that gets you winning in the first 24 hours.</p>
-      <a href="https://buy.stripe.com/4gM7sN9QhcqpeH1dZc6Zy00" class="buy-btn">Get Instant Access — $17 →</a>
+      <a href="https://automatehigher.gumroad.com/l/focusdeck" class="buy-btn">Get Instant Access — $17 →</a>
     </div>
 
     <div class="retake">
@@ -334,7 +329,6 @@ function submitEmail(){
     document.getElementById('email-addr').style.borderColor='rgba(255,100,100,0.5)';
     return;
   }
-  // Email captured — in production connect to your email platform here
   showResult();
 }
 
@@ -353,7 +347,6 @@ function showResult(){
   pillarNames.forEach(p=>{pillarAvg[p]=Math.round(pillarScores[p].total/pillarScores[p].count)});
   const overall = Math.round(Object.values(pillarAvg).reduce((a,b)=>a+b,0)/4);
 
-  // Animate score
   let count = 0;
   const timer = setInterval(()=>{
     count += 2;
@@ -376,7 +369,6 @@ function showResult(){
   gradeEl.style.color = overall<35?'#ff4444':overall<55?'#EF9F27':'#C8FF00';
   document.getElementById('result-desc').textContent = desc;
 
-  // Pillar breakdown
   document.getElementById('pillar-breakdown').innerHTML = pillarNames.map(p=>`
     <div class="pb-item">
       <div class="pb-name" style="color:${pillarColors[p]}">${p}</div>
@@ -384,7 +376,6 @@ function showResult(){
       <div class="pb-score">${pillarAvg[p]}</div>
     </div>`).join('');
 
-  // Biggest leak
   const weakest = pillarNames.reduce((a,b)=>pillarAvg[a]<pillarAvg[b]?a:b);
   const leaks = {
     Clarity:'Your biggest leak is Clarity — you\'re starting each day without a filter. Every distraction looks as important as your real work. Fix this first and everything else gets easier instantly.',
