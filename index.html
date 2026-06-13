@@ -1,1 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jason Johnson — J Higher Level</title>
+<meta name="description" content="From the streets to the penthouse. FocusDeck is the system Jason Johnson built coming back from the bottom. Get it for $17.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap');
 
+:root {
+  --black: #080808;
+  --dark: #111;
+  --card: #141414;
+  --lime: #C8FF00;
+  --lime-dim: rgba(200,255,0,0.08);
+  --white: #ffffff;
+  --muted: rgba(255,255,255,0.5);
+  --border: rgba(255,255,255,0.07);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 24px;display:flex;justify-content:space-between;align-items:center;background:rgba(8,8,8,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-brand{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--lime);text-decoration:none}
+.nav-links{display:flex;align-items:center;gap:24px}
+.nav-links a{font-size:13px;color:var(--muted);text-decoration:none;letter-spacing:1px;font-weight:500;transition:color 0.2s}
+.nav-links a:hover{color:var(--white)}
+.nav-cta{background:var(--lime)!important;color:var(--black)!important;padding:8px 18px;font-family:'Oswald',sans-serif;font-weight:700;letter-spacing:2px;text-transform:uppercase;font-size:12px!important}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:100px 24px 60px}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(200,255,0,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(200,255,0,0.03) 1px,transparent 1px);background-size:40px 40px}
+.hero-glow{position:absolute;top:-200px;right:-100px;width:600px;height:600px;background:radial-gradient(circle,rgba(200,255,0,0.06) 0%,transparent 70%);pointer-events:none}
+.hero-content{max-width:800px;margin:0 auto;position:relative;z-index:2}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:var(--lime-dim);border:0.5px solid rgba(200,255,0,0.2);padding:6px 14px;margin-bottom:24px}
+.hero-tag span{font-family:'Oswald',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--lime)}
+.hero-dot{width:6px;height:6px;background:var(--lime);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(64px,12vw,110px);line-height:0.88;letter-spacing:1px;margin-bottom:8px}
+.hero-title .w1{color:var(--white)}
+.hero-title .w2{color:var(--lime);display:block}
+.hero-title .w3{color:var(--white);display:block}
+.hero-sub{font-family:'Oswald',sans-serif;font-size:18px;font-weight:300;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin:20px 0 32px;border-left:3px solid var(--lime);padding-left:16px}
+.hero-body{font-size:16px;color:rgba(255,255,255,0.65);line-height:1.8;max-width:560px;margin-bottom:40px}
+.hero-body strong{color:var(--white);font-weight:500}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-primary{background:var(--lime);color:var(--black);font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:16px 32px;text-decoration:none;display:inline-block;transition:background 0.2s}
+.btn-primary:hover{background:#d4ff33}
+.btn-secondary{background:transparent;color:var(--white);font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:16px 32px;text-decoration:none;display:inline-block;border:1px solid rgba(255,255,255,0.2);transition:border-color 0.2s}
+.btn-secondary:hover{border-color:rgba(255,255,255,0.5)}
+
+/* DIVIDER */
+.divider{width:100%;height:1px;background:var(--border);margin:0}
+
+/* SECTIONS */
+.section{padding:80px 24px;position:relative}
+.section-inner{max-width:800px;margin:0 auto}
+.section-label{font-family:'Oswald',sans-serif;font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:rgba(200,255,0,0.6);margin-bottom:16px;display:block}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,7vw,64px);line-height:0.92;margin-bottom:24px}
+.section-title em{color:var(--lime);font-style:normal}
+.section-body{font-size:16px;color:rgba(255,255,255,0.65);line-height:1.8;max-width:580px}
+.section-body strong{color:var(--white);font-weight:500}
+
+/* STORY */
+.story-section{background:var(--dark);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;margin-top:48px}
+@media(max-width:600px){.story-grid{grid-template-columns:1fr}}
+.story-quote{border-left:3px solid var(--lime);padding:20px 24px;background:var(--lime-dim)}
+.story-quote p{font-size:17px;font-style:italic;color:rgba(255,255,255,0.85);line-height:1.7}
+.story-quote cite{font-size:11px;color:var(--lime);letter-spacing:2px;text-transform:uppercase;font-style:normal;display:block;margin-top:12px;font-family:'Oswald',sans-serif;font-weight:700}
+.story-points{display:grid;gap:12px}
+.story-item{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:var(--card);border:0.5px solid var(--border)}
+.story-icon{color:var(--lime);font-size:16px;flex-shrink:0;margin-top:2px}
+.story-text{font-size:14px;color:rgba(255,255,255,0.7);line-height:1.6}
+.story-text strong{color:var(--white);font-weight:600;display:block;font-size:13px;letter-spacing:1px;text-transform:uppercase;font-family:'Oswald',sans-serif;margin-bottom:2px}
+
+/* PRODUCT */
+.product-section{background:var(--dark);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.product-card{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+@media(max-width:640px){.product-card{grid-template-columns:1fr}}
+.product-badge{display:inline-block;background:var(--lime);color:var(--black);font-family:'Oswald',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:5px 12px;margin-bottom:20px}
+.product-title{font-family:'Bebas Neue',sans-serif;font-size:56px;line-height:0.9;color:var(--white);margin-bottom:8px;letter-spacing:1px}
+.product-title span{color:var(--lime);display:block}
+.product-tagline{font-family:'Oswald',sans-serif;font-size:15px;font-weight:300;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:20px;border-left:2px solid var(--lime);padding-left:12px}
+.product-desc{font-size:15px;color:rgba(255,255,255,0.65);line-height:1.75;margin-bottom:28px}
+.product-includes{display:grid;gap:8px;margin-bottom:28px}
+.include-item{display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,0.7)}
+.include-check{color:var(--lime);font-weight:700;flex-shrink:0}
+.product-price{display:flex;align-items:baseline;gap:8px;margin-bottom:20px}
+.price-num{font-family:'Bebas Neue',sans-serif;font-size:52px;color:var(--lime);line-height:1}
+.price-label{font-size:13px;color:var(--muted);letter-spacing:1px}
+.product-visual{background:var(--card);border:0.5px solid var(--border);padding:32px;position:relative}
+.pv-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding-bottom:16px;border-bottom:0.5px solid var(--border)}
+.pv-title{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--lime);letter-spacing:1px}
+.pv-tag{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
+.pv-pillars{display:grid;gap:10px}
+.pv-pillar{display:flex;align-items:center;gap:12px;padding:10px 12px;background:rgba(255,255,255,0.03);border:0.5px solid var(--border)}
+.pv-num{font-family:'Bebas Neue',sans-serif;font-size:20px;min-width:28px}
+.pv-name{font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.pv-desc{font-size:11px;color:var(--muted);margin-top:1px}
+
+/* COMMANDMENTS */
+.cmd-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:40px}
+@media(max-width:600px){.cmd-grid{grid-template-columns:1fr}}
+.cmd-item{background:var(--card);border:0.5px solid var(--border);padding:16px 18px;display:grid;grid-template-columns:36px 1fr;gap:10px;align-items:start}
+.cmd-num{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--lime);line-height:1}
+.cmd-title{font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--white);margin-bottom:3px}
+.cmd-text{font-size:13px;color:rgba(255,255,255,0.55);line-height:1.55;padding-top:4px}
+
+/* CTA */
+.cta-section{background:var(--lime);padding:64px 24px;text-align:center}
+.cta-inner{max-width:600px;margin:0 auto}
+.cta-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,8vw,72px);color:var(--black);line-height:0.9;margin-bottom:16px;letter-spacing:1px}
+.cta-sub{font-size:16px;color:rgba(0,0,0,0.6);line-height:1.6;margin-bottom:32px}
+.cta-sub strong{color:var(--black)}
+.btn-dark{background:var(--black);color:var(--lime);font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:18px 40px;text-decoration:none;display:inline-block;transition:background 0.2s}
+.btn-dark:hover{background:#1a1a1a}
+.cta-note{font-size:12px;color:rgba(0,0,0,0.45);margin-top:16px;letter-spacing:1px}
+
+/* FOOTER */
+footer{background:var(--dark);border-top:1px solid var(--border);padding:40px 24px}
+.footer-inner{max-width:800px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+.footer-brand{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--lime);letter-spacing:2px}
+.footer-links{display:flex;gap:20px}
+.footer-links a{font-size:12px;color:var(--muted);text-decoration:none;letter-spacing:1px;text-transform:uppercase}
+.footer-links a:hover{color:var(--white)}
+.footer-copy{font-size:11px;color:rgba(255,255,255,0.2);letter-spacing:1px;text-align:right}
+@media(max-width:600px){.footer-inner{flex-direction:column;text-align:center}.footer-copy{text-align:center}}
+
+/* FADE */
+.fade-up{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease,transform 0.6s ease}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-brand">J HIGHER LEVEL</a>
+  <div class="nav-links">
+    <a href="#story">My Story</a>
+    <a href="#focusdeck">FocusDeck</a>
+    <a href="https://automatehigher.gumroad.com/l/focusdeck" class="nav-cta">Get FocusDeck — $17</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-tag">
+      <div class="hero-dot"></div>
+      <span>From the Streets to the Penthouse</span>
+    </div>
+    <h1 class="hero-title">
+      <span class="w1">FOCUS</span>
+      <span class="w2">CHANGES</span>
+      <span class="w3">EVERYTHING.</span>
+    </h1>
+    <p class="hero-sub">The System Built to Take You From the Streets to the Penthouse</p>
+    <p class="hero-body">
+      I came back from the bottom — years in and out of jail, deep in addiction, no direction, no system.
+      <strong>God took me through it so I could help you get through it.</strong>
+      FocusDeck is what I built on the way back up. Now it's yours.
+    </p>
+    <div class="hero-btns">
+      <a href="https://automatehigher.gumroad.com/l/focusdeck" class="btn-primary">Get FocusDeck — $17</a>
+      <a href="audit.html" class="btn-secondary">Take the Free Audit</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- STORY -->
+<section class="section story-section" id="story">
+  <div class="section-inner">
+    <span class="section-label fade-up">My Story</span>
+    <h2 class="section-title fade-up">I LIVED IT BEFORE <em>I SOLD IT.</em></h2>
+    <p class="section-body fade-up">I'm not here to sell you a dream. I'm here to hand you the system I wish I had when I was starting over — built from the bottom up, tested on my own life first.</p>
+    <div class="story-grid fade-up">
+      <div class="story-points">
+        <div class="story-item">
+          <span class="story-icon">🔗</span>
+          <div class="story-text">
+            <strong>The Bottom</strong>
+            Years in and out of jail, deep in drug addiction. No direction. No system. No foundation to stand on.
+          </div>
+        </div>
+        <div class="story-item">
+          <span class="story-icon">💡</span>
+          <div class="story-text">
+            <strong>The Shift</strong>
+            I knew I had to change my way of thinking — not just my habits, my entire mindset. So I went all in and studied everything about focus, neuroscience, and how people actually change.
+          </div>
+        </div>
+        <div class="story-item">
+          <span class="story-icon">🔑</span>
+          <div class="story-text">
+            <strong>The System</strong>
+            FocusDeck came out the other side. Four pillars that gave me clarity, structure, and the ability to actually execute. My life is better than it has ever been.
+          </div>
+        </div>
+        <div class="story-item">
+          <span class="story-icon">🙏</span>
+          <div class="story-text">
+            <strong>The Mission</strong>
+            God took me through it so I could help you get through it. This is the system I wish I had. Now it's yours.
+          </div>
+        </div>
+      </div>
+      <div class="story-quote">
+        <p>"Take the free audit. Find your focus. Build your life. The streets don't have to be where your story ends — they can be where it starts."</p>
+        <cite>— Jason Johnson · jhigherlevel.com</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FOCUSDECK -->
+<section class="section product-section" id="focusdeck">
+  <div class="section-inner">
+    <div class="product-card">
+      <div class="fade-up">
+        <div class="product-badge">The System</div>
+        <div class="product-title">FOCUS<span>DECK.</span></div>
+        <p class="product-tagline">From the Streets to the Penthouse</p>
+        <p class="product-desc">A neuroscience-backed four-pillar system for deep work, energy management, and the quiet rebuilding of your attention — and your life. Built from obsession. Tested on myself first.</p>
+        <div class="product-includes">
+          <div class="include-item"><span class="include-check">✓</span> Complete Focus Framework Guide</div>
+          <div class="include-item"><span class="include-check">✓</span> 4 Pillar Templates — Clarity, Cadence, Containment, Compound</div>
+          <div class="include-item"><span class="include-check">✓</span> Interactive worksheets with coaching prompts</div>
+          <div class="include-item"><span class="include-check">✓</span> 90-Day Productivity Calendar</div>
+          <div class="include-item"><span class="include-check">✓</span> Day One Quick-Start Protocol</div>
+          <div class="include-item"><span class="include-check">✓</span> 12-Week Compound Tracker</div>
+        </div>
+        <div class="product-price">
+          <span class="price-num">$17</span>
+          <span class="price-label">One time · Instant access</span>
+        </div>
+        <a href="https://automatehigher.gumroad.com/l/focusdeck" class="btn-primary">Get Instant Access →</a>
+      </div>
+      <div class="product-visual fade-up">
+        <div class="pv-header">
+          <div class="pv-title">FOCUSDECK</div>
+          <div class="pv-tag">The Focus Stack</div>
+        </div>
+        <div class="pv-pillars">
+          <div class="pv-pillar">
+            <span class="pv-num" style="color:#C8FF00">01</span>
+            <div><div class="pv-name" style="color:#C8FF00">Clarity</div><div class="pv-desc">Decide what matters. Eliminate the rest.</div></div>
+          </div>
+          <div class="pv-pillar">
+            <span class="pv-num" style="color:#00E5C8">02</span>
+            <div><div class="pv-name" style="color:#00E5C8">Cadence</div><div class="pv-desc">Match work to your energy, not the clock.</div></div>
+          </div>
+          <div class="pv-pillar">
+            <span class="pv-num" style="color:#FF6B35">03</span>
+            <div><div class="pv-name" style="color:#FF6B35">Containment</div><div class="pv-desc">Build walls around attention. Defend them.</div></div>
+          </div>
+          <div class="pv-pillar">
+            <span class="pv-num" style="color:#A78BFA">04</span>
+            <div><div class="pv-name" style="color:#A78BFA">Compound</div><div class="pv-desc">Small daily reps. 37x in a year.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- COMMANDMENTS -->
+<section class="section">
+  <div class="section-inner">
+    <span class="section-label fade-up">How I Operate</span>
+    <h2 class="section-title fade-up">MY TEN <em>COMMANDMENTS.</em></h2>
+    <p class="section-body fade-up" style="margin-bottom:0">The rules I live by — in everything I build and everything I teach.</p>
+    <div class="cmd-grid">
+      <div class="cmd-item fade-up">
+        <div class="cmd-num">01</div>
+        <div><div class="cmd-title">God Over Money</div><div class="cmd-text">Build with purpose. The mission matters more than the margin.</div></div>
+      </div>
+      <div class="cmd-item fade-up">
+        <div class="cmd-num">02</div>
+        <div><div class="cmd-title">Love Yourself Enough to Be Alone</div><div class="cmd-text">Focus takes time alone. Solitude isn't isolation — it's where your best work lives.</div></div>
+      </div>
+      <div class="cmd-item fade-up">
+        <div class="cmd-num">03</div>
+        <div><div class="cmd-title">The Four Pillars Are Non-Negotiable</div><div class="cmd-text">Clarity. Cadence. Containment. Compound. These aren't suggestions. They're the foundation.</div></div>
+      </div>
+      <div class="cmd-item fade-up">
+        <div class="cmd-num">04</div>
+        <div><div class="cmd-title">If It's Worth Doing, Do It to the Extreme</div><div class="cmd-text">Half-in is the same as out. Commit or don't start.</div></div>
+      </div>
+      <div class="cmd-item fade-up">
+        <div class="cmd-num">05</div>
+        <div><div class="cmd-title">If It Doesn't Add to Your Life, Move On</div><div class="cmd-text">Protect your time like it's your last dollar. What doesn't serve you costs you.</div></div>
+      </div>
+      <div class="cmd-item fade-up">
+        <div class="cmd-num">06</div>
+        <div><div class="cmd-title">Dreams Are Meant to Become Reality</div><div class="cmd-text">A dream without a plan is just a wish. Build the bridge.</div></div>
+      </div>
+      <div class="cmd-item fade-up">
+        <div class="cmd-num">07</div>
+        <div><div class="cmd-title">Don't Look Back — The Path Is Forward</div><div class="cmd-text">Learn from it. Leave it. Move.</div></div>
+      </div>
+      <div class="cmd-item fade-up">
+        <div class="cmd-num">08</div>
+        <div><div class="cmd-title">Today Is the Day. Now Is the Time.</div><div class="cmd-text">Not next week. Not when it's perfect. Now.</div></div>
+      </div>
+      <div class="cmd-item fade-up">
+        <div class="cmd-num">09</div>
+        <div><div class="cmd-title">Patience + System Beats Speed + Hustle</div><div class="cmd-text">It's not about how hard or fast you go. It's about a system that actually works.</div></div>
+      </div>
+      <div class="cmd-item fade-up">
+        <div class="cmd-num">10</div>
+        <div><div class="cmd-title">Every Breath Is a Blessing — Don't Waste It</div><div class="cmd-text">You've got one shot at this life. Make it count.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-inner">
+    <div class="cta-title">READY TO BUILD YOUR LIFE?</div>
+    <p class="cta-sub">FocusDeck is the system I wish I had when I was starting over. <strong>$17. Instant access. No fluff.</strong> Just the four pillars that actually work.</p>
+    <a href="https://automatehigher.gumroad.com/l/focusdeck" class="btn-dark">Get FocusDeck Now →</a>
+    <p class="cta-note">One-time payment · Instant download · Built by someone who lived it</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">J HIGHER LEVEL</div>
+    <div class="footer-links">
+      <a href="#story">My Story</a>
+      <a href="#focusdeck">FocusDeck</a>
+      <a href="audit.html">Free Audit</a>
+    </div>
+    <div class="footer-copy">© 2026 Jason Johnson · jhigherlevel.com<br>Built from obsession. Tested on myself first.</div>
+  </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
