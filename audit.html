@@ -129,9 +129,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 24px;display:fl
 .email-input::placeholder{color:rgba(255,255,255,0.2)}
 .email-btn{background:var(--lime);color:var(--black);border:none;font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:15px;cursor:pointer;transition:background 0.2s}
 .email-btn:hover{background:#d4ff33}
+.email-btn:disabled{opacity:0.6;cursor:not-allowed}
 .email-skip{background:none;border:none;color:rgba(255,255,255,0.25);font-size:12px;letter-spacing:1px;cursor:pointer;margin-top:8px;text-decoration:underline;text-underline-offset:3px;font-family:'DM Sans',sans-serif}
 .email-skip:hover{color:rgba(255,255,255,0.5)}
 .email-privacy{font-size:11px;color:rgba(255,255,255,0.2);margin-top:8px;letter-spacing:0.5px}
+.email-msg{font-size:13px;margin-top:10px;padding:10px;display:none}
+.email-msg.success{color:#C8FF00;background:rgba(200,255,0,0.08);border:0.5px solid rgba(200,255,0,0.2)}
+.email-msg.error{color:#ff6b6b;background:rgba(255,107,107,0.08);border:0.5px solid rgba(255,107,107,0.2)}
 
 /* FOOTER */
 footer{background:var(--dark);border-top:1px solid var(--border);padding:28px 24px;text-align:center}
@@ -143,7 +147,7 @@ footer{background:var(--dark);border-top:1px solid var(--border);padding:28px 24
 
 <nav>
   <a href="index.html" class="nav-brand">J HIGHER LEVEL</a>
-  <a href="focusdeck.html" class="nav-cta">Get FocusDeck — $17</a>
+  <a href="https://automatehigher.gumroad.com/l/focusdeck" class="nav-cta">Get FocusDeck — $17</a>
 </nav>
 
 <div class="hero">
@@ -206,8 +210,9 @@ footer{background:var(--dark);border-top:1px solid var(--border);padding:28px 24
       <div class="email-form">
         <input type="text" class="email-input" id="email-name" placeholder="Your first name">
         <input type="email" class="email-input" id="email-addr" placeholder="Your best email address">
-        <button class="email-btn" onclick="submitEmail()">Send Me My Score →</button>
+        <button class="email-btn" id="email-submit-btn" onclick="submitEmail()">Send Me My Score →</button>
       </div>
+      <div class="email-msg" id="email-msg"></div>
       <button class="email-skip" onclick="showResult()">Skip — just show me the score</button>
       <p class="email-privacy">No spam. Unsubscribe anytime. Your info stays private.</p>
     </div>
@@ -254,6 +259,16 @@ footer{background:var(--dark);border-top:1px solid var(--border);padding:28px 24
 </footer>
 
 <script>
+// ─── MAILERLITE CONFIG ───────────────────────────────────────────────
+// Replace the value below with your NEW MailerLite API key
+const MAILERLITE_API_KEY = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiZjY1NTJmNTVmMmExZDNjYzE3NmUxNThkOTY2N2E5ZDNiMzFkN2VjNDA4NjA2NTZkOGYxODFmZjBhMmYwODA1MDZiMTI3YjM3M2I5ZDYwY2UiLCJpYXQiOjE3ODE2NjA2ODcuNDY3NTg1LCJuYmYiOjE3ODE2NjA2ODcuNDY3NTg5LCJleHAiOjQ5MzczMzQyODcuNDYzMzkyLCJzdWIiOiIyNDY3NDQ1Iiwic2NvcGVzIjpbXX0.BlwQ1HpiIKqW_3PYoeSGquTl2XqH_4notkHxJd1vACFV6aQ5fcCh5h29LAgd5EkyUJZafA5l4tHWeu_RR9GdxilzjbH6qhFbz1roh7iQqZ0WdGVjsVQ9Jk0szULj5Vng-Dz7_3lP-FpI8VP2xa-1GgVO5toWQxV2dWiQzo0fVNO1t4nQEF6CMEtsljvhUCx2CIJfzUx7qinGfWzGHWw8WmkbEvgdhd8SsogpUrPUFb70svNvy6YB_IPmc8rTDPshp620UKWhWkbT2ohkkLI3D5qvoKm5N0QqI984sFldVfyTqDkOGdL5k761Cb-aDtbRpZkrJMokb-olLbUpgo_mNihSGq-j4YeU7lpWYXk7MfObPrbVGheTUhLdjwHGdZAE7QE8LVMnCdUkaZAgivJqMfUZtLLT0YFYKMWMwFKIzLx4j2m24_hHoVi-PnpuRYT9Qd2-I7JlWrK2wc6RcCRTSGSNL1JvKsv4acdGDEMoSI30cw1b-gPquA6bVwbNt9nZSODLC-BahStcb7fPc1IwjBm_e2XYZ919QImR94QlM7xMk1Soy3hyZO7NXiKLgL6SpUwJO--bAA3m57mGxx66T9naIgPnicTsmk1ddwNbS3mB6xo1zDqVdcPfqi9t03lJgnpGQN74nivMutE6F0uBDIc98elC8k9sIo5vg6HfIXE';
+
+const MAILERLITE_GROUP_ID = '190502923920213755';
+
+// After email submit, redirect to Gumroad
+const GUMROAD_URL = 'https://automatehigher.gumroad.com/l/focusdeck';
+// ────────────────────────────────────────────────────────────────────
+
 const questions = [
   {pillar:'Clarity',color:'#C8FF00',q:'How do you start your morning?',hint:'Be honest — what actually happens before 10am.',opts:['I check my phone before I even sit up','I open email or Slack within 30 minutes','I have rough priorities but no real structure','I write my one outcome and two tasks before anything else']},
   {pillar:'Clarity',color:'#C8FF00',q:'How often do you end the day feeling like you moved forward?',hint:'Not busy. Actually moved the needle.',opts:['Almost never — I end most days frustrated','Maybe 1–2 days a week','About half the time','Most days I can point to real progress']},
@@ -264,7 +279,7 @@ const questions = [
   {pillar:'Compound',color:'#A78BFA',q:'Do you have a consistent morning startup ritual?',hint:'Something you do every single day before the work starts.',opts:['No — I just react to whatever hits first','I have one but skip it when things get busy','I do it most days','Every single day — non-negotiable']},
   {pillar:'Compound',color:'#A78BFA',q:'Do you do a weekly review of wins, losses, and priorities?',hint:'Not a vague "think about it" — an actual structured review.',opts:['Never thought about it','Occasionally — maybe once a month','Most Fridays','Every week — same time, same format']},
   {pillar:'Clarity',color:'#C8FF00',q:'How clear are you on your ONE most important goal right now?',hint:'Not a list. The one thing that filters every yes and no.',opts:['I have 6-10 things that all feel equally important','I have a goal but it feels vague and far away','I know it but rarely let it guide my daily decisions','Crystal clear — it filters every decision I make']},
-  {pillar:'Compound',color:'#A78BFA',q:'How long have you been trying to fix your focus?',hint:'Real talk.',opts:['Years — I keep trying new things but nothing sticks','A few months — found some things but still struggling','I recently started building structure and it\'s helping','I have a system and I refine it consistently']}
+  {pillar:'Compound',color:'#A78BFA',q:'How long have you been trying to fix your focus?',hint:'Real talk.',opts:["Years — I keep trying new things but nothing sticks","A few months — found some things but still struggling","I recently started building structure and it's helping","I have a system and I refine it consistently"]}
 ];
 
 const pillarNames = ['Clarity','Cadence','Containment','Compound'];
@@ -322,15 +337,65 @@ function nextQ(){
   showQuestion(current);
 }
 
-function submitEmail(){
+// ─── MAILERLITE INTEGRATION ──────────────────────────────────────────
+async function submitEmail(){
   const name = document.getElementById('email-name').value.trim();
   const email = document.getElementById('email-addr').value.trim();
+  const msgEl = document.getElementById('email-msg');
+  const btn = document.getElementById('email-submit-btn');
+
   if(!email || !email.includes('@')){
     document.getElementById('email-addr').style.borderColor='rgba(255,100,100,0.5)';
     return;
   }
-  showResult();
+
+  // Show loading state
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  msgEl.style.display = 'none';
+
+  try {
+    const payload = {
+      email: email,
+      fields: {
+        name: name || ''
+      }
+    };
+
+    // Add to group if group ID is set
+    if (MAILERLITE_GROUP_ID && MAILERLITE_GROUP_ID !== 'YOUR_MAILERLITE_GROUP_ID') {
+      payload.groups = [MAILERLITE_GROUP_ID];
+    }
+
+    const response = await fetch('https://connect.mailerlite.com/api/subscribers', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ' + MAILERLITE_API_KEY
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (response.ok || response.status === 201 || response.status === 200) {
+      // Success — redirect to Gumroad
+      window.location.href = GUMROAD_URL;
+    } else {
+      const data = await response.json();
+      throw new Error(data.message || 'Signup failed');
+    }
+  } catch (err) {
+    // If API fails, still show result (don't block the user)
+    console.error('MailerLite error:', err);
+    msgEl.textContent = 'Could not save your email — showing your score anyway.';
+    msgEl.className = 'email-msg error';
+    msgEl.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Send Me My Score →';
+    setTimeout(showResult, 1500);
+  }
 }
+// ────────────────────────────────────────────────────────────────────
 
 function showResult(){
   document.getElementById('screen-email').classList.remove('active');
@@ -360,9 +425,9 @@ function showResult(){
 
   let grade, desc;
   if(overall<35){grade='CRITICAL';desc='Your focus system is running on empty. The good news — a few structural changes will feel like a superpower almost immediately.';}
-  else if(overall<55){grade='LEAKING';desc='You have instincts but no system behind them. You\'re leaving serious hours — and income — on the table every single week.';}
-  else if(overall<75){grade='BUILDING';desc='You\'re closer than you think. A few targeted fixes across your weakest pillars will unlock a completely different level of output.';}
-  else{grade='LOCKED IN';desc='Strong foundation. Now it\'s about compounding — the small daily reps that make the gap between you and everyone else grow every week.';}
+  else if(overall<55){grade='LEAKING';desc="You have instincts but no system behind them. You're leaving serious hours — and income — on the table every single week.";}
+  else if(overall<75){grade='BUILDING';desc="You're closer than you think. A few targeted fixes across your weakest pillars will unlock a completely different level of output.";}
+  else{grade='LOCKED IN';desc="Strong foundation. Now it's about compounding — the small daily reps that make the gap between you and everyone else grow every week.";}
 
   const gradeEl = document.getElementById('result-grade');
   gradeEl.textContent = grade;
@@ -378,10 +443,10 @@ function showResult(){
 
   const weakest = pillarNames.reduce((a,b)=>pillarAvg[a]<pillarAvg[b]?a:b);
   const leaks = {
-    Clarity:'Your biggest leak is Clarity — you\'re starting each day without a filter. Every distraction looks as important as your real work. Fix this first and everything else gets easier instantly.',
-    Cadence:'Your biggest leak is Cadence — you\'re fighting your own biology. You\'re doing your hardest work in your lowest-energy windows and wasting your peak hours on shallow tasks.',
-    Containment:'Your biggest leak is Containment — your environment is working against you. Every device nearby is draining working memory even when you\'re not touching it. Distance is the fix.',
-    Compound:'Your biggest leak is Compound — you have no review loop. Without a weekly reset you\'re grinding without ever seeing your own progress or patterns. 45 minutes a week changes everything.'
+    Clarity:"Your biggest leak is Clarity — you're starting each day without a filter. Every distraction looks as important as your real work. Fix this first and everything else gets easier instantly.",
+    Cadence:"Your biggest leak is Cadence — you're fighting your own biology. You're doing your hardest work in your lowest-energy windows and wasting your peak hours on shallow tasks.",
+    Containment:"Your biggest leak is Containment — your environment is working against you. Every device nearby is draining working memory even when you're not touching it. Distance is the fix.",
+    Compound:"Your biggest leak is Compound — you have no review loop. Without a weekly reset you're grinding without ever seeing your own progress or patterns. 45 minutes a week changes everything."
   };
   document.getElementById('leak-text').textContent = leaks[weakest];
 }
