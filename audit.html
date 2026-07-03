@@ -118,24 +118,16 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 24px;display:fl
 .retake-btn{background:none;border:none;color:rgba(255,255,255,0.25);font-size:12px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-family:'DM Sans',sans-serif}
 .retake-btn:hover{color:rgba(255,255,255,0.5)}
 
-/* EMAIL CAPTURE */
+/* EMAIL HANDOFF SCREEN (now links out to Systeme.io instead of an inline form) */
 .email-screen{background:var(--card);border:0.5px solid var(--border);padding:28px;text-align:center}
 .email-title{font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--white);line-height:1;margin-bottom:8px}
 .email-title span{color:var(--lime)}
 .email-sub{font-size:14px;color:rgba(255,255,255,0.6);line-height:1.6;margin-bottom:24px}
-.email-form{display:flex;flex-direction:column;gap:10px}
-.email-input{background:rgba(255,255,255,0.04);border:0.5px solid var(--border);padding:14px 16px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:15px;outline:none;transition:border-color 0.2s;-webkit-appearance:none}
-.email-input:focus{border-color:rgba(200,255,0,0.4)}
-.email-input::placeholder{color:rgba(255,255,255,0.2)}
-.email-btn{background:var(--lime);color:var(--black);border:none;font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:15px;cursor:pointer;transition:background 0.2s}
+.email-btn{display:block;width:100%;background:var(--lime);color:var(--black);border:none;font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:15px;cursor:pointer;text-decoration:none;text-align:center;transition:background 0.2s}
 .email-btn:hover{background:#d4ff33}
-.email-btn:disabled{opacity:0.6;cursor:not-allowed}
-.email-skip{background:none;border:none;color:rgba(255,255,255,0.25);font-size:12px;letter-spacing:1px;cursor:pointer;margin-top:8px;text-decoration:underline;text-underline-offset:3px;font-family:'DM Sans',sans-serif}
+.email-skip{background:none;border:none;color:rgba(255,255,255,0.25);font-size:12px;letter-spacing:1px;cursor:pointer;margin-top:14px;text-decoration:underline;text-underline-offset:3px;font-family:'DM Sans',sans-serif}
 .email-skip:hover{color:rgba(255,255,255,0.5)}
-.email-privacy{font-size:11px;color:rgba(255,255,255,0.2);margin-top:8px;letter-spacing:0.5px}
-.email-msg{font-size:13px;margin-top:10px;padding:10px;display:none}
-.email-msg.success{color:#C8FF00;background:rgba(200,255,0,0.08);border:0.5px solid rgba(200,255,0,0.2)}
-.email-msg.error{color:#ff6b6b;background:rgba(255,107,107,0.08);border:0.5px solid rgba(255,107,107,0.2)}
+.email-privacy{font-size:11px;color:rgba(255,255,255,0.2);margin-top:14px;letter-spacing:0.5px}
 
 /* FOOTER */
 footer{background:var(--dark);border-top:1px solid var(--border);padding:28px 24px;text-align:center}
@@ -206,13 +198,8 @@ footer{background:var(--dark);border-top:1px solid var(--border);padding:28px 24
   <div class="screen" id="screen-email">
     <div class="email-screen">
       <div class="email-title">YOUR SCORE IS <span>READY.</span></div>
-      <p class="email-sub">Drop your email and I'll send you your full breakdown plus the exact fix for your weakest pillar. No spam. One email.</p>
-      <div class="email-form">
-        <input type="text" class="email-input" id="email-name" placeholder="Your first name">
-        <input type="email" class="email-input" id="email-addr" placeholder="Your best email address">
-        <button class="email-btn" id="email-submit-btn" onclick="submitEmail()">Send Me My Score →</button>
-      </div>
-      <div class="email-msg" id="email-msg"></div>
+      <p class="email-sub">Get your full breakdown — plus the exact fix for your weakest pillar — sent straight to your inbox. No spam. One email.</p>
+      <a href="#" class="email-btn" id="email-handoff-btn">Send Me My Score →</a>
       <button class="email-skip" onclick="showResult()">Skip — just show me the score</button>
       <p class="email-privacy">No spam. Unsubscribe anytime. Your info stays private.</p>
     </div>
@@ -259,15 +246,15 @@ footer{background:var(--dark);border-top:1px solid var(--border);padding:28px 24
 </footer>
 
 <script>
-// ─── MAILERLITE CONFIG ───────────────────────────────────────────────
-// Replace the value below with your NEW MailerLite API key
-const MAILERLITE_API_KEY = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiZjY1NTJmNTVmMmExZDNjYzE3NmUxNThkOTY2N2E5ZDNiMzFkN2VjNDA4NjA2NTZkOGYxODFmZjBhMmYwODA1MDZiMTI3YjM3M2I5ZDYwY2UiLCJpYXQiOjE3ODE2NjA2ODcuNDY3NTg1LCJuYmYiOjE3ODE2NjA2ODcuNDY3NTg5LCJleHAiOjQ5MzczMzQyODcuNDYzMzkyLCJzdWIiOiIyNDY3NDQ1Iiwic2NvcGVzIjpbXX0.BlwQ1HpiIKqW_3PYoeSGquTl2XqH_4notkHxJd1vACFV6aQ5fcCh5h29LAgd5EkyUJZafA5l4tHWeu_RR9GdxilzjbH6qhFbz1roh7iQqZ0WdGVjsVQ9Jk0szULj5Vng-Dz7_3lP-FpI8VP2xa-1GgVO5toWQxV2dWiQzo0fVNO1t4nQEF6CMEtsljvhUCx2CIJfzUx7qinGfWzGHWw8WmkbEvgdhd8SsogpUrPUFb70svNvy6YB_IPmc8rTDPshp620UKWhWkbT2ohkkLI3D5qvoKm5N0QqI984sFldVfyTqDkOGdL5k761Cb-aDtbRpZkrJMokb-olLbUpgo_mNihSGq-j4YeU7lpWYXk7MfObPrbVGheTUhLdjwHGdZAE7QE8LVMnCdUkaZAgivJqMfUZtLLT0YFYKMWMwFKIzLx4j2m24_hHoVi-PnpuRYT9Qd2-I7JlWrK2wc6RcCRTSGSNL1JvKsv4acdGDEMoSI30cw1b-gPquA6bVwbNt9nZSODLC-BahStcb7fPc1IwjBm_e2XYZ919QImR94QlM7xMk1Soy3hyZO7NXiKLgL6SpUwJO--bAA3m57mGxx66T9naIgPnicTsmk1ddwNbS3mB6xo1zDqVdcPfqi9t03lJgnpGQN74nivMutE6F0uBDIc98elC8k9sIo5vg6HfIXE';
-
-const MAILERLITE_GROUP_ID = '190502923920213755';
-
-// After email submit, redirect to Gumroad
-const GUMROAD_URL = 'https://automatehigher.gumroad.com/l/focusdeck';
+// ─── SYSTEME.IO CONFIG ────────────────────────────────────────────────
+// Paste the live, public URL of your Systeme.io funnel page that has
+// the email capture form on it (the one from your screenshot with
+// "Take the FREE Focus Audit"). This is just a normal page link — NOT
+// a secret — so it's safe to put directly in this file.
+const SYSTEME_FUNNEL_URL = 'https://higherlevelautomation.systeme.io/';
 // ────────────────────────────────────────────────────────────────────
+
+document.getElementById('email-handoff-btn').href = SYSTEME_FUNNEL_URL;
 
 const questions = [
   {pillar:'Clarity',color:'#C8FF00',q:'How do you start your morning?',hint:'Be honest — what actually happens before 10am.',opts:['I check my phone before I even sit up','I open email or Slack within 30 minutes','I have rough priorities but no real structure','I write my one outcome and two tasks before anything else']},
@@ -336,66 +323,6 @@ function nextQ(){
   }
   showQuestion(current);
 }
-
-// ─── MAILERLITE INTEGRATION ──────────────────────────────────────────
-async function submitEmail(){
-  const name = document.getElementById('email-name').value.trim();
-  const email = document.getElementById('email-addr').value.trim();
-  const msgEl = document.getElementById('email-msg');
-  const btn = document.getElementById('email-submit-btn');
-
-  if(!email || !email.includes('@')){
-    document.getElementById('email-addr').style.borderColor='rgba(255,100,100,0.5)';
-    return;
-  }
-
-  // Show loading state
-  btn.disabled = true;
-  btn.textContent = 'Sending...';
-  msgEl.style.display = 'none';
-
-  try {
-    const payload = {
-      email: email,
-      fields: {
-        name: name || ''
-      }
-    };
-
-    // Add to group if group ID is set
-    if (MAILERLITE_GROUP_ID && MAILERLITE_GROUP_ID !== 'YOUR_MAILERLITE_GROUP_ID') {
-      payload.groups = [MAILERLITE_GROUP_ID];
-    }
-
-    const response = await fetch('https://connect.mailerlite.com/api/subscribers', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer ' + MAILERLITE_API_KEY
-      },
-      body: JSON.stringify(payload)
-    });
-
-    if (response.ok || response.status === 201 || response.status === 200) {
-      // Success — redirect to Gumroad
-      window.location.href = GUMROAD_URL;
-    } else {
-      const data = await response.json();
-      throw new Error(data.message || 'Signup failed');
-    }
-  } catch (err) {
-    // If API fails, still show result (don't block the user)
-    console.error('MailerLite error:', err);
-    msgEl.textContent = 'Could not save your email — showing your score anyway.';
-    msgEl.className = 'email-msg error';
-    msgEl.style.display = 'block';
-    btn.disabled = false;
-    btn.textContent = 'Send Me My Score →';
-    setTimeout(showResult, 1500);
-  }
-}
-// ────────────────────────────────────────────────────────────────────
 
 function showResult(){
   document.getElementById('screen-email').classList.remove('active');
