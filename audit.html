@@ -199,8 +199,7 @@ footer{background:var(--dark);border-top:1px solid var(--border);padding:28px 24
     <div class="email-screen">
       <div class="email-title">YOUR SCORE IS <span>READY.</span></div>
       <p class="email-sub">Get your full breakdown — plus the exact fix for your weakest pillar — sent straight to your inbox. No spam. One email.</p>
-      <a href="#" class="email-btn" id="email-handoff-btn">Send Me My Score →</a>
-      <button class="email-skip" onclick="showResult()">Skip — just show me the score</button>
+      <a href="#" class="email-btn systeme-show-popup-24705261" id="email-handoff-btn">Send Me My Score →</a>
       <p class="email-privacy">No spam. Unsubscribe anytime. Your info stays private.</p>
     </div>
   </div>
@@ -247,26 +246,51 @@ footer{background:var(--dark);border-top:1px solid var(--border);padding:28px 24
 
 <script>
 // ─── SYSTEME.IO CONFIG ────────────────────────────────────────────────
-// Paste the live, public URL of your Systeme.io funnel page that has
-// the email capture form on it (the one from your screenshot with
-// "Take the FREE Focus Audit"). This is just a normal page link — NOT
-// a secret — so it's safe to put directly in this file.
-const SYSTEME_FUNNEL_URL = 'https://higherlevelautomation.systeme.io/';
+// Using the Systeme.io POPUP form (id 24705261) — it opens right on
+// top of this page via the "systeme-show-popup-24705261" class on the
+// button below, so there's no extra page in between anymore.
+// In Systeme.io, set that popup form's "redirect after signup" URL to:
+//   https://jhigherlevel.com/audit.html?score=ready
+// That's what tells this page to show the saved score once they submit.
 // ────────────────────────────────────────────────────────────────────
 
-document.getElementById('email-handoff-btn').href = SYSTEME_FUNNEL_URL;
+// Save the computed score to localStorage right after the quiz ends,
+// so it survives the round trip to Systeme.io and back.
+function saveScoreForHandoff(result){
+  try{
+    localStorage.setItem('focusdeck_audit_result', JSON.stringify({...result, ts:Date.now()}));
+  }catch(e){}
+}
+
+// On page load: if we're coming BACK from Systeme.io (?score=ready in
+// the URL) and we have a saved result, skip straight to the result
+// screen instead of restarting the quiz.
+window.addEventListener('DOMContentLoaded', ()=>{
+  const params = new URLSearchParams(window.location.search);
+  if(params.get('score') === 'ready'){
+    try{
+      const saved = JSON.parse(localStorage.getItem('focusdeck_audit_result'));
+      if(saved){
+        document.getElementById('screen-intro').classList.remove('active');
+        document.getElementById('screen-result').classList.add('active');
+        renderResult(saved);
+        return;
+      }
+    }catch(e){}
+  }
+});
 
 const questions = [
-  {pillar:'Clarity',color:'#C8FF00',q:'How do you start your morning?',hint:'Be honest — what actually happens before 10am.',opts:['I check my phone before I even sit up','I open email or Slack within 30 minutes','I have rough priorities but no real structure','I write my one outcome and two tasks before anything else']},
-  {pillar:'Clarity',color:'#C8FF00',q:'How often do you end the day feeling like you moved forward?',hint:'Not busy. Actually moved the needle.',opts:['Almost never — I end most days frustrated','Maybe 1–2 days a week','About half the time','Most days I can point to real progress']},
-  {pillar:'Cadence',color:'#00E5C8',q:'When do you do your hardest, most important work?',hint:'The work that actually builds your future.',opts:['Whenever I get a gap — usually late and rushed','In the afternoon when things slow down','I try to protect mornings but it rarely holds','I have 2 protected deep work blocks and I defend them']},
-  {pillar:'Cadence',color:'#00E5C8',q:'How do you recover between work sessions?',hint:'What actually happens when you take a break?',opts:['I scroll my phone — that counts right?','I push through without real breaks','I step away but still think about work','Screen-free recovery — walk, water, stretch']},
-  {pillar:'Containment',color:'#FF6B35',q:'Where is your phone when you work?',hint:'Right now. Honestly.',opts:['On my desk, face up, notifications on','On my desk face down — but I still check it','In my pocket or nearby','In another room or locked away during deep work']},
-  {pillar:'Containment',color:'#FF6B35',q:'How often do interruptions derail your focus?',hint:'People, notifications, random thoughts...',opts:['Constantly — I rarely get 20 uninterrupted minutes','A few times an hour','Once or twice a session','Rarely — I batch interruptions into one window']},
-  {pillar:'Compound',color:'#A78BFA',q:'Do you have a consistent morning startup ritual?',hint:'Something you do every single day before the work starts.',opts:['No — I just react to whatever hits first','I have one but skip it when things get busy','I do it most days','Every single day — non-negotiable']},
-  {pillar:'Compound',color:'#A78BFA',q:'Do you do a weekly review of wins, losses, and priorities?',hint:'Not a vague "think about it" — an actual structured review.',opts:['Never thought about it','Occasionally — maybe once a month','Most Fridays','Every week — same time, same format']},
-  {pillar:'Clarity',color:'#C8FF00',q:'How clear are you on your ONE most important goal right now?',hint:'Not a list. The one thing that filters every yes and no.',opts:['I have 6-10 things that all feel equally important','I have a goal but it feels vague and far away','I know it but rarely let it guide my daily decisions','Crystal clear — it filters every decision I make']},
-  {pillar:'Compound',color:'#A78BFA',q:'How long have you been trying to fix your focus?',hint:'Real talk.',opts:["Years — I keep trying new things but nothing sticks","A few months — found some things but still struggling","I recently started building structure and it's helping","I have a system and I refine it consistently"]}
+  {pillar:'Clarity',color:'#C8FF00',q:'How do you start your day?',hint:'Be honest — what actually happens before anything else.',opts:["I'm on my phone before I even get up","I'm reacting to whatever hits first — texts, calls, whoever needs something","I've got a rough idea what needs to happen, but no real plan","I know my one thing for the day before anything else gets my attention"]},
+  {pillar:'Clarity',color:'#C8FF00',q:'How often do you end the day feeling like you actually moved forward?',hint:"Not busy. Actually closer to where you're trying to go.",opts:['Almost never — most days end with me frustrated','Maybe 1–2 days a week','About half the time','Most days I can point to real progress']},
+  {pillar:'Cadence',color:'#00E5C8',q:'When do you handle the work that actually matters most?',hint:"The stuff that's building your future, not just putting out fires.",opts:['Whenever I get a random gap — usually late and rushed','After everything else is already handled','I try to protect time for it but it rarely holds',"I've got a set block for it and I defend it no matter what"]},
+  {pillar:'Cadence',color:'#00E5C8',q:"When you're working on something for an extended amount of time, how do you manage breaks for yourself?",hint:'What actually happens when you take a break?',opts:['I scroll my phone — that counts right?','I push through without a real break',"I step away but I'm still thinking about it",'I actually step away — no screen']},
+  {pillar:'Containment',color:'#FF6B35',q:"Where is your phone when you're trying to focus?",hint:'Right now. Honestly.',opts:['Right next to me, face up, notifications on','Face down but I still check it','In my pocket or nearby',"Somewhere I can't reach it"]},
+  {pillar:'Containment',color:'#FF6B35',q:'How often do interruptions pull you off track?',hint:'People, notifications, random thoughts...',opts:["Constantly — I can't get 20 minutes straight",'A few times an hour','Once or twice','Rarely — I handle interruptions in one batch, not all day']},
+  {pillar:'Compound',color:'#A78BFA',q:'Do you have something you do every single day before the day takes over?',hint:'Something you do every single day before anything else starts.',opts:['No — I just react to whatever hits first',"I've got one but skip it when things get hectic",'Most days','I have a routine that I do every morning']},
+  {pillar:'Compound',color:'#A78BFA',q:"Do you sit down once a week and look at what worked, what didn't, and what's next?",hint:'Not a vague "think about it" — an actual structured review.',opts:['Never thought about it','Occasionally — maybe once a month','Most weeks','Every week — same time']},
+  {pillar:'Clarity',color:'#C8FF00',q:'How clear are you on the ONE thing that matters most right now?',hint:'Not a list. The one thing that decides everything else.',opts:["I've got 6-10 things that all feel equally urgent",'I know it but it feels far away','I know it but it rarely guides what I actually do','Crystal clear — it decides everything else']},
+  {pillar:'Compound',color:'#A78BFA',q:'How long have you been trying to get this together?',hint:'Real talk.',opts:["Years — I keep trying new things and nothing sticks","A few months — found some stuff that's helping","I recently started building real structure","I have a system and I keep sharpening it"]}
 ];
 
 const pillarNames = ['Clarity','Cadence','Containment','Compound'];
@@ -319,15 +343,16 @@ function nextQ(){
     document.getElementById('screen-email').classList.add('active');
     document.getElementById('prog-fill').style.width='100%';
     document.getElementById('q-counter').textContent='Complete!';
+    // Score is ready — save it now so it survives the trip to Systeme.io.
+    saveScoreForHandoff(calculateScore());
     return;
   }
   showQuestion(current);
 }
 
-function showResult(){
-  document.getElementById('screen-email').classList.remove('active');
-  document.getElementById('screen-result').classList.add('active');
-
+// Pure calculation — no DOM writes. Used both right after the quiz
+// (to save for handoff) and when restoring a saved result.
+function calculateScore(){
   const pillarScores = {};
   pillarNames.forEach(p=>pillarScores[p]={total:0,count:0});
   questions.forEach((q,i)=>{
@@ -339,6 +364,23 @@ function showResult(){
   pillarNames.forEach(p=>{pillarAvg[p]=Math.round(pillarScores[p].total/pillarScores[p].count)});
   const overall = Math.round(Object.values(pillarAvg).reduce((a,b)=>a+b,0)/4);
 
+  let grade, desc;
+  if(overall<35){grade='CRITICAL';desc='Your focus system is running on empty. The good news — a few structural changes will feel like a superpower almost immediately.';}
+  else if(overall<55){grade='LEAKING';desc="You have instincts but no system behind them. You're leaving serious hours — and income — on the table every single week.";}
+  else if(overall<75){grade='BUILDING';desc="You're closer than you think. A few targeted fixes across your weakest pillars will unlock a completely different level of output.";}
+  else{grade='LOCKED IN';desc="Strong foundation. Now it's about compounding — the small daily reps that make the gap between you and everyone else grow every week.";}
+
+  const weakest = pillarNames.reduce((a,b)=>pillarAvg[a]<pillarAvg[b]?a:b);
+
+  return {overall, pillarAvg, grade, desc, weakest};
+}
+
+// Renders a calculated result onto the result screen. Works whether the
+// result came fresh from the quiz or was restored from localStorage
+// after the Systeme.io round trip.
+function renderResult(result){
+  const {overall, pillarAvg, grade, desc, weakest} = result;
+
   let count = 0;
   const timer = setInterval(()=>{
     count += 2;
@@ -349,12 +391,6 @@ function showResult(){
     const col = count<35?'#ff4444':count<60?'#EF9F27':'#C8FF00';
     document.getElementById('score-arc').setAttribute('stroke', col);
   }, 18);
-
-  let grade, desc;
-  if(overall<35){grade='CRITICAL';desc='Your focus system is running on empty. The good news — a few structural changes will feel like a superpower almost immediately.';}
-  else if(overall<55){grade='LEAKING';desc="You have instincts but no system behind them. You're leaving serious hours — and income — on the table every single week.";}
-  else if(overall<75){grade='BUILDING';desc="You're closer than you think. A few targeted fixes across your weakest pillars will unlock a completely different level of output.";}
-  else{grade='LOCKED IN';desc="Strong foundation. Now it's about compounding — the small daily reps that make the gap between you and everyone else grow every week.";}
 
   const gradeEl = document.getElementById('result-grade');
   gradeEl.textContent = grade;
@@ -368,7 +404,6 @@ function showResult(){
       <div class="pb-score">${pillarAvg[p]}</div>
     </div>`).join('');
 
-  const weakest = pillarNames.reduce((a,b)=>pillarAvg[a]<pillarAvg[b]?a:b);
   const leaks = {
     Clarity:"Your biggest leak is Clarity — you're starting each day without a filter. Every distraction looks as important as your real work. Fix this first and everything else gets easier instantly.",
     Cadence:"Your biggest leak is Cadence — you're fighting your own biology. You're doing your hardest work in your lowest-energy windows and wasting your peak hours on shallow tasks.",
@@ -388,5 +423,8 @@ function restartAudit(){
   document.getElementById('prog-fill').style.width='0%';
 }
 </script>
+
+<!-- Systeme.io popup form (opens on top of this page, no redirect needed) -->
+<script id="form-script-tag-24705261" src="https://higherlevelautomation.systeme.io/public/remote/page/42460373c0c901303e046fbad3ca48da331bd061.js"></script>
 </body>
 </html>
