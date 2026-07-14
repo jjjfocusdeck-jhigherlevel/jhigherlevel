@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J Higher Level — Pillar One: Clarity</title>
+    <style>
+        /* --- BRAND THEME CONFIGURATION (Clarity: Electric Cyan Highlight) --- */
+        :root {
+            --bg-color: #0a0a0a;
+            --surface-color: #121212;
+            --border-color: #222222;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --accent-color: #00f0ff; /* Electric Cyan */
+            --accent-muted: rgba(0, 240, 255, 0.1);
+            --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* --- CORE STYLES --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-stack);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* --- HEADER BLOCK --- */
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 2rem;
+        }
+
+        .brand-logo {
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- NAVIGATION --- */
+        .nav-bar {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            color: #000000;
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        /* --- ACTION UTILITIES --- */
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            background-color: var(--accent-color);
+            color: #000000;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            border-radius: 2px;
+            transition: transform 0.1s ease;
+        }
+
+        .btn-clear {
+            background-color: transparent;
+            color: #ff3366;
+            border: 1px solid rgba(255, 51, 102, 0.3);
+        }
+
+        .btn-clear:hover {
+            background-color: rgba(255, 51, 102, 0.1);
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        /* --- CARDS & STRUCTURAL BLOCKS --- */
+        .card {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border-radius: 6px;
+        }
+
+        .card-number {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 900;
+            background-color: var(--accent-muted);
+            color: var(--accent-color);
+            padding: 0.2rem 0.6rem;
+            border-radius: 2px;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--accent-color);
+            padding-left: 0.75rem;
+        }
+
+        p.card-instruction {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            margin-top: -1rem;
+        }
+
+        /* --- INPUTS & LABELS --- */
+        label {
+            display: block;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 0.9rem;
+            font-family: var(--font-stack);
+            font-size: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            transition: border-color 0.2s ease;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* --- SCORE CHECKLIST --- */
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 1.3rem;
+            height: 1.3rem;
+            accent-color: var(--accent-color);
+            cursor: pointer;
+            margin-top: 0.2rem;
+        }
+
+        .score-display {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .score-num {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--accent-color);
+        }
+
+        .score-status {
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* --- FOOTER INFO --- */
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 2rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* --- PRINT CONFIGURATION (PDF Export Optimization) --- */
+        @media print {
+            body {
+                background-color: #ffffff;
+                color: #000000;
+                padding: 0;
+            }
+            .nav-bar, .action-bar, .btn {
+                display: none !important;
+            }
+            .card {
+                background-color: #ffffff;
+                border: 1px solid #dddddd;
+                page-break-inside: avoid;
+            }
+            h2 {
+                border-left-color: #000000;
+            }
+            input[type="text"], textarea {
+                background-color: #ffffff;
+                border: 1px solid #888888;
+                color: #000000;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- HEADER BLOCK -->
+        <header>
+            <div class="brand-logo">◎ Pillar One</div>
+            <h1>Clarity Workspace</h1>
+            <p class="subtitle">Before you can defend your containment, you must know what you are fighting for. This cuts through the noise and anchors you to what actually matters.</p>
+        </header>
+
+        <!-- NAVIGATION -->
+        <div class="nav-bar">
+            <a href="templates.html" class="nav-btn">All Pillars</a>
+            <a href="clarity.html" class="nav-btn active">Clarity</a>
+            <a href="cadence.html" class="nav-btn">Cadence</a>
+            <a href="containment.html" class="nav-btn">Containment</a>
+            <a href="compound.html" class="nav-btn">Compound</a>
+        </div>
+
+        <!-- ACTION UTILITIES -->
+        <div class="action-bar">
+            <button class="btn btn-clear" id="clear-btn">Clear Workspace Data</button>
+            <button class="btn" onclick="window.print()">Print / Save PDF</button>
+        </div>
+
+        <!-- 01: MY SINGLE MOST IMPORTANT GOAL -->
+        <section class="card">
+            <span class="card-number">1</span>
+            <h2>Your #1 Focus This Quarter</h2>
+            <p class="card-instruction">One primary anchor. If you achieve nothing else this quarter, what would make it a successful foundation for your new life?</p>
+            
+            <div>
+                <label for="clarity-goal">My Single Most Important Goal</label>
+                <input type="text" id="clarity-goal" placeholder="e.g., Establishing spiritual stability, securing employment, or reclaiming daily routine...">
+            </div>
+            <div>
+                <label for="clarity-vision">What does success and alignment look like in 90 days?</label>
+                <input type="text" id="clarity-vision" placeholder="Be specific — what will you see, feel, or have accomplished?">
+            </div>
+        </section>
+
+        <!-- 02: TOP 3 PRIORITIES THIS WEEK -->
+        <section class="card">
+            <span class="card-number">2</span>
+            <h2>Top 3 Priorities This Week</h2>
+            <p class="card-instruction">These three daily devotions or tasks get completed before anything else. Protect these windows fiercely.</p>
+            
+            <div>
+                <label for="clarity-priority-1">Priority 1</label>
+                <input type="text" id="clarity-priority-1" placeholder="Define the absolute highest leverage win...">
+            </div>
+            <div>
+                <label for="clarity-priority-2">Priority 2</label>
+                <input type="text" id="clarity-priority-2" placeholder="Define the next step of discipline...">
+            </div>
+            <div>
+                <label for="clarity-priority-3">Priority 3</label>
+                <input type="text" id="clarity-priority-3" placeholder="Define the third non-negotiable step...">
+            </div>
+        </section>
+
+        <!-- 03: TRIGGERS & DISTRACTIONS -->
+        <section class="card">
+            <span class="card-number">3</span>
+            <h2>Triggers & Distractions Pulling You Away</h2>
+            <p class="card-instruction">Name what is actively trying to steal your focus or slide you backward. You cannot defeat what you haven't identified.</p>
+            
+            <div>
+                <label for="clarity-distract-1">Trigger 1</label>
+                <input type="text" id="clarity-distract-1" placeholder="e.g., Old environments, negative influences, or aimless screen time...">
+            </div>
+            <div>
+                <label for="clarity-distract-2">Trigger 2</label>
+                <input type="text" id="clarity-distract-2" placeholder="Identify the second point of vulnerability...">
+            </div>
+            <div>
+                <label for="clarity-distract-3">Trigger 3</label>
+                <input type="text" id="clarity-distract-3" placeholder="Identify the third point of vulnerability...">
+            </div>
+            <div>
+                <label for="clarity-distract-4">Trigger 4</label>
+                <input type="text" id="clarity-distract-4" placeholder="Identify the fourth point of vulnerability...">
+            </div>
+            <div>
+                <label for="clarity-distract-5">Trigger 5</label>
+                <input type="text" id="clarity-distract-5" placeholder="Identify the fifth point of vulnerability...">
+            </div>
+        </section>
+
+        <!-- 04: THE ONE VITAL ANCHOR -->
+        <section class="card">
+            <span class="card-number">4</span>
+            <h2>The One Vital Anchor</h2>
+            <p class="card-instruction">What single action, done consistently, will have the greatest impact on protecting your recovery and achieving your quarterly goal?</p>
+            
+            <div>
+                <label for="clarity-anchor">If I did only one thing consistently this quarter, it would be...</label>
+                <textarea id="clarity-anchor" placeholder="Be ruthlessly specific — what action, routine, or spiritual commitment holds your foundation together?"></textarea>
+            </div>
+            <div>
+                <label for="clarity-anchor-frequency">How often will I commit to it?</label>
+                <input type="text" id="clarity-anchor-frequency" placeholder="e.g., Every single morning at 6:00 AM, first 30 minutes of the day...">
+            </div>
+        </section>
+
+        <!-- 05: WHAT I AM SAYING NO TO -->
+        <section class="card">
+            <span class="card-number">5</span>
+            <h2>What I am Saying No To (The Boundaries)</h2>
+            <p class="card-instruction">Clarity isn't just about what you choose—it's about what you refuse. Define the people, habits, or locations you are locking out.</p>
+            
+            <div>
+                <label for="clarity-no-1">Boundary 1</label>
+                <input type="text" id="clarity-no-1" placeholder="I am saying no to...">
+            </div>
+            <div>
+                <label for="clarity-no-2">Boundary 2</label>
+                <input type="text" id="clarity-no-2" placeholder="I am saying no to...">
+            </div>
+            <div>
+                <label for="clarity-no-3">Boundary 3</label>
+                <input type="text" id="clarity-no-3" placeholder="I am saying no to...">
+            </div>
+            <div>
+                <label for="clarity-no-4">Boundary 4</label>
+                <input type="text" id="clarity-no-4" placeholder="I am saying no to...">
+            </div>
+        </section>
+
+        <!-- 06: CLARITY SCORE -->
+        <section class="card">
+            <span class="card-number">6</span>
+            <h2>Clarity Score</h2>
+            <p class="card-instruction">Be completely honest with yourself. Check each statement you can confirm right now to measure your operating clarity.</p>
+            
+            <div class="checklist-item">
+                <input type="checkbox" id="score-1" class="score-check">
+                <div>
+                    <label style="margin: 0; color: var(--text-main);" for="score-1">Clear One-Sentence Focus</label>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">I can state my #1 goal for this quarter in one sentence without hesitating.</p>
+                </div>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="score-2" class="score-check">
+                <div>
+                    <label style="margin: 0; color: var(--text-main);" for="score-2">Priorities Identified</label>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">I know the 3 specific priorities or devotions that will move me forward this week.</p>
+                </div>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="score-3" class="score-check">
+                <div>
+                    <label style="margin: 0; color: var(--text-main);" for="score-3">Clear Vision of Recovery</label>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">I have an exact, clear picture of what a stable and aligned life looks like in 90 days.</p>
+                </div>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="score-4" class="score-check">
+                <div>
+                    <label style="margin: 0; color: var(--text-main);" for="score-4">Triggers Named & Exposed</label>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">I have written out and named the main distractions and triggers trying to drag me down.</p>
+                </div>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="score-5" class="score-check">
+                <div>
+                    <label style="margin: 0; color: var(--text-main);" for="score-5">Anchor Habit Established</label>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">I know the single daily action that, done consistently, keeps my progress locked in.</p>
+                </div>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="score-6" class="score-check">
+                <div>
+                    <label style="margin: 0; color: var(--text-main);" for="score-6">Boundaries Maintained</label>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">I can confidently say no to any old environment, person, or habit that compromises my progress.</p>
+                </div>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="score-7" class="score-check">
+                <div>
+                    <label style="margin: 0; color: var(--text-main);" for="score-7">Weekly Foundation Review</label>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">I review my progress and realign with my goals at the start of every week.</p>
+                </div>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="score-8" class="score-check">
+                <div>
+                    <label style="margin: 0; color: var(--text-main);" for="score-8">High-Leverage Execution</label>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">I spend the majority of my focus on steps that build my foundation, not busywork.</p>
+                </div>
+            </div>
+
+            <!-- DYNAMIC CALCULATOR -->
+            <div class="score-display">
+                <div>
+                    <div class="score-status" id="score-text">Awaiting Reflection</div>
+                </div>
+                <div class="score-num" id="score-pct">0%</div>
+            </div>
+        </section>
+
+        <!-- FOOTER BLOCK -->
+        <footer>
+            <p>Your workspace autosaves locally in your browser. Complete privacy. No databases.</p>
+            <p style="margin-top: 0.5rem; font-weight: 800; color: var(--text-main);">J Higher Level &copy; 2026</p>
+        </footer>
+
+    </div>
+
+    <!-- --- AUTO-SAVE LOCAL STORAGE & SCORE CALCULATOR SCRIPT --- -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const storageKeyPrefix = 'focusdeck_clarity_';
+            const inputs = document.querySelectorAll('input[type="text"], textarea, input[type="checkbox"]');
+            const scoreChecks = document.querySelectorAll('.score-check');
+            const scorePct = document.getElementById('score-pct');
+            const scoreText = document.getElementById('score-text');
+
+            // 1. Calculate and Update Clarity Score
+            function updateScore() {
+                let checkedCount = 0;
+                scoreChecks.forEach(check => {
+                    if (check.checked) checkedCount++;
+                });
+                
+                const percentage = Math.round((checkedCount / scoreChecks.length) * 100);
+                scorePct.textContent = `${percentage}%`;
+
+                if (percentage === 100) {
+                    scoreText.textContent = "Absolute Alignment";
+                } else if (percentage >= 75) {
+                    scoreText.textContent = "Strong Guard Active";
+                } else if (percentage >= 50) {
+                    scoreText.textContent = "Stable Grounding";
+                } else if (percentage >= 25) {
+                    scoreText.textContent = "Vulnerabilities Present";
+                } else {
+                    scoreText.textContent = "Realign Immediately";
+                }
+            }
+
+            // 2. Load saved data from LocalStorage
+            inputs.forEach(input => {
+                const savedValue = localStorage.getItem(storageKeyPrefix + input.id);
+                if (savedValue !== null) {
+                    if (input.type === 'checkbox') {
+                        input.checked = savedValue === 'true';
+                    } else {
+                        input.value = savedValue;
+                    }
+                }
+            });
+
+            // Run score calculation on initial load
+            updateScore();
+
+            // 3. Auto-save and dynamic calculation binding
+            inputs.forEach(input => {
+                const saveState = () => {
+                    const valueToStore = input.type === 'checkbox' ? input.checked : input.value;
+                    localStorage.setItem(storageKeyPrefix + input.id, valueToStore);
+                    if (input.classList.contains('score-check')) {
+                        updateScore();
+                    }
+                };
+                input.addEventListener('input', saveState);
+                input.addEventListener('change', saveState);
+            });
+
+            // 4. Clear data action
+            document.getElementById('clear-btn').addEventListener('click', () => {
+                if (confirm("Are you sure you want to completely clear this entire Clarity workspace? This cannot be undone.")) {
+                    inputs.forEach(input => {
+                        localStorage.removeItem(storageKeyPrefix + input.id);
+                        if (input.type === 'checkbox') {
+                            input.checked = false;
+                        } else {
+                            input.value = '';
+                        }
+                    });
+                    updateScore();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
