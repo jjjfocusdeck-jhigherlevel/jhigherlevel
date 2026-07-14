@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J Higher Level — Pillar Four: Compound</title>
+    <style>
+        /* --- BRAND THEME CONFIGURATION (Compound: Forge Gold Highlight) --- */
+        :root {
+            --bg-color: #0a0a0a;
+            --surface-color: #121212;
+            --border-color: #222222;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --accent-color: #ffbd2e; /* Forge Gold */
+            --accent-muted: rgba(255, 189, 46, 0.1);
+            --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* --- CORE STYLES --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-stack);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* --- HEADER BLOCK --- */
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 2rem;
+        }
+
+        .brand-logo {
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- NAVIGATION --- */
+        .nav-bar {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            color: #000000;
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        /* --- ACTION UTILITIES --- */
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            background-color: var(--accent-color);
+            color: #000000;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            border-radius: 2px;
+            transition: transform 0.1s ease;
+        }
+
+        .btn-clear {
+            background-color: transparent;
+            color: #ff3366;
+            border: 1px solid rgba(255, 51, 102, 0.3);
+        }
+
+        .btn-clear:hover {
+            background-color: rgba(255, 51, 102, 0.1);
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        /* --- CARDS & STRUCTURAL BLOCKS --- */
+        .card {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border-radius: 6px;
+        }
+
+        .card-number {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 900;
+            background-color: var(--accent-muted);
+            color: var(--accent-color);
+            padding: 0.2rem 0.6rem;
+            border-radius: 2px;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--accent-color);
+            padding-left: 0.75rem;
+        }
+
+        p.card-instruction {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            margin-top: -1rem;
+        }
+
+        /* --- INPUTS & LABELS --- */
+        label {
+            display: block;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 0.9rem;
+            font-family: var(--font-stack);
+            font-size: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            transition: border-color 0.2s ease;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* --- SCORE CHECKLIST --- */
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 1.3rem;
+            height: 1.3rem;
+            accent-color: var(--accent-color);
+            cursor: pointer;
+            margin-top: 0.2rem;
+        }
+
+        .score-display {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .score-num {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--accent-color);
+        }
+
+        .score-status {
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* --- FOOTER INFO --- */
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 2rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* --- PRINT CONFIGURATION --- */
+        @media print {
+            body {
+                background-color: #ffffff;
+                color: #000000;
+                padding: 0;
+            }
+            .nav-bar, .action-bar, .btn {
+                display: none !important;
+            }
+            .card {
+                background-color: #ffffff;
+                border: 1px solid #dddddd;
+                page-break-inside: avoid;
+            }
+            h2 {
+                border-left-color: #000000;
+            }
+            input[type="text"], textarea {
+                background-color: #ffffff;
+                border: 1px solid #888888;
+                color: #000000;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- HEADER BLOCK -->
+        <header>
+            <div class="brand-logo">◈ Pillar Four</div>
+            <h1>Compound Workspace</h1>
+            <p class="subtitle">Discipline is not a one-time event; it is an asset that yields massive returns over time. Track your long-term consistency, build your foundation, and watch the momentum carry you.</p>
+        </header>
+
+        <!-- NAVIGATION -->
+        <div class="nav-bar">
+            <a href="templates.html" class="nav-btn">All Pillars</a>
+            <a href="clarity.html" class="nav-btn">Clarity</a>
+            <a href="cadence.html" class="nav-btn">Cadence</a>
+            <a href="containment.html" class="nav-btn">Containment</a>
+            <a href="compound.html" class="nav-btn active">Compound</a>
+        </div>
+
+        <!-- ACTION UTILITIES -->
+        <div class="action-bar">
+            <button class="btn btn-clear" id="clear-btn">Clear Workspace Data</button>
+            <button class="btn" onclick="window.print()">Print / Save PDF</button>
+        </div>
+
+        <!-- 01: HIGH-VALUE COMPOUND HABITS -->
+        <section class="card">
+            <span class="card-number">1</span>
+            <h2>Your Three High-Value Compound Habits</h2>
+            <p class="card-instruction">What three disciplines, if performed consistently for the next 12 months, will completely transform your mental, spiritual, and professional baseline?</p>
+            
+            <div>
+                <label for="compound-habit-1">Habit 1: Spiritual / Mental Anchor</label>
+                <input type="text" id="compound-habit-1" placeholder="e.g., Morning prayer, scripture study, journaling, or 20 minutes of reflection...">
+            </div>
+            <div>
+                <label for="compound-habit-2">Habit 2: Professional Standard / Skill Building</label>
+                <input type="text" id="compound-habit-2" placeholder="e.g., 1 hour daily of deep professional development, job outreach, or building a trade...">
+            </div>
+            <div>
+                <label for="compound-habit-3">Habit 3: Physical Discipline / Daily Standard</label>
+                <input type="text" id="compound-habit-3" placeholder="e.g., Structured exercise, clean nutrition, or waking up strictly at a target hour...">
+            </div>
+        </section>
+
+        <!-- 02: TRACKING STREAKS & MOMENTUM -->
+        <section class="card">
+            <span class="card-number">2</span>
+            <h2>Streak Tracker (Defending the Momentum)</h2>
+            <p class="card-instruction">Compound interest requires uninterrupted consistency. Record your current consecutive days of alignment to visualize your progress.</p>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                <div>
+                    <label for="streak-recovery">Days of Sobriety / True Alignment</label>
+                    <input type="text" id="streak-recovery" placeholder="e.g., 42 Days">
+                </div>
+                <div>
+                    <label for="streak-discipline">Days of Core Work Ethic Streak</label>
+                    <input type="text" id="streak-discipline" placeholder="e.g., 18 Days">
+                </div>
+            </div>
+            <div>
+                <label for="streak-milestone">My Next Major Milestone and How I Will Secure It</label>
+                <textarea id="streak-milestone" placeholder="e.g., Reaching 90 days. I will secure it by keeping my nightly accountability check-ins locked and staying out of high-risk settings..."></textarea>
+            </div>
+        </section>
+
+        <!-- 03: THE FINANCIAL & PROVIDER ENGINE -->
+        <section class="card">
+            <span class="card-number">3</span>
+            <h2>Provision & Foundation Engine</h2>
+            <p class="card-instruction">True independence requires a stable occupational foundation. Track your professional targets and milestones so you can build security with clear logic.</p>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                <div>
+                    <label for="provision-target">Financial baseline / Provision Target</label>
+                    <input type="text" id="provision-target" placeholder="e.g., Target monthly savings, income milestone, or career position...">
+                </div>
+                <div>
+                    <label for="work-focus">Core Professional Focus This Week</label>
+                    <input type="text" id="work-focus" placeholder="e.g., Submitting high-quality applications, completing a course, or mastering a project block...">
+                </div>
+            </div>
+            <div>
+                <label for="growth-strategy">Long-Term Growth & Skills Plan</label>
+                <textarea id="growth-strategy" placeholder="Describe the specific actions, study paths, or networking steps you are executing consistently to advance your career or project stability..."></textarea>
+            </div>
+        </section>
+
+        <!-- 04: COMPOUND STRENGTH SCORE -->
+        <section class="card">
+            <span class="card-number">4</span>
+            <h2>Compound Strength Score</h2>
+            <p class="card-instruction">Verify your overall momentum. Check each statement you can honestly confirm today to measure your long-term compounding strength.</p>
+            
+            <div class="checklist-item">
+                <input type="checkbox" id="score-co1" class="score-check">
+                <div>
+                    <label style="margin: 0; color: var(--text-main);" for="score-co1">The Chain is Unbroken</label>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">I have kept my primary spiritual/recovery streak active and unbroken over the past 7 days.</p>
+                </div>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="score-co2" class="score-check">
+                <div>
+                    <label style="margin: 0; color: var(--text-main);" for="score-co2">Professional Groundwork Managed</label>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">I spent focused, uninterrupted time building my skills, executing work tasks, or pursuing growth this week.</p>
+                </div>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="score-co3" class="score-check">
+                <div>
+                    <label style="margin: 0; color: var(--text-main);" for="score-co3">Physical Standards Upheld</label>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">I did not skip or compromise on my physical standard commitments this week.</p>
+                </div>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="score-co4" class="score-check">
+                <div>
+                    <label style="margin: 0; color: var(--text-main);" for="score-co4">No "Zero" Days</label>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">I took action toward my primary targets every single day, even if it was just a minor step.</p>
+                </div>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="score-co5" class="score-check">
+                <div>
+                    <label style="margin: 0; color: var(--text-main);" for="score-co5">Long-Term Legacy Perspective</label>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">I made decisions today based on where I want to stand in 5 years, not short-term emotional cravings.</p>
+                </div>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="score-co6" class="score-check">
+                <div>
+                    <label style="margin: 0; color: var(--text-main);" for="score-co6">Personal Infrastructure Secured</label>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">My workspace, basic routines, and primary productivity systems are stable, organized, and secure.</p>
+                </div>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="score-co7" class="score-check">
+                <div>
+                    <label style="margin: 0; color: var(--text-main);" for="score-co7">Faith & Focus Priority</label>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">I prioritize daily grounding, prayer, and discipline blocks over immediate external distractions.</p>
+                </div>
+            </div>
+
+            <!-- DYNAMIC CALCULATOR -->
+            <div class="score-display">
+                <div>
+                    <div class="score-status" id="score-text">No Momentum</div>
+                </div>
+                <div class="score-num" id="score-pct">0%</div>
+            </div>
+        </section>
+
+        <!-- FOOTER BLOCK -->
+        <footer>
+            <p>Your workspace autosaves locally in your browser. Complete privacy. No databases.</p>
+            <p style="margin-top: 0.5rem; font-weight: 800; color: var(--text-main);">J Higher Level &copy; 2026</p>
+        </footer>
+
+    </div>
+
+    <!-- --- AUTO-SAVE LOCAL STORAGE & SCORE CALCULATOR SCRIPT --- -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const storageKeyPrefix = 'focusdeck_compound_';
+            const inputs = document.querySelectorAll('input[type="text"], textarea, input[type="checkbox"]');
+            const scoreChecks = document.querySelectorAll('.score-check');
+            const scorePct = document.getElementById('score-pct');
+            const scoreText = document.getElementById('score-text');
+
+            // 1. Calculate and Update Score
+            function updateScore() {
+                let checkedCount = 0;
+                scoreChecks.forEach(check => {
+                    if (check.checked) checkedCount++;
+                });
+                
+                const percentage = Math.round((checkedCount / scoreChecks.length) * 100);
+                scorePct.textContent = `${percentage}%`;
+
+                if (percentage === 100) {
+                    scoreText.textContent = "Unstoppable Momentum";
+                } else if (percentage >= 70) {
+                    scoreText.textContent = "High Consistency";
+                } else if (percentage >= 40) {
+                    scoreText.textContent = "Fluctuating Output";
+                } else {
+                    scoreText.textContent = "Friction Active — Recommit Now";
+                }
+            }
+
+            // 2. Load saved data from LocalStorage
+            inputs.forEach(input => {
+                const savedValue = localStorage.getItem(storageKeyPrefix + input.id);
+                if (savedValue !== null) {
+                    if (input.type === 'checkbox') {
+                        input.checked = savedValue === 'true';
+                    } else {
+                        input.value = savedValue;
+                    }
+                }
+            });
+
+            // Run initial score calculation
+            updateScore();
+
+            // 3. Auto-save and dynamic calculation binding
+            inputs.forEach(input => {
+                const saveState = () => {
+                    const valueToStore = input.type === 'checkbox' ? input.checked : input.value;
+                    localStorage.setItem(storageKeyPrefix + input.id, valueToStore);
+                    if (input.classList.contains('score-check')) {
+                        updateScore();
+                    }
+                };
+                input.addEventListener('input', saveState);
+                input.addEventListener('change', saveState);
+            });
+
+            // 4. Clear data action
+            document.getElementById('clear-btn').addEventListener('click', () => {
+                if (confirm("Are you sure you want to completely clear your Compound momentum workspace? This cannot be undone.")) {
+                    inputs.forEach(input => {
+                        localStorage.removeItem(storageKeyPrefix + input.id);
+                        if (input.type === 'checkbox') {
+                            input.checked = false;
+                        } else {
+                            input.value = '';
+                        }
+                    });
+                    updateScore();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
