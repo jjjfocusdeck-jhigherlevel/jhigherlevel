@@ -3,257 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Focus Deck Framework — J Higher Level</title>
-<meta name="description" content="The Focus Deck Framework: a practical execution system for rebuilding your life from the ground up through Clarity, Cadence, Containment, and Compound.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>Get FocusDeck | J Higher Level</title>
 <style>
-:root{--black:#080808;--dark:#111;--surface:#141414;--surface-2:#191919;--lime:#c8ff00;--lime-soft:rgba(200,255,0,.1);--white:#fff;--muted:rgba(255,255,255,.58);--faint:rgba(255,255,255,.36);--border:rgba(255,255,255,.1);--clarity:#c8ff00;--cadence:#00e5c8;--containment:#ff6b35;--compound:#a78bfa}
-*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;line-height:1.8;-webkit-font-smoothing:antialiased}a{color:inherit}.site-nav{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:14px 24px;background:rgba(8,8,8,.92);border-bottom:1px solid var(--border);backdrop-filter:blur(14px)}.brand{font:24px/1 'Bebas Neue',sans-serif;letter-spacing:2px;color:var(--lime);text-decoration:none}.nav-actions{display:flex;gap:10px;align-items:center}.nav-link{font:11px/1 'Oswald',sans-serif;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;color:var(--muted);padding:10px 13px;border:1px solid transparent}.nav-link:hover{color:var(--white);border-color:var(--border)}.nav-link.primary{color:var(--black);background:var(--lime);font-weight:700;border-color:var(--lime)}.shell{max-width:900px;margin:0 auto;padding:0 24px}.hero{min-height:78vh;display:grid;align-items:center;padding:100px 0 90px;position:relative;overflow:hidden}.hero:before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(200,255,0,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(200,255,0,.035) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(to bottom,black,transparent 90%);pointer-events:none}.hero:after{content:'';position:absolute;width:560px;height:560px;right:-280px;top:-160px;background:radial-gradient(circle,rgba(200,255,0,.08),transparent 68%);pointer-events:none}.eyebrow,.chapter-kicker,.intro-kicker{font:700 11px/1 'Oswald',sans-serif;letter-spacing:4px;text-transform:uppercase;color:rgba(200,255,0,.72)}.hero .eyebrow{display:inline-flex;gap:9px;align-items:center;padding:8px 13px;background:var(--lime-soft);border:1px solid rgba(200,255,0,.25);position:relative}.hero .eyebrow:before{content:'';width:6px;height:6px;background:var(--lime);border-radius:50%;box-shadow:0 0 14px var(--lime)}.hero h1{position:relative;font:normal clamp(72px,14vw,132px)/.82 'Bebas Neue',sans-serif;letter-spacing:1px;margin:28px 0 22px;max-width:800px}.hero h1 span{display:block}.hero h1 .lime{color:var(--lime)}.hero-sub{font:300 clamp(18px,2.5vw,25px)/1.25 'Oswald',sans-serif;letter-spacing:3px;text-transform:uppercase;color:var(--muted);border-left:3px solid var(--lime);padding-left:17px;max-width:680px}.hero-copy{max-width:610px;color:rgba(255,255,255,.72);font-size:17px;margin-top:28px}.hero-copy strong{color:var(--white);font-weight:600}.pillar-rail{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:54px;border:1px solid var(--border);max-width:760px}.pillar-rail div{background:var(--surface);padding:16px 14px}.pillar-rail b{display:block;font:28px/1 'Bebas Neue',sans-serif;margin-bottom:6px}.pillar-rail span{font:700 10px/1.2 'Oswald',sans-serif;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}.pillar-rail .p1 b{color:var(--clarity)}.pillar-rail .p2 b{color:var(--cadence)}.pillar-rail .p3 b{color:var(--containment)}.pillar-rail .p4 b{color:var(--compound)}.contents{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:28px 0;margin-bottom:50px}.contents-head{font:700 11px/1 'Oswald',sans-serif;letter-spacing:3px;text-transform:uppercase;color:var(--lime);margin-bottom:17px}.contents-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 28px}.contents a{display:flex;gap:12px;align-items:baseline;text-decoration:none;color:var(--muted);font-size:13px;padding:5px 0}.contents a:hover{color:var(--white)}.contents a b{font:22px/1 'Bebas Neue',sans-serif;color:var(--lime);min-width:27px}.intro{padding:70px 0 92px;max-width:720px;margin:auto}.intro h2{font:normal clamp(48px,8vw,76px)/.9 'Bebas Neue',sans-serif;letter-spacing:1px;margin:16px 0 28px}.intro p,.chapter-copy p{font-size:16px;color:rgba(255,255,255,.7);margin:0 0 22px}.intro p:first-of-type{font-size:19px;color:rgba(255,255,255,.86)}.callout-line{font:normal clamp(38px,7vw,64px)/.9 'Bebas Neue',sans-serif!important;color:var(--lime)!important;margin:40px 0!important;text-transform:uppercase}.chapter{padding:90px 0 110px;border-top:1px solid var(--border);--accent:var(--lime)}.chapter.cadence{--accent:var(--cadence)}.chapter.containment{--accent:var(--containment)}.chapter.compound{--accent:var(--compound)}.chapter-heading{display:grid;grid-template-columns:86px 1fr;gap:22px;align-items:start;margin-bottom:40px}.chapter-number{font:normal 82px/.8 'Bebas Neue',sans-serif;color:var(--accent);opacity:.95}.chapter-kicker{color:var(--accent);font-size:10px;margin:3px 0 14px}.chapter h2{font:normal clamp(46px,8vw,78px)/.86 'Bebas Neue',sans-serif;letter-spacing:1px;max-width:700px}.chapter-pillar{font:600 12px/1 'Oswald',sans-serif;letter-spacing:3px;color:var(--faint);text-transform:uppercase;margin-top:17px}.chapter-copy{max-width:720px;margin:auto}.chapter-copy .subhead{font:600 21px/1.15 'Oswald',sans-serif;color:var(--white);letter-spacing:1px;text-transform:uppercase;margin:40px 0 13px;border-left:3px solid var(--accent);padding-left:15px}.chapter-copy strong{color:var(--white)}blockquote{margin:26px 0 35px;padding:20px 24px;background:rgba(255,255,255,.035);border-left:3px solid var(--accent);color:rgba(255,255,255,.82);font-size:16px;font-style:italic}.field-list{list-style:none;margin:20px 0 28px;display:grid;gap:9px}.field-list li{background:var(--surface);border:1px solid var(--border);padding:15px 18px 15px 42px;color:rgba(255,255,255,.72);position:relative}.field-list li:before{content:'→';position:absolute;left:17px;color:var(--accent);font:22px/1 'Bebas Neue',sans-serif}.devotion{margin:42px 0 15px;padding:25px 27px 28px;background:var(--lime-soft);border:1px solid color-mix(in srgb,var(--accent) 38%,transparent);border-left:4px solid var(--accent)}.devotion-label{font:700 10px/1 'Oswald',sans-serif;letter-spacing:3px;color:var(--accent);margin-bottom:11px}.devotion h3{font:normal 29px/1 'Bebas Neue',sans-serif;letter-spacing:1px;margin-bottom:15px;color:var(--white)}.devotion p{color:rgba(255,255,255,.82)!important;margin-bottom:0!important}.chapter-visual{margin:0 0 48px;background:var(--surface);border:1px solid var(--border);overflow:hidden}.chapter-visual img{display:block;width:100%;max-height:500px;object-fit:cover;filter:saturate(.5) contrast(1.12)}.chapter-visual figcaption{padding:13px 17px;color:var(--accent);font:600 11px/1.2 'Oswald',sans-serif;letter-spacing:2px;text-transform:uppercase}.boundary-visual{display:grid;grid-template-columns:1fr 72px 1fr;align-items:stretch;min-height:210px;margin:0 0 48px;background:var(--surface);border:1px solid var(--border)}.boundary-old,.boundary-new{padding:28px 23px;display:flex;flex-direction:column;justify-content:center}.boundary-old{background:linear-gradient(135deg,#181818,#0e0e0e);color:rgba(255,255,255,.42)}.boundary-new{background:radial-gradient(circle at 20% 50%,rgba(200,255,0,.13),transparent 58%);color:var(--containment)}.boundary-visual span{font:700 10px/1 'Oswald',sans-serif;letter-spacing:3px;margin-bottom:13px}.boundary-visual strong{font:normal 35px/.9 'Bebas Neue',sans-serif;letter-spacing:1px}.boundary-visual small{font-size:12px;color:var(--faint);margin-top:14px}.boundary-line{display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0b0b0b;color:var(--containment);border-left:1px dashed rgba(255,107,53,.45);border-right:1px dashed rgba(255,107,53,.45)}.boundary-line i{height:38px;width:1px;background:var(--containment);opacity:.55}.boundary-line b{font:30px/1 'Bebas Neue',sans-serif;padding:10px 0}.ledger-visual{margin:0 0 48px;background:#101010;border:1px solid rgba(167,139,250,.35);padding:19px}.ledger-top{display:flex;justify-content:space-between;gap:15px;align-items:center;padding-bottom:15px;border-bottom:1px solid var(--border);font:700 11px/1.2 'Oswald',sans-serif;letter-spacing:2px;color:var(--compound)}.ledger-top strong{color:var(--white);font-weight:500}.ledger-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin-top:18px}.ledger-grid span{aspect-ratio:1;background:var(--lime);color:#080808;display:grid;place-items:center;font:700 13px/1 'DM Sans',sans-serif;box-shadow:0 0 9px rgba(200,255,0,.16)}.ledger-visual p{font:700 11px/1 'Oswald',sans-serif;letter-spacing:3px;color:var(--lime);text-align:center;margin:18px 0 0}.closing{border-top:1px solid var(--border);padding:80px 0 100px;text-align:center}.closing h2{font:normal clamp(54px,10vw,100px)/.82 'Bebas Neue',sans-serif;max-width:720px;margin:0 auto 22px}.closing h2 span{color:var(--lime)}.closing p{color:var(--muted);max-width:560px;margin:0 auto 30px}.closing a{display:inline-block;background:var(--lime);color:var(--black);padding:17px 30px;text-decoration:none;font:700 13px/1 'Oswald',sans-serif;letter-spacing:2px;text-transform:uppercase}.footer{border-top:1px solid var(--border);padding:30px 0 42px;display:flex;justify-content:space-between;gap:20px;color:var(--faint);font-size:12px}.footer a{text-decoration:none;color:var(--muted)}@media(max-width:650px){.site-nav{padding:13px 15px}.brand{font-size:20px}.nav-link{font-size:10px;padding:9px 8px}.nav-link:not(.primary){display:none}.shell{padding:0 17px}.hero{min-height:auto;padding:80px 0 70px}.hero h1{font-size:76px}.pillar-rail{grid-template-columns:repeat(2,1fr)}.contents-grid{grid-template-columns:1fr}.chapter{padding:66px 0 80px}.chapter-heading{grid-template-columns:58px 1fr;gap:13px}.chapter-number{font-size:58px}.chapter h2{font-size:54px}.chapter-copy p,.intro p{font-size:15px}.boundary-visual{grid-template-columns:1fr;gap:0}.boundary-line{min-height:60px;flex-direction:row;border-top:1px dashed rgba(255,107,53,.45);border-bottom:1px dashed rgba(255,107,53,.45);border-left:0;border-right:0}.boundary-line i{height:1px;width:35px}.boundary-line b{padding:0 12px}.ledger-grid{gap:3px}.ledger-grid span{font-size:9px}.ledger-top{align-items:flex-start;flex-direction:column}.footer{flex-direction:column;text-align:center}}
-@media print{.site-nav,.contents,.nav-actions{display:none}.chapter{break-before:page}.chapter-visual{break-inside:avoid}.devotion{break-inside:avoid}body{background:#fff;color:#111}.chapter-copy p,.intro p{color:#222}.chapter h2,.intro h2{color:#111}.shell{max-width:800px}}
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;700&family=DM+Sans:wght@400;500&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#080808;color:#fff;font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center}
+.wrap{max-width:480px}
+h1{font-family:'Bebas Neue',sans-serif;font-size:44px;letter-spacing:1px;margin-bottom:16px}
+h1 span{color:#C8FF00}
+p{color:rgba(255,255,255,0.65);font-size:15px;line-height:1.7;margin-bottom:32px}
+a.btn{display:block;background:#C8FF00;color:#080808;font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:16px;text-decoration:none;margin-bottom:12px}
+a.btn.alt{background:transparent;color:#C8FF00;border:1px solid rgba(200,255,0,0.35)}
+a.home{display:inline-block;margin-top:20px;color:rgba(255,255,255,0.3);font-size:12px;text-decoration:underline;text-underline-offset:3px}
 </style>
 </head>
 <body>
-<nav class="site-nav"><a class="brand" href="index.html">J HIGHER LEVEL</a><div class="nav-actions"><a class="nav-link" href="templates.html">← All Pillars</a><a class="nav-link primary" href="focusdeck.html">FOCUSDECK →</a></div></nav>
-<main class="shell">
-<section class="hero"><div><div class="eyebrow">FOCUS DECK FRAMEWORK · THE FIELD GUIDE</div><h1>REBUILD<br><span class="lime">FROM THE</span><br>GROUND UP.</h1><p class="hero-sub">A system for turning the next 24 hours into a way out.</p><p class="hero-copy">This is not a motivational speech. It is an execution engine for the person who has hit the floor, accepted the truth, and is ready to build upward—one clear decision, one protected hour, one kept promise at a time.</p><div class="pillar-rail"><div class="p1"><b>01</b><span>Clarity</span></div><div class="p2"><b>02</b><span>Cadence</span></div><div class="p3"><b>03</b><span>Containment</span></div><div class="p4"><b>04</b><span>Compound</span></div></div></div></section>
-<section class="contents"><div class="contents-head">THE DECK · 10 CHAPTERS</div><div class="contents-grid"><a href="#chapter-1"><b>01</b><span>The Zero Point (The Clean Slate)</span></a><a href="#chapter-2"><b>02</b><span>The Audit of the Leaks</span></a><a href="#chapter-3"><b>03</b><span>Cutting the Noise</span></a><a href="#chapter-4"><b>04</b><span>The Target Sheet</span></a><a href="#chapter-5"><b>05</b><span>Daily Devotions Over Motivation</span></a><a href="#chapter-6"><b>06</b><span>Mapping Your Peak Hours</span></a><a href="#chapter-7"><b>07</b><span>Drawing the Containment Lines</span></a><a href="#chapter-8"><b>08</b><span>Trigger Management &amp; The Deflection Code</span></a><a href="#chapter-9"><b>09</b><span>The 12-Week Horizon (Money Makers Only)</span></a><a href="#chapter-10"><b>10</b><span>Local-First Legacy (Owning Your Progress)</span></a></div></section>
-<section class="intro"><div class="intro-kicker">THE CONTRACT</div><h2>THE FLOOR IS HARD.<br><span style="color:var(--lime)">THAT IS WHY IT CAN HOLD YOU.</span></h2><div class="intro-kicker">INTRODUCTION</div><h2>The Contract with the Floor</h2>
-<p>Nobody lands on this page because things are going perfectly.</p>
-<p>If you are reading this, chances are your foundation didn&#x27;t just crack—it shattered. Maybe you are staring at a fresh release paper from a correctional facility, looking at the city streets and realizing the old game will only put you right back in a cage. Maybe you are sitting in an empty apartment after a divorce, staring at the ceiling, wondering how twenty years of building a life evaporated into legal documents and packing boxes. Maybe you are sweating through day three of detox, your hands shaking, realizing that the substance you used to numb the pain has become the exact thing holding the knife to your throat.</p>
-<p>Society loves to tell you that starting over is a beautiful, inspiring journey. They paint it with soft lighting and corporate buzzwords about &quot;reinvention&quot; and &quot;pivoting.&quot;</p>
-<p>That is a lie told by people who have never had their face pressed against the concrete.</p>
-<p>Starting over is brutal. It is lonely. It is terrifying. When you are at the absolute bottom, the sheer weight of what you lost—and the massive distance to where you want to be—can paralyze you. The noise in your head is deafening. The guilt, the shame, the old triggers, and the voices of people who gave up on you will scream for your attention every single morning.</p>
-<p>This book is not a collection of high-level theories, motivational quotes to make you feel good for ten minutes, or corporate strategies. When you are trying to survive the day without breaking your sobriety, breaking the law, or breaking down completely, you do not need a five-year corporate synergy plan.</p>
-<p class="callout-line">You need an execution engine.</p>
-<p>The Focus Deck Framework is built on a single, unshakeable premise: You cannot fix your entire life all at once, but you can master the next twenty-four hours.</p>
-<p>By isolating your life into four uncompromising zones—Clarity, Cadence, Containment, and Compound—we are going to take the chaos out of your head and put it into a visual, daily execution workspace. No corporate databases tracking your data. No platforms owning your story. Just a local-first browser tool running right on your device, serving as your daily ledger.</p>
-<p>Before you flip the page, we need to sign a contract. Not with me, but with the floor you are standing on. Acknowledge exactly where you are. Stop looking back at the wreckage, stop romanticizing what used to be, and stop waiting for someone to come save you.</p>
-<p>Nobody is coming. You have to build the exit ramp yourself.</p>
-<p>Let&#x27;s begin.</p></section>
-<section class="chapter neutral" id="chapter-1">
-  <div class="chapter-heading">
-    <div class="chapter-number">01</div>
-    <div><div class="chapter-kicker">ORIENTATION</div><h2>The Zero Point (The Clean Slate)</h2><div class="chapter-pillar">The floor is hard. That is why it can hold you.</div></div>
-  </div>
-  <figure class="chapter-visual"><img src="assets/chapter-01-zero-point.jpg" alt="A stark portrait representing the zero point and the decision to rebuild"><figcaption>THE ZERO POINT · The clean slate is not soft. It is stable.</figcaption></figure>
-  <div class="chapter-copy"><blockquote>&quot;I think you have to look at what got you there. You can’t just say, &#x27;Oh, I’m a victim of circumstance.&#x27; No, you made choices. I made choices that put me in prison. And once you take responsibility for that, then you can change it.&quot; — Danny Trejo</blockquote>
-<h3 class="subhead">1.1 The Illusion of the Mountain</h3>
-<p>When you hit rock bottom, your brain plays a dangerous trick on you. It forces you to look up at the entire mountain you have to climb.</p>
-<p>If you just got out of prison, you look at the fact that you have no job, no credit score, an ankle monitor, and a criminal record that makes landlords slam the door in your face. If you just lost your marriage, you look at the broken relationships, the split bank accounts, and the quiet rooms, and the mountain looks impossible to climb. Your brain says, &quot;Why even bother trying? The gap is too wide. You ruined it.&quot;</p>
-<p>This paralysis is where most people fold. They look at the massive gap between their current reality and a stable life, get overwhelmed by the noise, and sprint straight back to their old comfort zone—even if that comfort zone is a needle, a bottle, a toxic ex, or the block.</p>
-<p>The first step of the Focus Deck Framework is eliminating the illusion of the mountain.</p>
-<p>You are not climbing the mountain today. Today, your only job is to clear the square foot of dirt right in front of your boots.</p>
-<p>We call this The Zero Point. The Zero Point is the exact moment you stop treating your circumstances as a permanent death sentence and start treating them as a clean slate. A concrete floor is hard, cold, and unforgiving—but it is also the only surface steady enough to support a heavy foundation. You cannot fall through the floor. You can only build upward from it.</p>
-<h3 class="subhead">1.2 The Wreckage Audit</h3>
-<p>To build a clean slate, you have to stop lying to yourself. You have to look at the wreckage of your life with total, clinical detachment.</p>
-<p>Think of a mechanic looking at a blown engine. The mechanic doesn&#x27;t cry, get emotional, or scream at the broken pistons. They just identify what is broken, what can be salvaged, and what needs to be thrown straight into the trash.</p>
-<p>You must perform the same audit on your life right now. You need to categorize your current state into three raw truths:</p>
-<ul class="field-list"><li>1. What is completely gone? (The money you spent, the time you wasted, the relationships that are permanently dead. Stop trying to revive them. Let them stay buried.)</li><li>2. What is the current damage? (The debts, the legal restrictions, the physical health toll, the immediate cravings. This is the terrain you must navigate.)</li><li>3. What do you still own? (Your breath, your remaining time, your capacity to make a different choice in the next five minutes, and the device you are reading this on.)</li></ul>
-<p>When actor Danny Trejo was sitting in solitary confinement in San Quentin, facing the potential of the death penalty, he didn&#x27;t sit around wishing things were different. He accepted the absolute reality of his Zero Point. He committed to changing his internal choices right there on the concrete floor, long before he ever walked onto a movie set or built a multimillion-dollar business. He took complete ownership of the wreckage.</p>
-<h3 class="subhead">1.3 Owning the Blame</h3>
-<p>Here is a hard, street-smart truth that corporate self-help books like to soften: It does not matter whose fault it is; it is your responsibility.</p>
-<p>Maybe someone did screw you over. Maybe the system is rigged. Maybe your ex-spouse was toxic. Maybe your upbringing handed you an addiction before you were old enough to know better. You can carry that resentment around like a badge of honor if you want, but it will not pay your rent, it will not keep you clean, and it will not rebuild your life.</p>
-<p>Blame is a luxury for people who have time to waste. You do not have time to waste.</p>
-<p>When you accept the Zero Point, you make a conscious decision to stop blaming your past, your parents, the state, your addictions, or your bad luck. The second you say, &quot;My current situation is my responsibility,&quot; you instantly strip away the power that your past has over you. If your choices helped create the mess, then your choices can build the way out.</p>
-<h3 class="subhead">1.4 Clearing the Deck</h3>
-<p>Your workspace on the Focus Deck Framework starts blank for a reason. It doesn&#x27;t ask you what you did five years ago. It doesn&#x27;t ask for your criminal record, your divorce papers, or your medical history. It runs locally inside your browser, holding your data with absolute privacy, waiting for you to input what matters now.</p>
-<p>To wrap up Chapter 1, you are going to perform your first mental execution. Take a deep breath, look at the wall in front of you, and declare out loud that the old chapter is officially closed. The debt to the past is paid in full by the suffering you went through to get here.</p>
-<p>You are at Zero. And Zero is a beautiful place to start.</p>
-<aside class="devotion"><div class="devotion-label">DAILY DEVOTION</div><h3>Your Daily Devotion for Chapter 1</h3>
-<p>Open your mind or a private note on your device. List the three biggest anchors from your past that you are still carrying around in your head today (guilt over an old mistake, anger at an individual, or regret over lost time).</p>
-<p>Write them down. Then, mentally cross them off the list. They belong to the old version of you. The version of you that executes the Focus Deck starts tomorrow morning with a clean sheet.</p>
-</aside></div>
-</section>
-<section class="chapter neutral" id="chapter-2">
-  <div class="chapter-heading">
-    <div class="chapter-number">02</div>
-    <div><div class="chapter-kicker">ORIENTATION</div><h2>The Audit of the Leaks</h2><div class="chapter-pillar">Before you build forward, stop the bleed.</div></div>
-  </div>
-  
-  <div class="chapter-copy"><p>&quot;It’s not the daily increase but daily decrease. Hack away at the unessential.&quot;</p>
-<p>— Bruce Lee</p>
-<h3 class="subhead">2.1 Stopping the Bleed</h3>
-<p>When you are rebuilding your life from a major deficit, you do not have a resource problem; you have a leakage problem.</p>
-<p>Think about a rowboat out in the middle of the ocean. If the boat has three massive holes in the bottom, it doesn’t matter how hard or how fast you row. You can have the best technique, the most intense motivation, and the strongest oars in the world, but the ocean is still going to swallow you. Your first priority isn’t moving forward. Your first priority is plugging the damn holes.</p>
-<p>A &quot;Leak&quot; is anything—a habit, an environment, a mindset, or a person—that drains your focus, your energy, or your self-respect without giving you anything clean in return.</p>
-<p>If you are a recovering addict, a leak is walking past the old corner just to &quot;see who’s out there.&quot; If you are recovering from a toxic divorce, a leak is checking your ex&#x27;s social media at 2:00 AM to see if they’ve moved on. If you just got out of jail, a leak is linking back up with the homies who are still hustling backwards because it feels familiar.</p>
-<h3 class="subhead">2.2 The Energy Exchange</h3>
-<p>Every single thing you let into your day is making an exchange with you. It either gives you power or it steals it. There is no neutral ground when you are at the Zero Point.</p>
-<p>You have to run a clinical audit on your leaks across three distinct zones:</p>
-<ul class="field-list"><li>1. Environmental Leaks: Places and platforms that trigger your old survival mechanisms.</li><li>2. Relational Leaks: People who benefit from you staying broken because your downfall makes them feel better about their own stagnation.</li><li>3. Behavioral Leaks: The tiny, low-friction habits (mindless scrolling, poor sleep, cheap distractions) you use to avoid sitting with your own thoughts.</li></ul>
-<h3 class="subhead">2.3 The Price of Admission</h3>
-<p>To get to the next stage of the Focus Deck Framework, you must accept that plugging these leaks will hurt. It will make people call you distant, arrogant, or selfish. Let them. Your survival depends on your containment lines. You cannot afford to bleed out just to keep other people comfortable.</p>
-<aside class="devotion"><div class="devotion-label">DAILY DEVOTION</div><h3>Your Daily Devotion for Chapter 2</h3>
-<p>Identify the single biggest leak in your current 24-hour cycle—the one thing that consistently derails your focus or pulls you into old patterns. Cut it completely for the next 7 days. No negotiations.</p>
-</aside></div>
-</section>
-<section class="chapter clarity" id="chapter-3">
-  <div class="chapter-heading">
-    <div class="chapter-number">03</div>
-    <div><div class="chapter-kicker">PART II · PILLAR 01</div><h2>Cutting the Noise</h2><div class="chapter-pillar">CLARITY</div></div>
-  </div>
-  <figure class="chapter-visual"><img src="assets/chapter-03-clarity-signal.jpg" alt="A single lit doorway cutting through a dark alley"><figcaption>CLARITY · One signal. Everything else is noise.</figcaption></figure>
-  <div class="chapter-copy"><p>&quot;People think focus means saying yes to the thing you&#x27;ve got to focus on. But that&#x27;s not what it means at all. It means saying no to the hundred other good ideas that there are.&quot;</p>
-<p>— Steve Jobs</p>
-<h3 class="subhead">3.1 The Trap of the Fresh Start</h3>
-<p>When you decide to turn your life around, a dangerous wave of fake energy hits you. You suddenly want to fix everything at once. You want to go to the gym six days a week, start a massive business, fix every broken relationship, read a book a week, and completely change your diet by tomorrow morning.</p>
-<p>This is called the Trap of the Fresh Start, and it is a fast track to relapse or burnout.</p>
-<p>When Steve Jobs was brought back to Apple in 1997, the company was weeks away from complete bankruptcy. They were producing dozens of different computers, printers, and software programs to try and survive. The company was drowning in its own noise. Jobs didn&#x27;t add more products. He walked into the boardroom, drew a simple two-by-two grid on a whiteboard, and said, &quot;Here is what we are doing: Consumer, Pro, Desktop, Portable.&quot; He eliminated 70% of Apple&#x27;s product line to focus entirely on four pillars. He saved the company by cutting the noise.</p>
-<h3 class="subhead">3.2 The Single Target</h3>
-<p>When you are rebuilding, your mental bandwidth is already heavily taxed by stress, anxiety, and survival. You do not have the luxury of multi-tasking. You need Clarity.</p>
-<p>Clarity means choosing one single target that serves as your ultimate priority for this phase of your life. If your priority is maintaining your sobriety, then your fitness, your career, and your social life must take a backseat to that single objective. If your priority is securing stable income after a release or a financial collapse, then your focus belongs entirely to finding and executing that cash flow engine.</p>
-<p>Everything else is noise. Even good things can be noise if they distract you from the main priority.</p>
-<aside class="devotion"><div class="devotion-label">DAILY DEVOTION</div><h3>Your Daily Devotion for Chapter 3</h3>
-<p>Go to your Clarity workspace page. Strip away all the minor tasks and secondary goals. Write down the one non-negotiable mission that, if achieved, makes everything else in your life easier or unnecessary. That is your North Star.</p>
-</aside></div>
-</section>
-<section class="chapter clarity" id="chapter-4">
-  <div class="chapter-heading">
-    <div class="chapter-number">04</div>
-    <div><div class="chapter-kicker">PART II · PILLAR 01</div><h2>The Target Sheet</h2><div class="chapter-pillar">CLARITY</div></div>
-  </div>
-  
-  <div class="chapter-copy"><p>&quot;Give me six hours to chop down a tree and I will spend the first four sharpening the axe.&quot;</p>
-<p>— Abraham Lincoln</p>
-<h3 class="subhead">4.1 From Vision to Execution</h3>
-<p>A long-term vision is a great thing to have, but you cannot execute a vision at 9:00 AM on a Tuesday. If your goal is just &quot;rebuild my wealth&quot; or &quot;become healthy,&quot; your brain doesn&#x27;t know what steps to take when it wakes up. Vagueness is the best friend of procrastination.</p>
-<p>To fix this, you must translate your massive, intimidating life goals into a highly tactical Target Sheet.</p>
-<p>We take your main priority and break it down into micro-objectives. We do not look at years. We do not look at quarters. We look at weeks. A 12-week horizon is long enough to see significant, tangible results, but short enough that you can feel the urgency of every single day slipping by.</p>
-<h3 class="subhead">4.2 Building Your Metric</h3>
-<p>Your Target Sheet requires you to define your Money Makers. In corporate spaces, they call these KPIs (Key Performance Indicators). In the street, we call them Money Makers because they are the exact levers that generate actual progress, stability, and momentum.</p>
-<p>A Money Maker is not an outcome; it is an input that you control 100%.</p>
-<ul class="field-list"><li>● Bad Target: &quot;Make $5,000 this month.&quot; (You cannot completely control the outcome).</li><li>● Money Maker Target: &quot;Make 20 direct outreach offers to potential clients every single morning before noon.&quot; (You control this entirely).</li></ul>
-<p>When you shift your focus from the massive mountain to your specific daily Money Makers, the anxiety evaporates. You stop worrying about the future because you are too busy sharpening the axe.</p>
-<aside class="devotion"><div class="devotion-label">DAILY DEVOTION</div><h3>Your Daily Devotion for Chapter 4</h3>
-<p>Break your single mission down into exactly two core Money Makers—the actions you can take every single day that directly move the needle. Write them down clearly so there is no guesswork tomorrow morning.</p>
-</aside></div>
-</section>
-<section class="chapter cadence" id="chapter-5">
-  <div class="chapter-heading">
-    <div class="chapter-number">05</div>
-    <div><div class="chapter-kicker">PART III · PILLAR 02</div><h2>Daily Devotions Over Motivation</h2><div class="chapter-pillar">CADENCE</div></div>
-  </div>
-  <figure class="chapter-visual"><img src="assets/chapter-05-cadence-grind.jpg" alt="Hands working at a laptop before sunrise beside a cup of coffee"><figcaption>CADENCE · The work starts before the world wakes up.</figcaption></figure>
-  <div class="chapter-copy"><p>&quot;I don&#x27;t hold the view that you have to be motivated to do something. You do it because it needs to be done. Discipline is the only thing that moves you forward.&quot;</p>
-<p>— Anonymous</p>
-<h3 class="subhead">5.1 The Motivation Myth</h3>
-<p>Motivation is a fair-weather friend. It shows up when the sun is shining, your bank account has a little cushion, your head feels clear, and you feel inspired. But when you are rebuilding your life from the ashes, those days are rare.</p>
-<p>Most mornings, you are going to wake up feeling heavy. The weight of your past choices will sit on your chest. Your brain will tell you that you are tired, that it doesn&#x27;t matter, and that you can just start fresh next week.</p>
-<p>If you rely on motivation to save you, you are already dead in the water.</p>
-<p>You do not need motivation. You need Daily Devotions. A Daily Devotion is a task or routine that is completely non-negotiable. It is an unshakeable contract you have made with yourself. You execute it when you are happy, you execute it when you are angry, you execute it when you are crying, and you execute it when you are completely exhausted.</p>
-<h3 class="subhead">5.2 The Rhythm of Mastery</h3>
-<p>Look at any individual who pulled themselves out of severe hardship to achieve mastery. They didn&#x27;t do it through massive, dramatic leaps. They did it through the boring, relentless rhythm of daily execution. They automated their choices so their emotions couldn&#x27;t intervene.</p>
-<p>Your Cadence page is where you lock in this rhythm. By standardizing your morning routines and setting up an identical daily workflow, you remove the choice entirely. You don&#x27;t have to decide whether you are going to work on your life today; the system has already decided for you.</p>
-<p>When the structure of your day becomes automated, your energy is preserved for doing the actual work, rather than fighting the voices in your head telling you to quit.</p>
-<aside class="devotion"><div class="devotion-label">DAILY DEVOTION</div><h3>Your Daily Devotion for Chapter 5</h3>
-<p>Define your first three morning Daily Devotions (e.g., 15 minutes of quiet clarity, logging into your Focus Deck workspace, and executing your first Money Maker). Set a specific, non-negotiable time slot for them tomorrow morning, and do not let your</p>
-</aside></div>
-</section>
-<section class="chapter cadence" id="chapter-6">
-  <div class="chapter-heading">
-    <div class="chapter-number">06</div>
-    <div><div class="chapter-kicker">PART III · PILLAR 02</div><h2>Mapping Your Peak Hours</h2><div class="chapter-pillar">CADENCE</div></div>
-  </div>
-  
-  <div class="chapter-copy"><p>&quot;The key is not to prioritize what&#x27;s on your schedule, but to schedule your priorities.&quot;</p>
-<p>— Stephen Covey</p>
-<h3 class="subhead">6.1 The Allocation Crisis</h3>
-<p>When you are rebuilding, your energy is a scarce commodity. Most people fail because they give their highest-quality energy to low-value tasks. They spend their freshest morning hours answering angry text messages from their past, arguing with family, or dealing with bureaucratic red tape, and then try to build their business or future cash flow at 10:00 PM when their brain is completely fried.</p>
-<p>You cannot afford to throw away your prime capacity. You have to map your Peak Focus Hours.</p>
-<p>Everyone has a window during the day where their focus is naturally sharper, the noise fades, and their processing speed peaks. For some, it is 5:00 AM before the rest of the world wakes up. For others, it is late at night when the chaos slows down.</p>
-<h3 class="subhead">6.2 The Focus Block</h3>
-<p>Once you identify this window, you must declare it a restricted zone. This is your core Focus Block. During these two to three hours, you do not check your email, you do not answer the phone, and you do not run errands. This block belongs entirely to executing your core Money Makers locked into your Cadence workspace.</p>
-<p>If you give your peak hours to your future, your future will secure your present. If you give your peak hours to the noise, the noise will keep you trapped.</p>
-<aside class="devotion"><div class="devotion-label">DAILY DEVOTION</div><h3>Your Daily Devotion for Chapter 6</h3>
-<p>Track your energy levels for the next 48 hours. Identify the exact 3-hour window where you feel the sharpest. Block that time out on your schedule for the next week, dedicating it strictly to deep work on your framework targets.</p>
-</aside></div>
-</section>
-<section class="chapter containment" id="chapter-7">
-  <div class="chapter-heading">
-    <div class="chapter-number">07</div>
-    <div><div class="chapter-kicker">PART IV · PILLAR 03</div><h2>Drawing the Containment Lines</h2><div class="chapter-pillar">CONTAINMENT</div></div>
-  </div>
-  <div class="boundary-visual" aria-label="A visual boundary between the old pattern and the clean path"><div class="boundary-old"><span>OLD PATTERN</span><strong>ACCESS DENIED</strong><small>Triggers · old routes · familiar damage</small></div><div class="boundary-line"><i></i><b>NO</b><i></i></div><div class="boundary-new"><span>NEW TERRITORY</span><strong>WALK THIS WAY</strong><small>Space · distance · protected attention</small></div></div>
-  <div class="chapter-copy"><p>&quot;You must create a fort around your mind. If you let anyone walk in with dirty feet, your house will never be clean.&quot;</p>
-<p>— Mahatma Gandhi</p>
-<h3 class="subhead">7.1 Rebuilding in a War Zone</h3>
-<p>Let’s be honest: you are not rebuilding your life in a pristine, quiet laboratory. You are doing it while surrounded by your old triggers, financial pressures, family members who remember your worst moments, and the constant pull of your former habits.</p>
-<p>If you leave your environment wide open, the past will always break in and drag you backward. You need Containment.</p>
-<p>Containment is the act of drawing absolute, non-negotiable boundaries around your physical space, your digital devices, and your social circles. It is a protective shield designed to keep the toxic noise out so your new foundation has room to dry and harden.</p>
-<h3 class="subhead">7.2 The Art of the Absolute &quot;No&quot;</h3>
-<p>Historically, when commanders needed to secure a broken territory, they didn&#x27;t just ask people to be nice—they set up checkpoints and perimeter lines.</p>
-<p>Your containment lines are your personal checkpoints:</p>
-<ul class="field-list"><li>● Digital Lines: Deleting the apps, contacts, and bookmarks that lead straight to your old leaks.</li><li>● Physical Lines: Staying entirely away from the neighborhoods, establishments, or houses where your old self used to hide.</li><li>● Relational Lines: Cutting off access to people who drain your focus, even if you share history or blood with them.</li></ul>
-<p>You are not being mean; you are surviving. If a boundary costs you a toxic friendship, it was a bargain.</p>
-<aside class="devotion"><div class="devotion-label">DAILY DEVOTION</div><h3>Your Daily Devotion for Chapter 7</h3>
-<p>Open your Containment workspace. List your top three environmental vulnerabilities. Write down a hard rule for each one that completely eliminates your access to it. Enforce it today.</p>
-</aside></div>
-</section>
-<section class="chapter containment" id="chapter-8">
-  <div class="chapter-heading">
-    <div class="chapter-number">08</div>
-    <div><div class="chapter-kicker">PART IV · PILLAR 03</div><h2>Trigger Management &amp; The Deflection Code</h2><div class="chapter-pillar">CONTAINMENT</div></div>
-  </div>
-  
-  <div class="chapter-copy"><p>&quot;Between stimulus and response there is a space. In that space is our power to choose our response. In our response lies our growth and our freedom.&quot;</p>
-<p>— Viktor Frankl</p>
-<h3 class="subhead">8.1 The Anatomy of an Impulse</h3>
-<p>An impulse or a trigger does not arrive with a warning label. It hits you fast—a sudden flash of anger, a deep wave of loneliness, a sharp craving, or a memory of a time when things were easier. In less than a second, your brain scrambles to find a quick escape hatch, usually leading straight back to your old leaks.</p>
-<p>When psychiatrist and Holocaust survivor Viktor Frankl was trapped in the absolute horror of concentration camps, he realized that no matter how brutal the external conditions were, the guards could not control the split-second space between a stimulus and his internal reaction. That space is where your freedom lives.</p>
-<h3 class="subhead">8.2 The Deflection Routine</h3>
-<p>You cannot always control when a trigger appears, but you can control the template you use to deflect it. We use a three-step Deflection Code:</p>
-<ul class="field-list"><li>1. Acknowledge the Flash: Do not try to fight the feeling or pretend it isn&#x27;t there. Name it calmly. &quot;I am feeling overwhelmed right now because of that email.&quot;</li><li>2. Enforce a Deliberate Delay: Create a mandatory 10-minute buffer before you take any action. Walk away from the screen, step outside, or change your physical location.</li><li>3. Substitute the Execution: Instantly redirect that intense physical energy into a low-friction, high-value movement. Open your workspace and execute one micro-task from your daily list.</li></ul>
-<p>By the time the 10-minute delay expires, the chemical peak of the trigger has dropped, and your rational mind is back in the driver’s seat.</p>
-<aside class="devotion"><div class="devotion-label">DAILY DEVOTION</div><h3>Your Daily Devotion for Chapter 8</h3>
-<p>The next time you feel a sudden surge of frustration, anxiety, or temptation, explicitly invoke the 10-minute delay. Do not negotiate; just watch the clock and let the impulse run out of breath.</p>
-</aside></div>
-</section>
-<section class="chapter compound" id="chapter-9">
-  <div class="chapter-heading">
-    <div class="chapter-number">09</div>
-    <div><div class="chapter-kicker">PART V · PILLAR 04</div><h2>The 12-Week Horizon (Money Makers Only)</h2><div class="chapter-pillar">COMPOUND</div></div>
-  </div>
-  
-  <div class="chapter-copy"><p>&quot;Small disciplines repeated with consistency every day lead to great achievements gained a little at a time.&quot;</p>
-<p>— John C. Maxwell</p>
-<h3 class="subhead">9.1 The Death of the One-Year Plan</h3>
-<p>Traditional self-help tells you to make big, sweeping 12-month resolutions. But when you are engineering a total life rebuild from the ground up, a year feels like an eternity. It is too distant to create daily urgency, and it leaves too much room for you to say, &quot;I&#x27;ll slack off this week and make it up next month.&quot;</p>
-<p>We destroy the yearly timeline. In the Focus Deck Framework, your entire world is built around a tight 12-Week Horizon.</p>
-<p>Twelve weeks gives you exactly enough room to stack massive, life-altering compound growth, but it keeps the pressure high enough that every single day matters. A missed day isn&#x27;t a minor slip; it&#x27;s a visible dent in your execution block.</p>
-<h3 class="subhead">9.2 Stacking Your Ledger</h3>
-<p>Your Compound workspace acts as your raw, objective daily ledger. It tracks your consistency across your weeks. It doesn&#x27;t care about your excuses, your bad moods, or your intentions. It only tracks execution: Did you do your Daily Devotions? Did you hit your Money Makers?</p>
-<p>If you show up and log a &quot;Yes&quot; day after day, something incredible happens under the surface. Just like financial interest, your tiny, seemingly boring daily inputs begin to multiply. By week 4, the momentum kicks in. By week 8, your environment changes. By week 12, you look in the mirror and realize the old version of you has been completely replaced by the architecture you built.</p>
-<aside class="devotion"><div class="devotion-label">DAILY DEVOTION</div><h3>Your Daily Devotion for Chapter 9</h3>
-<p>Commit to treating the next 12 weeks as an isolated sprint. Do not look ahead to next year. Focus purely on winning each block of 7 days, one day at a time.</p>
-</aside></div>
-</section>
-<section class="chapter compound" id="chapter-10">
-  <div class="chapter-heading">
-    <div class="chapter-number">10</div>
-    <div><div class="chapter-kicker">PART V · PILLAR 04</div><h2>Local-First Legacy (Owning Your Progress)</h2><div class="chapter-pillar">COMPOUND</div></div>
-  </div>
-  <div class="ledger-visual"><div class="ledger-top"><span>COMPOUND / EXECUTION LEDGER</span><strong>12 WEEKS · 84 DAYS</strong></div><div class="ledger-grid"><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span><span>✓</span></div><p>THE EVIDENCE IS THE STREAK.</p></div>
-  <div class="chapter-copy"><p>&quot;Control your own destiny or someone else will.&quot;</p>
-<p>— Jack Welch</p>
-<h3 class="subhead">10.1 The Architecture of Self-Reliance</h3>
-<p>Throughout this book, we have laid out the blueprint to strip the chaos from your mind and build a disciplined lifestyle. But the final layer of the Focus Deck Framework is philosophical: Absolute Ownership.</p>
-<p>We live in a world where corporate platforms want to track your data, store your personal thoughts in cloud databases, monetize your attention, and sell your profile back to you. When you are rebuilding your life from a vulnerable position, your private data, your daily logs, and your growth map are sacred. They do not belong on someone else&#x27;s server.</p>
-<h3 class="subhead">10.2 The Sovereign System</h3>
-<p>That is why your Focus Deck Framework is engineered as a local-first environment. Every note you write, every priority you set in Clarity, every routine you log in Cadence, and every win you track in Compound lives exclusively inside your browser&#x27;s local storage.</p>
-<p>No corporate databases tracking you. No login portals capturing your information. Complete privacy. Absolute sovereignty.</p>
-<p>This is more than just a tech preference; it is a metaphor for your new life. You are the sole architect, the sole operator, and the sole keeper of your progress. If you do not open the browser and do the work, the screen stays blank. The power—and the complete responsibility—rests entirely in your hands.</p>
-<p>You have the tools, the structure, and the system. The slate is clean, the leaks are plugged, the pillars are live, and the local engine is waiting.</p>
-<p>Step up to the deck and start executing.</p>
-<aside class="devotion"><div class="devotion-label">DAILY DEVOTION</div><h3>Your Final Daily Devotion</h3>
-<p>Navigate to the main page at jhigherlevel.com/templates.html. Click into your first pillar workspace, set your targets, and let your local-first legacy begin tonight.</p>
-</aside></div>
-</section>
-<section class="closing"><h2>STEP UP TO THE <span>DECK.</span></h2><p>The slate is clean. The leaks are plugged. The pillars are live. Open your first workspace and let your local-first legacy begin tonight.</p><a href="templates.html">Open the FocusDeck Workspaces →</a></section>
-<footer class="footer"><span>J HIGHER LEVEL · © 2026 Jason Johnson</span><span><a href="templates.html">Four Pillars</a> · <a href="index.html">Home</a></span></footer>
-</main>
-<script>const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting)entry.target.classList.add('visible')}),{threshold:.08});document.querySelectorAll('.chapter,.intro,.contents').forEach(el=>{el.classList.add('fade-in');observer.observe(el)});</script>
-<style>.fade-in{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}.fade-in.visible{opacity:1;transform:none}@media print{.fade-in{opacity:1;transform:none}}</style>
+<div class="wrap">
+  <h1>THIS PAGE HAS <span>MOVED.</span></h1>
+  <p>This content now lives inside the FocusDeck products. Grab the one that's right for you below.</p>
+  <a class="btn" href="https://automatehigher.gumroad.com/l/focusdeck-interactive">Get The Interactive System — $49.99</a>
+  <a class="btn alt" href="https://automatehigher.gumroad.com/l/focusdeck">Get The Guide — $17.99</a>
+  <a class="home" href="index.html">← Back to J Higher Level</a>
+</div>
 </body>
 </html>
