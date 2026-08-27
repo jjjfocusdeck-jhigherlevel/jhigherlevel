@@ -115,7 +115,7 @@ footer{background:var(--dark);border-top:1px solid var(--border);padding:28px 24
 <body>
 <nav>
   <a href="index.html" class="nav-brand">J HIGHER LEVEL</a>
-  <a href="https://automatehigher.gumroad.com/l/focusdeck" class="nav-cta">Get FocusDeck — $17</a>
+  <a href="https://automatehigher.gumroad.com/l/focusdeck" class="nav-cta">Get FocusDeck — $17.99</a>
 </nav>
 <div class="hero">
   <div class="hero-grid"></div>
@@ -196,9 +196,9 @@ footer{background:var(--dark);border-top:1px solid var(--border);padding:28px 24
     </div>
     <div class="result-cta">
       <div class="result-cta-label">The fix is inside</div>
-      <div class="result-cta-title">GET THE FOCUSDECK — $17</div>
+      <div class="result-cta-title">GET THE FOCUSDECK — $17.99</div>
       <p class="result-cta-body">The complete 4-pillar system. Templates, tracker, 90-day calendar, and the Day One protocol that gets you winning in the first 24 hours.</p>
-      <a href="https://automatehigher.gumroad.com/l/focusdeck" class="buy-btn">Get Instant Access — $17 →</a>
+      <a href="https://automatehigher.gumroad.com/l/focusdeck" class="buy-btn">Get Instant Access — $17.99 →</a>
     </div>
     <div class="retake">
       <button class="retake-btn" onclick="restartAudit()">Retake the audit</button>
@@ -213,6 +213,17 @@ footer{background:var(--dark);border-top:1px solid var(--border);padding:28px 24
 document.getElementById('audit-email-form').addEventListener('submit', function(e){
   e.preventDefault();
   const formData = new FormData(this);
+  const pillarScores = {};
+  pillarNames.forEach(p=>pillarScores[p]={total:0,count:0});
+  questions.forEach((q,i)=>{
+    const score = (answers[i]||0) * 33.33;
+    pillarScores[q.pillar].total += score;
+    pillarScores[q.pillar].count++;
+  });
+  const pillarAvg = {};
+  pillarNames.forEach(p=>{pillarAvg[p]=Math.round(pillarScores[p].total/pillarScores[p].count)});
+  const weakest = pillarNames.reduce((a,b)=>pillarAvg[a]<pillarAvg[b]?a:b);
+  formData.append('weakest_pillar', weakest);
   fetch('https://systeme.io/embedded/42460373/subscription', {
     method: 'POST',
     mode: 'no-cors',
