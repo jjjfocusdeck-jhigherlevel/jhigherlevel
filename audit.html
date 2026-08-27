@@ -88,12 +88,16 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 24px;display:fl
 .leak-box{background:rgba(200,255,0,0.06);border:1px solid rgba(200,255,0,0.2);padding:18px 20px;margin-bottom:24px}
 .leak-label{font-family:'Oswald',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--lime);margin-bottom:8px}
 .leak-text{font-size:14px;color:rgba(255,255,255,0.75);line-height:1.7}
-.result-cta{background:var(--lime);padding:20px 20px;margin-bottom:16px}
+.result-cta{background:var(--lime);padding:20px 20px;margin-bottom:12px}
 .result-cta-label{font-family:'Oswald',sans-serif;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(0,0,0,0.45);margin-bottom:4px}
 .result-cta-title{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--black);line-height:1;margin-bottom:12px;letter-spacing:0.5px}
 .result-cta-body{font-size:13px;color:rgba(0,0,0,0.6);line-height:1.6;margin-bottom:14px}
 .buy-btn{display:block;width:100%;background:var(--black);color:var(--lime);font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:15px;text-align:center;text-decoration:none;transition:background 0.2s}
 .buy-btn:hover{background:#1a1a1a}
+.fallback-offer{text-align:center;margin-bottom:16px}
+.fallback-text{font-size:12px;color:rgba(255,255,255,0.35);letter-spacing:0.5px;line-height:1.6}
+.fallback-link{color:var(--lime);text-decoration:underline;text-underline-offset:3px}
+.fallback-link:hover{color:#d4ff33}
 .retake{text-align:center;margin-top:16px}
 .retake-btn{background:none;border:none;color:rgba(255,255,255,0.25);font-size:12px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-family:'DM Sans',sans-serif}
 .retake-btn:hover{color:rgba(255,255,255,0.5)}
@@ -196,9 +200,12 @@ footer{background:var(--dark);border-top:1px solid var(--border);padding:28px 24
     </div>
     <div class="result-cta">
       <div class="result-cta-label">The fix is inside</div>
-      <div class="result-cta-title">GET THE FOCUSDECK — $17.99</div>
-      <p class="result-cta-body">The complete 4-pillar system. Templates, tracker, 90-day calendar, and the Day One protocol that gets you winning in the first 24 hours.</p>
-      <a href="https://automatehigher.gumroad.com/l/focusdeck" class="buy-btn">Get Instant Access — $17.99 →</a>
+      <div class="result-cta-title">FOCUSDECK LIVE — $49.99</div>
+      <p class="result-cta-body">The full interactive system built for the leak you just named — live templates, tracker, 90-day calendar, and the Day One protocol that gets you winning in the first 24 hours.</p>
+      <a href="https://automatehigher.gumroad.com/l/focusdeck-interactive" class="buy-btn">Get Instant Access — $49.99 →</a>
+    </div>
+    <div class="fallback-offer">
+      <p class="fallback-text">Prefer the printable version? <a href="https://automatehigher.gumroad.com/l/focusdeck" class="fallback-link">Get the FocusDeck system — $17.99</a></p>
     </div>
     <div class="retake">
       <button class="retake-btn" onclick="restartAudit()">Retake the audit</button>
